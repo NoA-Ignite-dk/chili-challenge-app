@@ -1,0 +1,4 @@
+package-lock.json
+.expo
+metro-config.js
+yarn.lock

@@ -1,0 +1,10 @@
+node_modules
+build
+.expo
+.github
+.husky
+.eslintrc.js
+assets
+babel.config.js
+scripts
+metro.config.js
