@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default function LandingScreen() {
+export default function AuthLandingScreen() {
 	const navigation = useNavigation<MainStackNavigationProp>();
 
 	// const onPress = () => {
@@ -39,7 +39,7 @@ export default function LandingScreen() {
 	// };
 
 	const onPress = () => {
-		navigation.navigate(ROUTES.POST);
+		navigation.navigate(ROUTES.MAIN_TABS);
 	};
 
 	return (
@@ -47,7 +47,7 @@ export default function LandingScreen() {
 			<Txt style={{ fontWeight: '200' }}>Welcome to our Expo boilerplate</Txt>
 			<Txt style={{ fontWeight: '600' }}>Open up App.tsx to start working on your app!</Txt>
 			<PrimaryButton style={styles.btn} onPress={onPress}>
-				Go to detail screen
+				Go to main app menu
 			</PrimaryButton>
 		</View>
 	);
