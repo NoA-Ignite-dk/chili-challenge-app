@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingHorizontal: scale(20),
 		justifyContent: 'center',
-		backgroundColor: Colors.DARK_BLUE,
+		backgroundColor: Colors.GREEN_PRIMARY,
 	},
 	pressed: {
 		backgroundColor: Colors.BLACK,

@@ -10,7 +10,6 @@ export enum ROUTES {
 	PROFILE = 'profile',
 	AUTH_LANDING_PAGE = 'auth-landing-page',
 	DETAIL_PAGE = 'detail-page', // delete
-
 }
 
 export default ROUTES;
