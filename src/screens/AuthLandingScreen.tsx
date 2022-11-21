@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Session } from '@supabase/supabase-js';
 
 // Components
-import PrimaryButton from '@src/components/buttons/PrimaryButton';
-import Txt from '@src/components/Txt';
 
 // Config
 import Colors from '@src/config/colors';
@@ -15,6 +14,8 @@ import { MainStackNavigationProp } from '@src/types/navigation';
 
 // Utils
 import { verticalScale } from '@src/utils/scaling';
+import Auth from '../components/Auth';
+import { supabase } from '../lib/supabase';
 
 const styles = StyleSheet.create({
 	container: {
@@ -30,25 +31,25 @@ const styles = StyleSheet.create({
 
 export default function AuthLandingScreen() {
 	const navigation = useNavigation<MainStackNavigationProp>();
+	const [session, setSession] = useState<Session | null>(null);
 
-	// const onPress = () => {
-	// 	navigation.navigate(ROUTES.POST, {
-	// 		title: 'dynamic title',
-	// 		pageId: 'dynamic page id',
-	// 	});
-	// };
+	useEffect(() => {
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			setSession(session);
+		});
 
-	const onPress = () => {
+		supabase.auth.onAuthStateChange((_event, session) => {
+			setSession(session);
+		});
+	}, []);
+
+	if (session && session.user) {
 		navigation.navigate(ROUTES.MAIN_TABS);
-	};
+	}
 
 	return (
 		<View style={styles.container}>
-			<Txt style={{ fontWeight: '200' }}>Welcome to our Expo boilerplate!!!</Txt>
-			<Txt style={{ fontWeight: '600' }}>Open up App.tsx to start working on your app!</Txt>
-			<PrimaryButton style={styles.btn} onPress={onPress}>
-				Go to main app menu
-			</PrimaryButton>
+			<Auth />
 		</View>
 	);
 }
