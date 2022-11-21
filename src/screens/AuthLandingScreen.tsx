@@ -44,7 +44,7 @@ export default function AuthLandingScreen() {
 
 	return (
 		<View style={styles.container}>
-			<Txt style={{ fontWeight: '200' }}>Welcome to our Expo boilerplate</Txt>
+			<Txt style={{ fontWeight: '200' }}>Welcome to our Expo boilerplate!!!</Txt>
 			<Txt style={{ fontWeight: '600' }}>Open up App.tsx to start working on your app!</Txt>
 			<PrimaryButton style={styles.btn} onPress={onPress}>
 				Go to main app menu

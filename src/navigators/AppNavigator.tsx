@@ -10,7 +10,6 @@ import Txt from '@src/components/Txt';
 import { ROUTES } from '@src/config/routes';
 
 // Stacks
-import MainStack from '@src/navigators/stacks/MainStack';
 import AuthStack from '@src/navigators/stacks/AuthStack';
 
 // Tabs
@@ -28,10 +27,9 @@ const FallbackScreen = (
 const AppNavigator = () => {
 	return (
 		<NavigationContainer fallback={FallbackScreen}>
-			<Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={ROUTES.AUTH_STACK}>
+			<Stack.Navigator screenOptions={{ headerShown: false, animation: 'none', gestureEnabled: false }} initialRouteName={ROUTES.AUTH_STACK}>
 				<Stack.Screen name={ROUTES.AUTH_STACK} component={AuthStack} />
 				<Stack.Screen name={ROUTES.MAIN_TABS} component={MainBottomTabNavigator} />
-				<Stack.Screen name={ROUTES.MAIN_STACK} component={MainStack} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
