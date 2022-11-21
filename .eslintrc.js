@@ -1,3 +1,5 @@
+const { join } = require('node:path');
+
 module.exports = {
 	root: true,
 	env: {
@@ -13,7 +15,7 @@ module.exports = {
 		},
 		ecmaVersion: 2018,
 		sourceType: 'module',
-		project: './tsconfig.json',
+		project: join(__dirname, './tsconfig.json'),
 	},
 	plugins: ['react', 'react-native'],
 	rules: {

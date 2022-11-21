@@ -5,7 +5,15 @@ import { ROUTES } from '@src/config/routes';
 
 export type MainStackParamList = {
 	[ROUTES.MAIN_STACK]: undefined;
+	[ROUTES.AUTH_STACK]: undefined;
 	[ROUTES.LANDING_PAGE]: undefined;
+	[ROUTES.FEED]: undefined;
+	[ROUTES.POST]: undefined;
+	[ROUTES.SCOREBOARD]: undefined;
+	[ROUTES.INFO]: undefined;
+	[ROUTES.PROFILE]: undefined;
+	[ROUTES.MAIN_TABS]: undefined;
+	[ROUTES.AUTH_LANDING_PAGE]: undefined;
 	[ROUTES.DETAIL_PAGE]: {
 		pageId: string;
 		title: string;

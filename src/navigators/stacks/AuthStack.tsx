@@ -5,19 +5,17 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ROUTES } from '@src/config/routes';
 
 // Screens
-import LandingScreen from '@src/screens/LandingScreen';
-import DetailScreen from '@src/screens/DetailScreen';
+import AuthLandingScreen from '@src/screens/AuthLandingScreen';
 
 // Types
 import { MainStackParamList } from '@src/types/navigation';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
-const MainStack = () => (
+const AuthStack = () => (
 	<Stack.Navigator initialRouteName={ROUTES.LANDING_PAGE}>
-		<Stack.Screen options={{ title: 'Landing screen' }} name={ROUTES.LANDING_PAGE} component={LandingScreen} />
-		<Stack.Screen name={ROUTES.POST} component={DetailScreen} />
+		<Stack.Screen options={{ title: 'Landing screen' }} name={ROUTES.AUTH_LANDING_PAGE} component={AuthLandingScreen} />
 	</Stack.Navigator>
 );
 
-export default MainStack;
+export default AuthStack;
