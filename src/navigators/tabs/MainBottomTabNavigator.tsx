@@ -26,7 +26,7 @@ function MainBottomTabNavigator() {
 	return (
 		<Tab.Navigator
 			screenOptions={{
-				headerStyle: { backgroundColor: '#FAFAFA', height: 124 },
+				headerStyle: { backgroundColor: Colors.BACKGROUND_GREY, height: 124 },
 				headerTitleAlign: 'left',
 				headerTitleStyle: {
 					fontSize: 24,
@@ -39,6 +39,7 @@ function MainBottomTabNavigator() {
 			}}>
 			<Tab.Screen name={ROUTES.FEED} component={HomeScreen}
 				options={{
+					title: "Feed",
 					headerRight: () => (
 						<View style={styles.iconContainer}>
 							<Ionicons name="notifications-outline" size={24} color={Colors.BLACK} />
@@ -47,6 +48,7 @@ function MainBottomTabNavigator() {
 				}} />
 			<Tab.Screen name={ROUTES.SCOREBOARD} component={ScoreboardScreen}
 			options={{
+				title: "Scoreboard",
 				headerStyle: { backgroundColor: Colors.GREEN_PRIMARY, height: 124 },
 				headerTitleStyle: {
 					color: Colors.WHITE,
@@ -58,9 +60,18 @@ function MainBottomTabNavigator() {
 					</View>
 				)
 			}}/>
-			<Tab.Screen name={ROUTES.POST} component={PostScreen} />
-			<Tab.Screen name={ROUTES.INFO} component={InformationScreen} />
-			<Tab.Screen name={ROUTES.PROFILE} component={ProfileScreen} />
+			<Tab.Screen name={ROUTES.POST} component={PostScreen}
+			options={{
+				title: "Post"
+			}}/>
+			<Tab.Screen name={ROUTES.INFO} component={InformationScreen}
+			options={{
+				title: "Information"
+			}} />
+			<Tab.Screen name={ROUTES.PROFILE} component={ProfileScreen}
+			options={{
+				title: "Profile"
+			}} />
 		</Tab.Navigator>
 	);
 }
