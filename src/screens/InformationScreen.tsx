@@ -64,8 +64,8 @@ const renderTabBar = (props: SceneRendererProps & {
 const renderScene = SceneMap({
 	rules: RulesRoute,
 	points: PointsRoute,
-	tips_and_tricks: TipsAndTrickRoute,
-	general_info: GeneralInfoRoute
+	tipsAndTricks: TipsAndTrickRoute,
+	generalInfo: GeneralInfoRoute
 });
 
 export default function InformationScreen() {
