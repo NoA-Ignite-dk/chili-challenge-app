@@ -7,7 +7,7 @@ import { TabView, SceneMap, TabBar, SceneRendererProps, NavigationState } from '
 // Components
 
 // Config
-import Colors from '@src/config/Colors';
+import Colors from '@src/config/colors';
 import InformationCard from '@src/components/InfoCard';
 import Button from '@src/components/buttons/PrimaryButton';
 
