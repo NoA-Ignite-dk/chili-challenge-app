@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native';
-
 // Config
-// import Colors from '../config/colors';
 
 // eslint-disable-next-line import/prefer-default-export
 export const typography = StyleSheet.create({
@@ -18,3 +16,13 @@ export const typography = StyleSheet.create({
 		fontWeight: '100',
 	},
 });
+
+export const containerStyles = StyleSheet.create({
+	container: {
+		flex: 1
+	},
+	padding: {
+		padding: 15,
+	}
+
+})

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, ImageSourcePropType } from 'react-native';
-import { typography } from '@src/styles/generalStyles'
+import { typography, containerStyles } from '@src/styles/generalStyles'
 
 
 interface InformationCardProps {
@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
 	},
 	textContainer: {
 		height: 140,
-		margin: 15,
 		borderRadius: 7
 
 	},
@@ -41,7 +40,7 @@ export default function InformationCard({ title, subtitle, imageSource }: Inform
 				/>
 			</View>
 
-			<View style={styles.textContainer}>
+			<View style={[styles.textContainer, containerStyles.padding]}>
 				<Text style={typography.h1}>{title}</Text>
 				<Text>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam...</Text>
 				<Text style={typography.h2}>{subtitle}</Text>
