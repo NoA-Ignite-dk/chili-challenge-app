@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, ImageSourcePropType } from 'react-native';
-import { typography } from '../../styles/generalStyles'
+import { typography } from '@src/styles/generalStyles'
 
 
 interface InformationCardProps {

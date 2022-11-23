@@ -8,7 +8,7 @@ import { TabView, SceneMap, TabBar, SceneRendererProps, NavigationState } from '
 
 // Config
 import Colors from '@src/config/colors';
-import InformationCard from '@src/components/info_card/info_card';
+import InformationCard from '@src/components/infoCard/infoCard';
 import Button from '@src/components/buttons/PrimaryButton';
 
 const RulesRoute = () => (
@@ -75,8 +75,8 @@ export default function InformationScreen() {
 	const [routes] = React.useState([
 		{ key: 'rules', title: 'Rules' },
 		{ key: 'points', title: 'Points' },
-		{ key: 'tips_and_tricks', title: 'Tips and tricks' },
-		{ key: 'general_info', title: 'About the plant' },
+		{ key: 'tipsAndTricks', title: 'Tips and tricks' },
+		{ key: 'generalInfo', title: 'About the plant' },
 	]);
 
 	return (
