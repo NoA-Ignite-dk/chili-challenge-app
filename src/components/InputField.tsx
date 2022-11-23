@@ -27,11 +27,11 @@ const styles = StyleSheet.create({
 		color: Colors.BLACK,
 	},
 	inputField: {
-		borderColor: Colors.BLACK,
+		borderColor: Colors.LIGHT_GREY,
 		padding: 10,
 		borderStyle: 'solid',
 		width: '100%',
-		borderBottomWidth: 1,
+		borderWidth: 1,
 	},
 });
 
@@ -45,6 +45,7 @@ export default function InputField({
 	setText,
 	password = false,
 	disabled = false,
+	...props
 }: InputFieldProps) {
 	const [entered, setEntered] = useState(false);
 
@@ -83,6 +84,7 @@ export default function InputField({
 				placeholder={placeholder}
 				editable={!disabled}
 				selectTextOnFocus={!disabled}
+				{...props}
 			/>
 			{!isValid && entered && <Text>{errorMessage}</Text>}
 		</View>
