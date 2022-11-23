@@ -2,10 +2,20 @@ module.exports = function (api) {
 	if (api && api.cache) {
 		api.cache(true);
 	}
+
 	return {
 		presets: ['babel-preset-expo'],
 		plugins: [
-			// ['transform-inline-environment-variables'],
+			[
+				require.resolve('babel-plugin-module-resolver'),
+				{
+					cwd: 'babelrc',
+					extensions: ['.ts', '.tsx', '.js', '.ios.js', '.android.js'],
+					alias: {
+						'@src': './src',
+					},
+				},
+			],
 			[
 				'module:react-native-dotenv',
 				{
@@ -15,16 +25,6 @@ module.exports = function (api) {
 					whitelist: null,
 					safe: false,
 					allowUndefined: true,
-				},
-			],
-			[
-				require.resolve('babel-plugin-module-resolver'),
-				{
-					cwd: 'babelrc',
-					extensions: ['.ts', '.tsx', '.js', '.ios.js', '.android.js'],
-					alias: {
-						'@src': './src',
-					},
 				},
 			],
 		],

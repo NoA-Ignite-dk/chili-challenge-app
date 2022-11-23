@@ -8,7 +8,7 @@ assets
 babel.config.js
 scripts
 metro.config.js
-src/components/Account.tsx
-src/lib/supabase.ts
-src/screens/AuthLandingScreen.tsx
-src/screens/AuthLandingScreenNew.tsx
+# src/components/Account.tsx
+# src/lib/supabase.ts
+# src/screens/AuthLandingScreen.tsx
+# src/screens/AuthLandingScreenNew.tsx

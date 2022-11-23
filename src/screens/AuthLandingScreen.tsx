@@ -2,20 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Session } from '@supabase/supabase-js';
-
-// Components
-
-// Config
 import Colors from '@src/config/colors';
 import { ROUTES } from '@src/config/routes';
-
-// Types
 import { MainStackNavigationProp } from '@src/types/navigation';
-
-// Utils
-import { verticalScale } from '@src/utils/scaling';
-import Auth from '../components/Auth';
-import { supabase } from '../lib/supabase';
+import { supabase } from '@src/lib/supabase';
+import Button from '@src/components/buttons/PrimaryButton';
+import Txt from '@src/components/Txt';
 
 const styles = StyleSheet.create({
 	container: {
@@ -24,9 +16,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	btn: {
-		marginTop: verticalScale(20),
-	},
+	// btn: {
+	// 	marginTop: verticalScale(20),
+	// },
 });
 
 export default function AuthLandingScreen() {
@@ -49,7 +41,9 @@ export default function AuthLandingScreen() {
 
 	return (
 		<View style={styles.container}>
-			<Auth />
+			<Txt>Chili Challenge</Txt>
+			<Button onPress={() => navigation.navigate(ROUTES.SIGN_UP)}>Register</Button>
+			<Button onPress={() => navigation.navigate(ROUTES.SIGN_IN)}>Sign in</Button>
 		</View>
 	);
 }

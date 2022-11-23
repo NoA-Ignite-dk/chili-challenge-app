@@ -5,16 +5,20 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ROUTES } from '@src/config/routes';
 
 // Screens
+import AuthLandingScreen from '@src/screens/AuthLandingScreen';
+import SignUpScreen from '@src/screens/SignUpScreen';
 
 // Types
 import { MainStackParamList } from '@src/types/navigation';
-import AuthLandingScreenNew from '@src/screens/AuthLandingScreenNew';
+import SignInScreen from '@src/screens/SignInScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
 const AuthStack = () => (
-	<Stack.Navigator initialRouteName={ROUTES.LANDING_PAGE}>
-		<Stack.Screen options={{ title: 'Landing screen' }} name={ROUTES.AUTH_LANDING_PAGE} component={AuthLandingScreenNew} />
+	<Stack.Navigator initialRouteName={ROUTES.AUTH_LANDING_PAGE}>
+		<Stack.Screen options={{ title: 'Landing screen' }} name={ROUTES.AUTH_LANDING_PAGE} component={AuthLandingScreen} />
+		<Stack.Screen options={{ title: 'Register' }} name={ROUTES.SIGN_UP} component={SignUpScreen} />
+		<Stack.Screen options={{ title: 'Sign in' }} name={ROUTES.SIGN_IN} component={SignInScreen} />
 	</Stack.Navigator>
 );
 

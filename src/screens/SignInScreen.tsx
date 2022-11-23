@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Alert, StyleSheet, TextInput, View } from 'react-native';
 import Button from '@src/components/buttons/PrimaryButton';
 import { supabase } from '@src/lib/supabase';
+import Txt from '@src/components/Txt';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default function Auth() {
+export default function SignInScreen() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
@@ -30,19 +31,10 @@ export default function Auth() {
 		setLoading(false);
 	}
 
-	async function signUpWithEmail() {
-		setLoading(true);
-		const { error } = await supabase.auth.signUp({
-			email,
-			password,
-		});
-
-		if (error) Alert.alert(error.message);
-		setLoading(false);
-	}
-
 	return (
 		<View>
+			<Txt>Let's sign you in</Txt>
+			<Txt>Enter your email and password to sign in</Txt>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
 				<TextInput onChangeText={(text) => setEmail(text)} value={email} placeholder="email@address.com" autoCapitalize={'none'} />
 			</View>
@@ -58,11 +50,6 @@ export default function Auth() {
 			<View style={[styles.verticallySpaced, styles.mt20]}>
 				<Button disabled={loading} onPress={() => signInWithEmail()}>
 					Sign in
-				</Button>
-			</View>
-			<View style={styles.verticallySpaced}>
-				<Button disabled={loading} onPress={() => signUpWithEmail()}>
-					Sign up
 				</Button>
 			</View>
 		</View>

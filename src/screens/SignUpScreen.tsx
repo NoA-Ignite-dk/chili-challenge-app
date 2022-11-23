@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default function Auth() {
+export default function SignUpScreen() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);

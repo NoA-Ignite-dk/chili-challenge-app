@@ -14,10 +14,12 @@ export type MainStackParamList = {
 	[ROUTES.PROFILE]: undefined;
 	[ROUTES.MAIN_TABS]: undefined;
 	[ROUTES.AUTH_LANDING_PAGE]: undefined;
-	[ROUTES.DETAIL_PAGE]: {
-		pageId: string;
-		title: string;
-	};
+	[ROUTES.SIGN_UP]: undefined;
+	[ROUTES.SIGN_IN]: undefined;
+	// [ROUTES.DETAIL_PAGE]: {
+	// 	pageId: string;
+	// 	title: string;
+	// };
 };
 
 export type MainStackNavigationProp = NativeStackNavigationProp<MainStackParamList, ROUTES>;
