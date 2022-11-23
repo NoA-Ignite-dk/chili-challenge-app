@@ -13,6 +13,7 @@ import ScoreboardScreen from '@src/screens/ScoreboardScreen';
 import PostScreen from '@src/screens/PostScreen';
 import InformationScreen from '@src/screens/InformationScreen';
 import ProfileScreen from '@src/screens/ProfileScreen';
+import Icon, { IconType } from '@src/components/Icon';
 
 const Tab = createBottomTabNavigator();
 
@@ -35,10 +36,16 @@ function MainBottomTabNavigator() {
 					<View style={styles.iconContainer}>
 						<Ionicons name="settings-outline" size={24} color={Colors.BLACK} />
 					</View>
-				)
+				),
+				tabBarShowLabel: false,
+				tabBarStyle: { backgroundColor: Colors.BACKGROUND_GREY, height: 100, paddingLeft:20, paddingRight: 20 },
+				tabBarIconStyle: {
+					marginTop: 15
+				  },
 			}}>
 			<Tab.Screen name={ROUTES.FEED} component={HomeScreen}
 				options={{
+					tabBarIcon: () => <Icon type={IconType.FEED} />,
 					title: "Feed",
 					headerRight: () => (
 						<View style={styles.iconContainer}>
@@ -48,6 +55,7 @@ function MainBottomTabNavigator() {
 				}} />
 			<Tab.Screen name={ROUTES.SCOREBOARD} component={ScoreboardScreen}
 			options={{
+				tabBarIcon: () => <Icon type={IconType.SCOREBOARD} />,
 				title: "Scoreboard",
 				headerStyle: { backgroundColor: Colors.GREEN_PRIMARY, height: 124 },
 				headerTitleStyle: {
@@ -62,15 +70,18 @@ function MainBottomTabNavigator() {
 			}}/>
 			<Tab.Screen name={ROUTES.POST} component={PostScreen}
 			options={{
+				tabBarIcon: () => <Icon type={IconType.POST} />,
 				title: "Post"
 			}}/>
 			<Tab.Screen name={ROUTES.INFO} component={InformationScreen}
 			options={{
+				tabBarIcon: () => <Icon type={IconType.INFORMATION} />,
 				title: "Information"
 			}} />
 			<Tab.Screen name={ROUTES.PROFILE} component={ProfileScreen}
 			options={{
-				title: "Profile"
+				title: "Profile",
+				tabBarIcon: () => <Icon type={IconType.PROFILE} />,
 			}} />
 		</Tab.Navigator>
 	);
