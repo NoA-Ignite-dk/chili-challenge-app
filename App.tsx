@@ -2,9 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Config
 import { loadFonts } from '@src/config/fonts';
+import { containerStyles } from '@src/styles/generalStyles';
 
 // Navigators
 import AppNavigator from './src/navigators/AppNavigator';
@@ -39,9 +41,11 @@ export default function App() {
 	}
 
 	return (
-		<View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-			<StatusBar style="auto" />
-			<AppNavigator />
-		</View>
+		<SafeAreaView style={containerStyles.container}>
+			<View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+				<StatusBar style="auto" />
+				<AppNavigator />
+			</View>
+		</SafeAreaView>
 	);
 }

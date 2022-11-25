@@ -9,7 +9,7 @@ export enum ROUTES {
 	INFO = 'info',
 	PROFILE = 'profile',
 	AUTH_LANDING_PAGE = 'auth-landing-page',
-	SIGN_IN = 'sign-in',
+	LOGIN = 'login',
 	SIGN_UP = 'sign-up',
 }
 

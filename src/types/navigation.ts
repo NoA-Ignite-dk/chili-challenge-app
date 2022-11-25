@@ -15,7 +15,7 @@ export type MainStackParamList = {
 	[ROUTES.MAIN_TABS]: undefined;
 	[ROUTES.AUTH_LANDING_PAGE]: undefined;
 	[ROUTES.SIGN_UP]: undefined;
-	[ROUTES.SIGN_IN]: undefined;
+	[ROUTES.LOGIN]: undefined;
 	// [ROUTES.DETAIL_PAGE]: {
 	// 	pageId: string;
 	// 	title: string;
