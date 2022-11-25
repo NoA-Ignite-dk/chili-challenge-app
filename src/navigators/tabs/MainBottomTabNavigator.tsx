@@ -70,7 +70,7 @@ function MainBottomTabNavigator() {
 			}} />
 			<Tab.Screen name={ROUTES.PROFILE} component={ProfileScreen}
 			options={{
-				title: "Profile"
+				title: "Profile",
 			}} />
 		</Tab.Navigator>
 	);

@@ -6,7 +6,8 @@ const Colors = {
 	GREY: '#9b9b9b',
 	DARK_GREEN: '#17A077',
 	LIGHT_GREY: '#E2E3E4',
-	BACKGROUND_GREY: "#FAFAFA"
+	BACKGROUND_GREY: "#FAFAFA",
+	FADED_GREEN: "#B3F0DD"
 };
 
 export default Colors;

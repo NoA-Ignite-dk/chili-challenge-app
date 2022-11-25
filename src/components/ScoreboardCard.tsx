@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, ImageSourcePropType } from 'react-native';
+import { Text, View, StyleSheet, ImageSourcePropType } from 'react-native';
 import { containerStyles } from '@src/styles/generalStyles'
 
 import Colors from '@src/config/colors';
+import { ProfileImage } from './ProfileImage';
 
 interface ScoreboardCardProps {
 	name: string;
@@ -27,8 +28,8 @@ const styles = StyleSheet.create({
 	},
 
 	item1: {
-		minWidth: 30,
-		maxWidth: 30,
+		minWidth: 20,
+		maxWidth: 20,
 	},
 	item2: {
 		minWidth: 240,
@@ -38,12 +39,6 @@ const styles = StyleSheet.create({
 		minWidth: 90,
 		maxWidth: 90,
 		justifyContent: "flex-end"
-	},
-	image: {
-		width: 56,
-		height: 56,
-		borderRadius: 50,
-		marginRight: 5
 	},
 	pointBackground: {
 		width: 50,
@@ -67,7 +62,7 @@ export default function ScoreboardCard({ name, points, imageSource }: Scoreboard
 				<Text>4</Text>
 			</View>
 			<View style={[styles.item, styles.item2]}>
-				<Image style={styles.image} source={imageSource}></Image>
+				<ProfileImage imageSource={imageSource} size={"small"}></ProfileImage>
 				<Text> {name} </Text>
 			</View>
 			<View style={[styles.item, styles.item3]}>

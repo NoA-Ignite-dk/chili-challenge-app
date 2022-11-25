@@ -1,25 +1,21 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-// Components
-import Txt from '@src/components/Txt';
+// import Colors from '@src/config/colors';
+import ProfileCard from '@src/components/ProfileCard';
+import { containerStyles } from '@src/styles/generalStyles'
 
-// Config
-import Colors from '@src/config/colors';
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: Colors.WHITE,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});
+// const styles = StyleSheet.create({
+// 	container: {
+// 		flex: 1,
+// 		backgroundColor: Colors.WHITE,
+// 	},
+// });
 
 export default function ProfileScreen() {
 	return (
-		<View style={styles.container}>
-			<Txt style={{ fontWeight: '200' }}>Profile</Txt>
+		<View style={[containerStyles.container, containerStyles.padding]}>
+			<ProfileCard name="Laura Toft" points={3} posts={3} imageSource={require('../../assets/images/chiliplant.jpg')}/>
 		</View>
 	);
 }

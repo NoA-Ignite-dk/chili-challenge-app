@@ -27,7 +27,9 @@ const FallbackScreen = (
 const AppNavigator = () => {
 	return (
 		<NavigationContainer fallback={FallbackScreen}>
-			<Stack.Navigator screenOptions={{ headerShown: false, animation: 'none', gestureEnabled: false }} initialRouteName={ROUTES.AUTH_STACK}>
+			<Stack.Navigator screenOptions={{
+				headerShown: false, animation: 'none', gestureEnabled: false
+			}} initialRouteName={ROUTES.AUTH_STACK}>
 				<Stack.Screen name={ROUTES.AUTH_STACK} component={AuthStack} />
 				<Stack.Screen name={ROUTES.MAIN_TABS} component={MainBottomTabNavigator} />
 			</Stack.Navigator>

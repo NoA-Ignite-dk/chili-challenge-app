@@ -22,7 +22,7 @@ export const containerStyles = StyleSheet.create({
 		flex: 1
 	},
 	padding: {
-		padding: 15,
+		padding: 16,
 	}
 
 })
