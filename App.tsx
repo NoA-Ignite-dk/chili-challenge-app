@@ -3,15 +3,14 @@ import { View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AppProvider } from '@src/components/AppProvider';
 
 // Config
 import { loadFonts } from '@src/config/fonts';
 import { containerStyles } from '@src/styles/generalStyles';
 
 // Navigators
-import { AppProvider } from '@src/screens/AppProvider';
 import AppNavigator from './src/navigators/AppNavigator';
-// import AuthContext from '@src/contexts/authContext';
 
 export default function App() {
 	const [appIsReady, setAppIsReady] = useState(false);

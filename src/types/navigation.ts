@@ -19,10 +19,6 @@ export type AllRoutesParamList = {
 	[ROUTES.SIGN_UP_PASSWORD]: undefined;
 	[ROUTES.SIGN_UP_PLANTS]: undefined;
 	[ROUTES.SIGN_UP_SUCCESS]: undefined;
-	// [ROUTES.DETAIL_PAGE]: {
-	// 	pageId: string;
-	// 	title: string;
-	// };
 };
 
 export type MainStackParamList = {
