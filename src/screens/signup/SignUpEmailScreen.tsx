@@ -7,6 +7,7 @@ import InputField from '@src/components/InputField';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
 import { useNavigation } from '@react-navigation/native';
 import { ROUTES } from '@src/config/routes';
+import { useAuthContext } from '@src/screens/AppProvider';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
 
 export default function SignUpEmailScreen() {
 	const navigation = useNavigation<AllRoutesNavigationProp>();
-	const [email, setEmail] = useState('');
+	const { email, setEmail } = useAuthContext();
 	const [emailValid, setEmailValid] = useState(false);
 
 	return (

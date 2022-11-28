@@ -28,8 +28,8 @@ export default function SignUpPasswordScreen() {
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
-			<Txt>Whats your name?</Txt>
-			<Txt>Identify yourself</Txt>
+			<Txt>Create Password</Txt>
+			<Txt>You will need it to sign in to the application</Txt>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
 				<InputField
 					isValid={passwordValid}

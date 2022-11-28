@@ -9,7 +9,9 @@ import { loadFonts } from '@src/config/fonts';
 import { containerStyles } from '@src/styles/generalStyles';
 
 // Navigators
+import { AppProvider } from '@src/screens/AppProvider';
 import AppNavigator from './src/navigators/AppNavigator';
+// import AuthContext from '@src/contexts/authContext';
 
 export default function App() {
 	const [appIsReady, setAppIsReady] = useState(false);
@@ -41,11 +43,13 @@ export default function App() {
 	}
 
 	return (
-		<SafeAreaView style={containerStyles.container}>
-			<View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-				<StatusBar style="auto" />
-				<AppNavigator />
-			</View>
-		</SafeAreaView>
+		<AppProvider>
+			<SafeAreaView style={containerStyles.container}>
+				<View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+					<StatusBar style="auto" />
+					<AppNavigator />
+				</View>
+			</SafeAreaView>
+		</AppProvider>
 	);
 }
