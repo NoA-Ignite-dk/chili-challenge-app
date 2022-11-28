@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Session } from '@supabase/supabase-js';
 import { ROUTES } from '@src/config/routes';
-import { MainStackNavigationProp } from '@src/types/navigation';
+import { AllRoutesNavigationProp } from '@src/types/navigation';
 import { supabase } from '@src/lib/supabase';
 import Button from '@src/components/buttons/PrimaryButton';
 import Txt from '@src/components/Txt';
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 });
 
 export default function AuthLandingScreen() {
-	const navigation = useNavigation<MainStackNavigationProp>();
+	const navigation = useNavigation<AllRoutesNavigationProp>();
 	const [session, setSession] = useState<Session | null>(null);
 
 	useEffect(() => {
@@ -44,7 +44,7 @@ export default function AuthLandingScreen() {
 		<View style={[containerStyles.container, containerStyles.padding, styles.container, containerStyles.largePaddingBottom]}>
 			<Txt style={typography.h1}>Chili Challenge</Txt>
 			<View style={styles.buttonsContainer}>
-				<Button style={styles.button} onPress={() => navigation.navigate(ROUTES.SIGN_UP)}>
+				<Button style={styles.button} onPress={() => navigation.navigate(ROUTES.SIGN_UP_EMAIL)}>
 					Sign up
 				</Button>
 				<View style={{ width: '2%' }}></View>
