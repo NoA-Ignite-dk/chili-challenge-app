@@ -7,6 +7,7 @@ import InputField from '@src/components/InputField';
 import { ROUTES } from '@src/config/routes';
 import { useNavigation } from '@react-navigation/native';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
+import { useAuthContext } from '@src/components/AppProvider';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -21,10 +22,19 @@ const styles = StyleSheet.create({
 
 export default function SignUpPasswordScreen() {
 	const navigation = useNavigation<AllRoutesNavigationProp>();
-	const [password, setPassword] = useState('');
+	const { password, setPassword } = useAuthContext();
 	const [passwordValid, setPasswordValid] = useState(false);
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [confirmPasswordValid, setConfirmPasswordValid] = useState(false);
+	const [error, setError] = useState('');
+
+	const handleContinue = () => {
+		if (password === confirmPassword) {
+			navigation.navigate(ROUTES.SIGN_UP_NAME);
+		} else {
+			setError("Passwords don't match");
+		}
+	};
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
@@ -54,8 +64,10 @@ export default function SignUpPasswordScreen() {
 			</View>
 
 			<View style={[styles.verticallySpaced, styles.mt20]}>
-				<Button onPress={() => navigation.navigate(ROUTES.SIGN_UP_NAME)}>Continue</Button>
+				<Button onPress={handleContinue}>Continue</Button>
 			</View>
+
+			{error && <Txt>{error}</Txt>}
 		</View>
 	);
 }
