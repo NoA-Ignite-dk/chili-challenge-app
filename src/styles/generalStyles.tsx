@@ -13,6 +13,10 @@ export const typography = StyleSheet.create({
 	h3: {
 		fontWeight: '100',
 	},
+	largeTitle: {
+		fontSize: 60,
+		fontWeight: '600',
+	},
 });
 
 export const containerStyles = StyleSheet.create({
@@ -21,6 +25,9 @@ export const containerStyles = StyleSheet.create({
 	},
 	padding: {
 		padding: 15,
+	},
+	largePaddingTop: {
+		paddingTop: 66,
 	},
 	largePaddingBottom: {
 		paddingBottom: 56,

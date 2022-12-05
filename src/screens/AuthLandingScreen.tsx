@@ -41,8 +41,16 @@ export default function AuthLandingScreen() {
 	}
 
 	return (
-		<View style={[containerStyles.container, containerStyles.padding, styles.container, containerStyles.largePaddingBottom]}>
-			<Txt style={typography.h1}>Chili Challenge</Txt>
+		<View
+			style={[
+				containerStyles.container,
+				containerStyles.padding,
+				styles.container,
+				containerStyles.largePaddingBottom,
+				containerStyles.largePaddingTop,
+			]}
+		>
+			<Txt style={typography.largeTitle}>Chili Challenge</Txt>
 			<View style={styles.buttonsContainer}>
 				<Button style={styles.button} onPress={() => navigation.navigate(ROUTES.SIGN_UP_EMAIL)}>
 					Sign up
