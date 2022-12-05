@@ -24,6 +24,15 @@ export default function SignUpEmailScreen() {
 	const navigation = useNavigation<AllRoutesNavigationProp>();
 	const { email, setEmail } = useAuthContext();
 	const [emailValid, setEmailValid] = useState(false);
+	const [error, setError] = useState('');
+
+	const handleContinue = () => {
+		if (emailValid) {
+			navigation.navigate(ROUTES.SIGN_UP_PASSWORD);
+		} else {
+			setError('Please fill out all fields');
+		}
+	};
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
@@ -42,8 +51,10 @@ export default function SignUpEmailScreen() {
 			</View>
 
 			<View style={[styles.verticallySpaced, styles.mt20]}>
-				<Button onPress={() => navigation.navigate(ROUTES.SIGN_UP_PASSWORD)}>Continue</Button>
+				<Button onPress={handleContinue}>Continue</Button>
 			</View>
+
+			{error && <Txt>{error}</Txt>}
 		</View>
 	);
 }

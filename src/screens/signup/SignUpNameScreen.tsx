@@ -7,6 +7,7 @@ import InputField from '@src/components/InputField';
 import { useNavigation } from '@react-navigation/native';
 import { ROUTES } from '@src/config/routes';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
+import { useAuthContext } from '@src/components/AppProvider';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -21,10 +22,18 @@ const styles = StyleSheet.create({
 
 export default function SignUpNameScreen() {
 	const navigation = useNavigation<AllRoutesNavigationProp>();
-	const [firstName, setFirstName] = useState('');
+	const { firstName, setFirstName, lastName, setLastName } = useAuthContext();
 	const [firstNameValid, setFirstNameValid] = useState(false);
-	const [lastName, setLastName] = useState('');
 	const [lastNameValid, setLastNameValid] = useState(false);
+	const [error, setError] = useState('');
+
+	const handleContinue = () => {
+		if (firstNameValid && lastNameValid) {
+			navigation.navigate(ROUTES.SIGN_UP_PLANTS);
+		} else {
+			setError('Please fill out all fields');
+		}
+	};
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
@@ -52,8 +61,10 @@ export default function SignUpNameScreen() {
 			</View>
 
 			<View style={[styles.verticallySpaced, styles.mt20]}>
-				<Button onPress={() => navigation.navigate(ROUTES.SIGN_UP_PLANTS)}>Continue</Button>
+				<Button onPress={handleContinue}>Continue</Button>
 			</View>
+
+			{error && <Txt>{error}</Txt>}
 		</View>
 	);
 }
