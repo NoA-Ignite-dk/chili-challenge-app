@@ -1,3 +1,4 @@
+import Colors from '@src/config/colors';
 import { StyleSheet } from 'react-native';
 // Config
 
@@ -13,9 +14,18 @@ export const typography = StyleSheet.create({
 	h3: {
 		fontWeight: '100',
 	},
+	uppercaseBig: {
+		fontSize: 12,
+		textTransform: 'uppercase',
+		color: Colors.TEXT_60,
+	},
 	largeTitle: {
 		fontSize: 60,
 		fontWeight: '600',
+	},
+	headerTitle: {
+		fontSize: 16,
+		color: Colors.GREEN_PRIMARY,
 	},
 });
 

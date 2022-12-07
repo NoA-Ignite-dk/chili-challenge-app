@@ -10,11 +10,12 @@ import Txt from '@src/components/Txt';
 
 // Utils
 import { verticalScale, scale } from '@src/utils/scaling';
+import Variables from '@src/config/variables';
 
 const styles = StyleSheet.create({
 	pressable: {
 		height: verticalScale(48),
-		borderRadius: 6,
+		borderRadius: Variables.BORDER_RADIUS,
 		alignItems: 'center',
 		paddingHorizontal: scale(20),
 		justifyContent: 'center',
