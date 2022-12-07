@@ -1,54 +1,65 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
-// Components
-import PrimaryButton from '@src/components/buttons/PrimaryButton';
-import Txt from '@src/components/Txt';
-
-// Config
-import Colors from '@src/config/colors';
+import { Session } from '@supabase/supabase-js';
 import { ROUTES } from '@src/config/routes';
-
-// Types
-import { MainStackNavigationProp } from '@src/types/navigation';
-
-// Utils
-import { verticalScale } from '@src/utils/scaling';
+import { AllRoutesNavigationProp } from '@src/types/navigation';
+import { supabase } from '@src/lib/supabase';
+import Button from '@src/components/buttons/PrimaryButton';
+import Txt from '@src/components/Txt';
+import { containerStyles, typography } from '@src/styles/generalStyles';
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		backgroundColor: Colors.WHITE,
-		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
 	},
-	btn: {
-		marginTop: verticalScale(20),
+	buttonsContainer: {
+		flexDirection: 'row',
+	},
+	button: {
+		width: '49%',
+		padding: 16,
 	},
 });
 
 export default function AuthLandingScreen() {
-	const navigation = useNavigation<MainStackNavigationProp>();
+	const navigation = useNavigation<AllRoutesNavigationProp>();
+	const [session, setSession] = useState<Session | null>(null);
 
-	// const onPress = () => {
-	// 	navigation.navigate(ROUTES.POST, {
-	// 		title: 'dynamic title',
-	// 		pageId: 'dynamic page id',
-	// 	});
-	// };
+	useEffect(() => {
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			setSession(session);
+		});
 
-	const onPress = () => {
+		supabase.auth.onAuthStateChange((_event, session) => {
+			setSession(session);
+		});
+	}, []);
+
+	if (session && session.user) {
 		navigation.navigate(ROUTES.MAIN_TABS);
-	};
+	}
 
 	return (
-		<View style={styles.container}>
-			<Txt style={{ fontWeight: '200' }}>Welcome to our Expo boilerplate!!!</Txt>
-			<Txt style={{ fontWeight: '600' }}>Open up App.tsx to start working on your app!</Txt>
-			<PrimaryButton style={styles.btn} onPress={onPress}>
-				Go to main app menu
-			</PrimaryButton>
+		<View
+			style={[
+				containerStyles.container,
+				containerStyles.padding,
+				styles.container,
+				containerStyles.largePaddingBottom,
+				containerStyles.largePaddingTop,
+			]}
+		>
+			<Txt style={typography.largeTitle}>Chili Challenge</Txt>
+			<View style={styles.buttonsContainer}>
+				<Button style={styles.button} onPress={() => navigation.navigate(ROUTES.SIGN_UP_EMAIL)}>
+					Sign up
+				</Button>
+				<View style={{ width: '2%' }}></View>
+				<Button style={styles.button} onPress={() => navigation.navigate(ROUTES.LOGIN)}>
+					Login
+				</Button>
+			</View>
 		</View>
 	);
 }
