@@ -12,6 +12,7 @@ import HomeScreen from '@src/screens/HomeScreen';
 import ScoreboardScreen from '@src/screens/ScoreboardScreen';
 import PostScreen from '@src/screens/PostScreen';
 import InformationScreen from '@src/screens/InformationScreen';
+// eslint-disable-next-line import/no-named-as-default
 import ProfileScreen from '@src/screens/ProfileScreen';
 import Icon, { IconType } from '@src/components/Icon';
 
