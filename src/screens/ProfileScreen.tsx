@@ -12,8 +12,7 @@ import { supabase } from '@src/lib/supabase';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
 import { ROUTES } from '@src/config/routes';
 import Icon, { IconType } from '@src/components/Icon';
-import { Session } from '@supabase/supabase-js';
-import { useAuthContext } from '@src/components/AppProvider';
+import { useAppContext } from '@src/components/providers/appContext';
 import { normalizeRows, takeFirstRow } from '@src/utils/normalizeData';
 import ProfileCard from '@src/components/ProfileCard';
 
@@ -29,24 +28,11 @@ const styles = StyleSheet.create({
 export default function ProfileScreen() {
 	const [loading, setLoading] = useState(false);
 	const navigation = useNavigation<AllRoutesNavigationProp>();
-	// const [username, setUsername] = useState('');
-	const { username, setUsername } = useAuthContext();
-	// const { allUserData } = useAuthContext();
-	const [session, setSession] = useState<Session | null>(null);
+	const { session } = useAppContext();
+	const [fullName, setFullName] = useState('');
 	const [totalPointState, setTotalPointState] = useState<number>(0);
 	const [postCountState, setPostCountState] = useState<number>(0);
-	// const [website, setWebsite] = useState('')
 	// const [avatarUrl, setAvatarUrl] = useState('')
-
-	useEffect(() => {
-		supabase.auth.getSession().then(({ data: { session } }) => {
-			setSession(session);
-			if (!session?.user) {
-				throw new Error('No user on the session!')
-			}
-
-		});
-	}, [])
 
 	useEffect(() => {
 		if (session) {
@@ -61,7 +47,7 @@ export default function ProfileScreen() {
 			const { data, error } = await supabase
 				.from('profiles')
 				.select(`
-					username,
+					fullName: full_name,
 					post (
 						id
 					),
@@ -98,10 +84,9 @@ export default function ProfileScreen() {
 					.filter((e) => !!e?.id)
 					.length;
 
-				setUsername(data.username)
+				setFullName(data.fullName)
 				setTotalPointState(totalPoints)
 				setPostCountState(postCount)
-				// setWebsite(data.website)
 				// setAvatarUrl(data.avatar_url)
 			}
 		} catch (error) {
@@ -131,9 +116,9 @@ export default function ProfileScreen() {
 
 	return (
 		<View style={styles.container}>
-			<Txt style={{ fontWeight: '200' }}>{username}</Txt>
+			<Txt style={{ fontWeight: '200' }}>{fullName}</Txt>
 			<Txt style={{ fontWeight: '200' }}>Profile</Txt>
-			<ProfileCard name={username} points={totalPointState} posts={postCountState}></ProfileCard>
+			<ProfileCard name={fullName} points={totalPointState} posts={postCountState}></ProfileCard>
 			<Button onPress={logout}>{loading ? <Icon type={IconType.LOADING} /> : 'Logout'}</Button>
 		</View>
 	);

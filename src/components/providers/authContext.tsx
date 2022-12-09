@@ -1,9 +1,5 @@
 import React, { ReactNode, useState, useMemo } from 'react';
 
-type AppProviderProps = {
-	children: ReactNode;
-};
-
 type AuthContextType = {
 	email: string;
 	setEmail: Function;
@@ -13,17 +9,11 @@ type AuthContextType = {
 	setFirstName: Function;
 	lastName: string;
 	setLastName: Function;
-	plantNames: string;
-	setPlantNames: Function;
-	username: string;
-	setUsername: Function;
 	allUserData: {
 		email: string;
 		password: string;
 		firstName: string;
 		lastName: string;
-		plantNames: string;
-		username: string;
 	};
 };
 
@@ -36,18 +26,11 @@ const AuthContext = React.createContext<AuthContextType>({
 	setFirstName: () => {},
 	lastName: '',
 	setLastName: () => {},
-	plantNames: '',
-	setPlantNames: () => {},
-	username: '',
-	setUsername: () => {},
 	allUserData: {
 		email: '',
 		password: '',
 		firstName: '',
 		lastName: '',
-		plantNames: '',
-		username: '',
-
 	},
 });
 
@@ -55,22 +38,22 @@ export function useAuthContext() {
 	return React.useContext(AuthContext);
 }
 
-export function AppProvider(props: AppProviderProps) {
+type AuthProviderProps = {
+	children: ReactNode;
+};
+
+export function AuthProvider(props: AuthProviderProps) {
 	const { children } = props;
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
-	const [plantNames, setPlantNames] = useState('');
-	const [username, setUsername] = useState('');
 
 	const allUserData = {
 		email,
 		password,
 		firstName,
 		lastName,
-		plantNames,
-		username
 	};
 
 	const value = useMemo(
@@ -83,13 +66,9 @@ export function AppProvider(props: AppProviderProps) {
 			setFirstName,
 			lastName,
 			setLastName,
-			plantNames,
-			setPlantNames,
-			username,
-			setUsername,
 			allUserData,
 		}),
-		[email, firstName, lastName, password, plantNames, username, allUserData],
+		[email, firstName, lastName, password, allUserData],
 	);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
