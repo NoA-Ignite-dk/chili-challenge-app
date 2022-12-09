@@ -7,7 +7,7 @@ interface ProfileCardProps {
 	name: string;
 	points: number;
 	posts: number;
-	imageSource: ImageSourcePropType;
+	imageSource?: ImageSourcePropType;
 }
 
 const styles = StyleSheet.create({
@@ -47,7 +47,9 @@ export default function ProfileCard({ name, points, posts, imageSource }: Profil
 	return (
 		<View style={styles.grid}>
 			<View style={[styles.item, styles.itemLeft]}>
+				{imageSource && (
 					<ProfileImage imageSource={imageSource} size={"large"}></ProfileImage>
+				)}
 				<Text> {name} </Text>
 			</View>
 			<View style={[styles.item, styles.itemRight]}>
