@@ -44,7 +44,7 @@ export default function Auth() {
 	return (
 		<View>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
-				<TextInput onChangeText={(text) => setEmail(text)} value={email} placeholder="email@address.com" autoCapitalize={'none'} />
+				<TextInput onChangeText={(text) => setEmail(text.toLowerCase())} value={email} placeholder="email@address.com" autoCapitalize={'none'} />
 			</View>
 			<View style={styles.verticallySpaced}>
 				<TextInput
