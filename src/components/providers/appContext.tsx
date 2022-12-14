@@ -5,13 +5,15 @@ import React, { ReactNode, useState, useMemo, useEffect } from 'react';
 type AppContextType = {
 	session: Session | null;
 	email: string;
-	setEmail: Function;
+	fullName: string;
+	loadProfile: Function;
 };
 
 const AppContext = React.createContext<AppContextType>({
 	session: null,
 	email: '',
-	setEmail: () => {},
+	fullName: '',
+	loadProfile: () => { },
 });
 
 export function useAppContext() {
@@ -25,11 +27,8 @@ type AppProviderProps = {
 export function AppProvider(props: AppProviderProps) {
 	const { children } = props;
 	const [email, setEmail] = useState('');
+	const [fullName, setFullName] = useState('');
 	const [session, setSession] = useState<Session | null>(null);
-
-	const allUserData = {
-		email,
-	};
 
 	useEffect(() => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
@@ -43,14 +42,45 @@ export function AppProvider(props: AppProviderProps) {
 		});
 	}, [])
 
+	useEffect(() => {
+		if (session) {
+			loadProfile();
+		}
+	}, [session])
+
+	async function loadProfile() {
+		// console.log('profile', session);
+		if (!session?.user?.id) {
+			return;
+		}
+
+		const { data, error } = await supabase
+			.from('profiles')
+			.select(`
+				fullName: full_name
+			`)
+			.eq('id', session.user.id)
+			.limit(1)
+			.single();
+			console.log('profile', { data, error });
+
+		if (error) {
+			throw error;
+		}
+
+		if (data) {
+			setFullName(data.fullName);
+		}
+	}
+
 	const value = useMemo(
 		() => ({
 			session,
 			email,
-			setEmail,
-			allUserData,
+			fullName,
+			loadProfile,
 		}),
-		[session, email, allUserData],
+		[session, fullName, email],
 	);
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

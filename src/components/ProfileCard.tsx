@@ -18,6 +18,8 @@ const styles = StyleSheet.create({
 		maxHeight: 80,
 		alignItems: "center",
 		justifyContent: "space-between",
+		marginTop: 10,
+		marginBottom: 10
 	},
 	item: {
 		flexDirection: "row",
