@@ -7,7 +7,7 @@ import InputField from '@src/components/InputField';
 import { ROUTES } from '@src/config/routes';
 import { useNavigation } from '@react-navigation/native';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
-import { useAuthContext } from '@src/components/AppProvider';
+import { useAuthContext } from '@src/components/providers/authContext';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {

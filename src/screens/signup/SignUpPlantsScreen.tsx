@@ -5,7 +5,7 @@ import Txt from '@src/components/Txt';
 import { containerStyles } from '@src/styles/generalStyles';
 import { useNavigation } from '@react-navigation/native';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
-import { useAuthContext } from '@src/components/AppProvider';
+import { useAuthContext } from '@src/components/providers/authContext';
 import Icon, { IconType } from '@src/components/Icon';
 import { supabase } from '@src/lib/supabase';
 import ROUTES from '@src/config/routes';
