@@ -14,19 +14,22 @@ import SignUpPlantsScreen from '@src/screens/signup/SignUpPlantsScreen';
 
 // Types
 import { AuthStackParamList } from '@src/types/navigation';
+import { AuthProvider } from '@src/components/providers/authContext';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 const AuthStack = () => (
-	<Stack.Navigator initialRouteName={ROUTES.AUTH_LANDING_PAGE}>
-		<Stack.Screen options={{ headerShown: false }} name={ROUTES.AUTH_LANDING_PAGE} component={AuthLandingScreen} />
-		<Stack.Screen options={{ title: 'Login' }} name={ROUTES.LOGIN} component={LoginScreen} />
-		<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_EMAIL} component={SignUpEmailScreen} />
-		<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_PASSWORD} component={SignUpPasswordScreen} />
-		<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_NAME} component={SignUpNameScreen} />
-		<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_PLANTS} component={SignUpPlantsScreen} />
-		{/* <Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_SUCCESS} component={} /> */}
-	</Stack.Navigator>
+	<AuthProvider>
+		<Stack.Navigator initialRouteName={ROUTES.AUTH_LANDING_PAGE}>
+			<Stack.Screen options={{ headerShown: false }} name={ROUTES.AUTH_LANDING_PAGE} component={AuthLandingScreen} />
+			<Stack.Screen options={{ title: 'Login' }} name={ROUTES.LOGIN} component={LoginScreen} />
+			<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_EMAIL} component={SignUpEmailScreen} />
+			<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_PASSWORD} component={SignUpPasswordScreen} />
+			<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_NAME} component={SignUpNameScreen} />
+			<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_PLANTS} component={SignUpPlantsScreen} />
+			{/* <Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_SUCCESS} component={} /> */}
+		</Stack.Navigator>
+	</AuthProvider>
 );
 
 export default AuthStack;

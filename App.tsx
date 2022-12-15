@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AppProvider } from '@src/components/AppProvider';
 
 // Config
 import { loadFonts } from '@src/config/fonts';
@@ -42,13 +41,11 @@ export default function App() {
 	}
 
 	return (
-		<AppProvider>
-			<SafeAreaView style={containerStyles.container}>
-				<View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-					<StatusBar style="auto" />
-					<AppNavigator />
-				</View>
-			</SafeAreaView>
-		</AppProvider>
+		<SafeAreaView style={containerStyles.container}>
+			<View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+				<StatusBar style="auto" />
+				<AppNavigator />
+			</View>
+		</SafeAreaView>
 	);
 }

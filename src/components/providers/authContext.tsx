@@ -1,9 +1,5 @@
 import React, { ReactNode, useState, useMemo } from 'react';
 
-type AppProviderProps = {
-	children: ReactNode;
-};
-
 type AuthContextType = {
 	email: string;
 	setEmail: Function;
@@ -13,14 +9,11 @@ type AuthContextType = {
 	setFirstName: Function;
 	lastName: string;
 	setLastName: Function;
-	plantNames: string;
-	setPlantNames: Function;
 	allUserData: {
 		email: string;
 		password: string;
 		firstName: string;
 		lastName: string;
-		plantNames: string;
 	};
 };
 
@@ -33,14 +26,11 @@ const AuthContext = React.createContext<AuthContextType>({
 	setFirstName: () => {},
 	lastName: '',
 	setLastName: () => {},
-	plantNames: '',
-	setPlantNames: () => {},
 	allUserData: {
 		email: '',
 		password: '',
 		firstName: '',
 		lastName: '',
-		plantNames: '',
 	},
 });
 
@@ -48,20 +38,22 @@ export function useAuthContext() {
 	return React.useContext(AuthContext);
 }
 
-export function AppProvider(props: AppProviderProps) {
+type AuthProviderProps = {
+	children: ReactNode;
+};
+
+export function AuthProvider(props: AuthProviderProps) {
 	const { children } = props;
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
-	const [plantNames, setPlantNames] = useState('');
 
 	const allUserData = {
 		email,
 		password,
 		firstName,
 		lastName,
-		plantNames,
 	};
 
 	const value = useMemo(
@@ -74,11 +66,9 @@ export function AppProvider(props: AppProviderProps) {
 			setFirstName,
 			lastName,
 			setLastName,
-			plantNames,
-			setPlantNames,
 			allUserData,
 		}),
-		[email, firstName, lastName, password, plantNames, allUserData],
+		[email, firstName, lastName, password, allUserData],
 	);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
