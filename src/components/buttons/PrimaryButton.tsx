@@ -11,7 +11,6 @@ import Txt from '@src/components/Txt';
 // Utils
 import { verticalScale, scale } from '@src/utils/scaling';
 import Variables from '@src/config/variables';
-import Icon, { IconType } from '../Icon';
 
 const styles = StyleSheet.create({
 	pressable: {
