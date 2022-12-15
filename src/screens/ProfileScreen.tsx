@@ -46,6 +46,11 @@ const styles = StyleSheet.create({
 
 });
 
+interface Post {
+	id: string;
+	title: string;
+	image_url?: string;
+}
 
 export default function ProfileScreen() {
 	const [loading, setLoading] = useState(false);
@@ -53,15 +58,9 @@ export default function ProfileScreen() {
 	const { session, fullName } = useAppContext();
 	const [totalPointState, setTotalPointState] = useState<number>(0);
 	const [postCountState, setPostCountState] = useState<number>(0);
-	const [postState, setPostState] = useState<any>([]);
+	const [postState, setPostState] = useState<Post[]>([]);
 	// const [avatarUrl, setAvatarUrl] = useState('')
-	interface PostItem {
-		item: {
-			id: string;
-			title: string;
-			image_url?: string;
-		};
-	}
+
 
 	useEffect(() => {
 		if (session) {
@@ -75,17 +74,13 @@ export default function ProfileScreen() {
 			setLoading(true)
 
 			const { data, error } = await supabase
-				.from('profiles')
+				.from('post')
 				.select(`
-				post (
 					id,
 					title,
 					image_url
-				)
-			`)
-				.eq('id', session?.user.id)
-				.limit(1)
-				.single();
+				`)
+				.eq('user_id', session?.user.id)
 
 			if (error) {
 				throw error;
@@ -93,7 +88,7 @@ export default function ProfileScreen() {
 
 			if (data) {
 
-				const posts = normalizeRows(data.post)
+				const posts = normalizeRows(data)
 					.filter((e) => !!e?.id)
 				setPostState(posts);
 				console.log("posts", posts);
@@ -186,12 +181,11 @@ export default function ProfileScreen() {
 		setLoading(false);
 	}
 
-	const renderPostItem = ({ item }: PostItem) => (
+	const renderPostItem = ({ item }: { item: Post }) => (
 		<View style={styles.postItem}>
 			{/* <Text>{item.image_url}</Text> */}
 			<Image source={{ uri: item.image_url}} style={styles.image} />
 		</View>
-
 	)
 
 	return (
