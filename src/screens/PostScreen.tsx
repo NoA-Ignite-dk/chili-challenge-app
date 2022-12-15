@@ -9,6 +9,7 @@ import Txt from '@src/components/Txt';
 import Colors from '@src/config/colors';
 import { containerStyles, typography } from '@src/styles/generalStyles';
 import Variables from '@src/config/variables';
+import SmallButton from '@src/components/buttons/SmallButton';
 
 const styles = StyleSheet.create({
 	container: {
@@ -24,6 +25,10 @@ const styles = StyleSheet.create({
 	},
 	section: {
 		marginBottom: 24,
+		marginTop: 10,
+	},
+	button: {
+		marginTop: 16,
 	},
 	imageContainer: {
 		width: '100%',
@@ -87,12 +92,14 @@ export default function PostScreen() {
 
 	return (
 		<View style={[styles.container, containerStyles.padding]}>
-			{/* <Txt style={{ fontWeight: '200' }}>Create a post</Txt> */}
 			<View style={styles.section}>
-				<TextInput placeholder="Write something..." />
+				<TextInput multiline={true} placeholder="Write something..." />
 			</View>
 			<View style={styles.section}>
 				<Txt style={typography.uppercaseBig}>Points (optional)</Txt>
+				<SmallButton style={styles.button} icon="plus">
+					Select points
+				</SmallButton>
 			</View>
 			<View style={styles.section}>
 				<Txt style={typography.uppercaseBig}>Image</Txt>
@@ -112,7 +119,6 @@ export default function PostScreen() {
 					</View>
 				)}
 			</View>
-			{/* <Button onPress={pickImageAsync}>Pick an image</Button> */}
 		</View>
 	);
 }

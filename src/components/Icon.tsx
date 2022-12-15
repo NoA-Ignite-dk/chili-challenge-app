@@ -9,6 +9,7 @@ export enum IconType {
 	INFORMATION = 'information',
 	PROFILE = 'profile',
 	LOADING = 'loading',
+	PLUS = 'plus',
 }
 
 const IconConfig = {
@@ -132,6 +133,10 @@ const IconConfig = {
 				></animateTransform>
 			</Path>
 		),
+	},
+	[IconType.PLUS]: {
+		viewBox: '20 20',
+		definition: <Path stroke="#01CC8F" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10 3.333v13.334M16.667 10H3.333" />,
 	},
 };
 

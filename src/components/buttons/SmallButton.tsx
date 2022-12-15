@@ -15,22 +15,27 @@ import Icon, { IconType } from '../Icon';
 
 const styles = StyleSheet.create({
 	pressable: {
-		height: verticalScale(48),
-		borderRadius: Variables.BORDER_RADIUS,
+		height: verticalScale(30),
+		borderRadius: Variables.BORDER_RADIUS_LARGE,
 		alignItems: 'center',
 		paddingHorizontal: scale(20),
 		justifyContent: 'center',
-		backgroundColor: Colors.GREEN_PRIMARY,
+		backgroundColor: Colors.WHITE,
+		flexDirection: 'row',
+		alignContent: 'center',
+		borderStyle: 'solid',
+		borderColor: Colors.GREEN_PRIMARY,
+		borderWidth: 1,
 	},
 	pressed: {
-		backgroundColor: Colors.BLACK,
+		backgroundColor: Colors.LIGHT_GREY,
 	},
 	disabled: {
 		backgroundColor: Colors.GREY,
 	},
 	text: {
 		textTransform: 'uppercase',
-		color: Colors.WHITE,
+		color: Colors.GREEN_PRIMARY,
 	},
 });
 
@@ -41,9 +46,10 @@ type Props = {
 	style?: ViewStyle | ViewStyle[];
 	loading?: boolean;
 	textStyle?: TextStyle;
+	icon?: 'plus' | 'none';
 };
 
-const Button = ({ disabled = false, onPress, children, loading = false, style, textStyle, ...props }: Props) => {
+const SmallButton = ({ disabled = false, onPress, children, loading = false, style, textStyle, icon = 'none', ...props }: Props) => {
 	return (
 		<Pressable
 			disabled={disabled}
@@ -53,8 +59,9 @@ const Button = ({ disabled = false, onPress, children, loading = false, style, t
 		>
 			{loading && <LoadingIndicator />}
 			{!loading && <Txt style={{ ...styles.text, ...textStyle }}>{children}</Txt>}
+			{icon && icon === 'plus' && <Icon width={20} type={IconType.PLUS} />}
 		</Pressable>
 	);
 };
 
-export default Button;
+export default SmallButton;
