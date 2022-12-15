@@ -36,9 +36,11 @@ export default function AuthLandingScreen() {
 		});
 	}, []);
 
-	if (session && session.user) {
-		navigation.navigate(ROUTES.MAIN_TABS);
-	}
+	useEffect(() => {
+		if (session && session.user) {
+			navigation.navigate(ROUTES.MAIN_TABS);
+		}
+	}, [session])
 
 	return (
 		<View
