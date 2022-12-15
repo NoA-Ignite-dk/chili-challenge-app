@@ -67,7 +67,8 @@
 		}
 	},
 	"resolutions": {
-		"@types/react": "17.0.43"
+		"@types/react": "17.0.43",
+		"metro": "0.70.1"
 	},
 	"prettier": {
 		"useTabs": true,
