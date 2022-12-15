@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, TextStyle, ViewStyle, TextProps } from 'react-native';
+import { Pressable, StyleSheet, TextStyle, ViewStyle, TextProps, View } from 'react-native';
 
 // Config
 import Colors from '@src/config/colors';
@@ -36,6 +36,10 @@ const styles = StyleSheet.create({
 	text: {
 		textTransform: 'uppercase',
 		color: Colors.GREEN_PRIMARY,
+		marginTop: 2,
+	},
+	icon: {
+		marginLeft: 6,
 	},
 });
 
@@ -49,7 +53,7 @@ type Props = {
 	icon?: 'plus' | 'none';
 };
 
-const SmallButton = ({ disabled = false, onPress, children, loading = false, style, textStyle, icon = 'none', ...props }: Props) => {
+const SecondaryButton = ({ disabled = false, onPress, children, loading = false, style, textStyle, icon = 'none', ...props }: Props) => {
 	return (
 		<Pressable
 			disabled={disabled}
@@ -59,9 +63,13 @@ const SmallButton = ({ disabled = false, onPress, children, loading = false, sty
 		>
 			{loading && <LoadingIndicator />}
 			{!loading && <Txt style={{ ...styles.text, ...textStyle }}>{children}</Txt>}
-			{icon && icon === 'plus' && <Icon width={20} type={IconType.PLUS} />}
+			{icon && icon === 'plus' && (
+				<View style={styles.icon}>
+					<Icon width={20} type={IconType.PLUS} />
+				</View>
+			)}
 		</Pressable>
 	);
 };
 
-export default SmallButton;
+export default SecondaryButton;
