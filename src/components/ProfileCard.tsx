@@ -1,7 +1,9 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageSourcePropType } from 'react-native';
 
-import { ProfileImage } from './ProfileImage';
+import Colors from '@src/config/colors';
+import { ProfileImage } from './ProfileImage'
+
 
 interface ProfileCardProps {
 	name: string;
@@ -15,11 +17,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "row",
 		flexWrap: "wrap",
-		maxHeight: 80,
+		minHeight:100,
+		maxHeight: 100,
 		alignItems: "center",
 		justifyContent: "space-between",
-		marginTop: 10,
-		marginBottom: 10
+		paddingTop: 10,
+		paddingBottom: 10,
+		backgroundColor: Colors.WHITE
 	},
 	item: {
 		flexDirection: "row",

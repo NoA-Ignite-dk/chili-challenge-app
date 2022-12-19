@@ -10,6 +10,7 @@ export enum IconType {
 	PROFILE = 'profile',
 	LOADING = 'loading',
 	PROFILE_POSTS = 'profile_posts',
+	// PROFILE_PLANTS = 'profile_plants',
 	PROFILE_CLAIMED_POINTS = 'profile_claimed_points'
 }
 
