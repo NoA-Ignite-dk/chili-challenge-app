@@ -10,6 +10,9 @@ export enum IconType {
 	PROFILE = 'profile',
 	LOADING = 'loading',
 	PLUS = 'plus',
+	CAMERA = 'camera',
+	UPLOAD = 'upload',
+	CLOSE = 'close',
 }
 
 const IconConfig = {
@@ -137,6 +140,42 @@ const IconConfig = {
 	[IconType.PLUS]: {
 		viewBox: '20 20',
 		definition: <Path stroke="#01CC8F" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10 3.333v13.334M16.667 10H3.333" />,
+	},
+	[IconType.CAMERA]: {
+		viewBox: '24 24',
+		definition: (
+			<>
+				<Path
+					stroke="#000"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					strokeWidth="1.5"
+					d="M2 19V9a2 2 0 012-2h.5a2 2 0 001.6-.8l2.22-2.96A.6.6 0 018.8 3h6.4a.6.6 0 01.48.24L17.9 6.2a2 2 0 001.6.8h.5a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2z"
+				/>
+				<Path stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 17a4 4 0 100-8 4 4 0 000 8z" />
+			</>
+		),
+	},
+	[IconType.UPLOAD]: {
+		viewBox: '24 24',
+		definition: (
+			<>
+				<Path stroke="#000" strokeWidth="1.5" d="M3 20.4V3.6a.6.6 0 01.6-.6h16.8a.6.6 0 01.6.6v16.8a.6.6 0 01-.6.6H3.6a.6.6 0 01-.6-.6z" />
+				<Path stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18h12M12 14V6m0 0l3.5 3.5M12 6L8.5 9.5" />
+			</>
+		),
+	},
+	[IconType.CLOSE]: {
+		viewBox: '24 24',
+		definition: (
+			<Path
+				stroke="#000"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth="1.5"
+				d="M6.757 17.243L12 12m5.243-5.243L12 12m0 0L6.757 6.757M12 12l5.243 5.243"
+			/>
+		),
 	},
 };
 

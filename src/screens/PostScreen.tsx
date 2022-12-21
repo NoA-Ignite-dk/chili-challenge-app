@@ -1,11 +1,14 @@
+/* eslint-disable react-native/no-color-literals */
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, TextInput, Pressable, Alert, Modal, FlatList, Text } from 'react-native';
+import { StyleSheet, View, Image, TextInput, Pressable, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { supabase } from '@src/lib/supabase';
 
 // Components
 import Txt from '@src/components/Txt';
 import SecondaryButton from '@src/components/buttons/SecondaryButton';
+import PointsModal from '@src/components/PointsModal';
+import Icon, { IconType } from '@src/components/Icon';
 
 // Config
 import Colors from '@src/config/colors';
@@ -35,6 +38,11 @@ const styles = StyleSheet.create({
 	button: {
 		marginTop: 16,
 	},
+	selectedButton: {
+		marginTop: 16,
+		backgroundColor: Colors.GREEN_PRIMARY,
+		color: Colors.WHITE,
+	},
 	imageContainer: {
 		width: '100%',
 		marginTop: 12,
@@ -61,6 +69,7 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.BACKGROUND_GREY,
 		borderRadius: Variables.BORDER_RADIUS,
 		marginTop: 12,
+		flexDirection: 'row',
 	},
 	imagePlaceholderButton: {
 		backgroundColor: Colors.LIGHT_GREY,
@@ -71,75 +80,48 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	centeredView: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		marginTop: 22,
-		width: '100%',
-	},
-	modalView: {
-		width: '100%',
-		height: '80%',
-		margin: 20,
-		bottom: -80,
-		borderRadius: 20,
-		padding: 35,
-		alignItems: 'center',
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
-		shadowOpacity: 0.25,
-		shadowRadius: 4,
-		elevation: 5,
-	},
 });
-
-const PointItem = ({ title, amount }: any) => (
-	<View style={styles.centeredView}>
-		<Text>{title}</Text>
-		<Text>{amount}</Text>
-	</View>
-);
 
 export default function PostScreen() {
 	const [selectedImage, setSelectedImage] = useState('');
-	// const [loading, setLoading] = useState(false);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const [loading, setLoading] = useState(false);
 	const [pointsData, setPointsData] = useState<PointToClaim[]>([]);
 	const [modalVisible, setModalVisible] = useState(false);
+	const [selectedPoint, setSelectedPoint] = useState(null);
+	const selectedPointData = pointsData?.find((item) => item.id === selectedPoint);
 
-	// const pickImageAsync = async () => {
-	// 	// requestPermission();
-	// 	const result = await ImagePicker.launchImageLibraryAsync({
-	// 		allowsEditing: true,
-	// 		quality: 1,
-	// 	});
+	const openImageLibrary = async () => {
+		const result = await ImagePicker.launchImageLibraryAsync({
+			allowsEditing: true,
+			quality: 1,
+		});
 
-	// 	if (!result.cancelled) {
-	// 		setSelectedImage(result.uri);
-	// 	} else {
-	// 		alert('You did not select any image.');
-	// 	}
-	// };
+		if (!result.cancelled) {
+			setSelectedImage(result.uri);
+		} else {
+			// eslint-disable-next-line no-alert
+			alert('You did not select any image.');
+		}
+	};
 
 	const openCamera = async () => {
 		// Ask the user for the permission to access the camera
 		const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
 		if (permissionResult.granted === false) {
+			// eslint-disable-next-line no-alert
 			alert("You've refused to allow this app to access your camera");
 			return;
 		}
 
 		const result = await ImagePicker.launchCameraAsync();
 
-		// Explore the result
+		// eslint-disable-next-line no-console
 		console.log(result);
 
 		if (!result.cancelled) {
 			setSelectedImage(result.uri);
-			console.log(result.uri);
 		}
 	};
 
@@ -150,7 +132,7 @@ export default function PostScreen() {
 	async function getPointsToClaim() {
 		setModalVisible(true);
 		try {
-			// setLoading(true);
+			setLoading(true);
 			const { data, error } = await supabase.from('point_to_claim').select(
 				`
 					id,
@@ -176,11 +158,9 @@ export default function PostScreen() {
 				console.error('Error', error);
 			}
 		} finally {
-			// setLoading(false);
+			setLoading(false);
 		}
 	}
-
-	console.log(pointsData);
 
 	return (
 		<View style={[styles.container, containerStyles.padding]}>
@@ -189,9 +169,16 @@ export default function PostScreen() {
 			</View>
 			<View style={styles.section}>
 				<Txt style={typography.uppercaseBig}>Points (optional)</Txt>
-				<SecondaryButton onPress={getPointsToClaim} style={styles.button} icon="plus">
-					Select points
-				</SecondaryButton>
+				{!selectedPoint && (
+					<SecondaryButton onPress={getPointsToClaim} style={styles.button} icon="plus">
+						Select points
+					</SecondaryButton>
+				)}
+				{selectedPoint && (
+					<SecondaryButton onPress={getPointsToClaim} style={styles.selectedButton}>
+						{selectedPointData?.title}
+					</SecondaryButton>
+				)}
 			</View>
 			<View style={styles.section}>
 				<Txt style={typography.uppercaseBig}>Image</Txt>
@@ -206,31 +193,15 @@ export default function PostScreen() {
 				{!selectedImage && (
 					<View style={styles.imagePlaceholder}>
 						<Pressable style={styles.imagePlaceholderButton} onPress={openCamera}>
-							<Txt style={{ fontSize: 18 }}>+</Txt>
+							<Icon type={IconType.CAMERA} />
+						</Pressable>
+						<Pressable style={styles.imagePlaceholderButton} onPress={openImageLibrary}>
+							<Icon type={IconType.UPLOAD} />
 						</Pressable>
 					</View>
 				)}
 			</View>
-			<Modal
-				animationType="slide"
-				transparent={true}
-				visible={modalVisible}
-				onRequestClose={() => {
-					Alert.alert('Modal has been closed.');
-					setModalVisible(!modalVisible);
-				}}
-			>
-				<View style={styles.centeredView}>
-					<View style={styles.modalView}>
-						<Pressable onPress={() => setModalVisible(!modalVisible)}>
-							<Text>Hide Modal</Text>
-						</Pressable>
-
-						{/* @TODO add key extractor */}
-						<FlatList data={pointsData} renderItem={PointItem} />
-					</View>
-				</View>
-			</Modal>
+			<PointsModal setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
 		</View>
 	);
 }

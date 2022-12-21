@@ -31,6 +31,9 @@ const styles = StyleSheet.create({
 		textTransform: 'uppercase',
 		color: Colors.WHITE,
 	},
+	fullWidth: {
+		minWidth: '100%',
+	},
 });
 
 type Props = {
@@ -40,14 +43,21 @@ type Props = {
 	style?: ViewStyle | ViewStyle[];
 	loading?: boolean;
 	textStyle?: TextStyle;
+	fullWidth?: boolean;
 };
 
-const Button = ({ disabled = false, onPress, children, loading = false, style, textStyle, ...props }: Props) => {
+const Button = ({ disabled = false, onPress, children, loading = false, style, textStyle, fullWidth = false, ...props }: Props) => {
 	return (
 		<Pressable
 			disabled={disabled}
 			onPress={onPress}
-			style={({ pressed }) => [{ ...styles.pressable }, pressed && styles.pressed, disabled ? styles.disabled : {}, style && style]}
+			style={({ pressed }) => [
+				{ ...styles.pressable },
+				pressed && styles.pressed,
+				disabled ? styles.disabled : {},
+				style && style,
+				fullWidth && styles.fullWidth,
+			]}
 			{...props}
 		>
 			{loading && <LoadingIndicator />}
