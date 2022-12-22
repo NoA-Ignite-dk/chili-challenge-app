@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ROUTES } from '@src/config/routes';
 import { AppProvider } from '@src/components/providers/appContext';
 import ProfileScreen from '@src/screens/ProfileScreen';
+import EditProfileScreen from '@src/screens/EditProfileScreen';
 import Colors from '@src/config/colors';
 import { View, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -33,6 +34,11 @@ const ProfileStack = () => (
 				),
 			}}>
 			<Stack.Screen options={{ title: 'Profile' }} name={ROUTES.PROFILE} component={ProfileScreen} />
+			<Stack.Screen
+				options={{
+					title: 'Edit Profile'
+				}}
+				name={ROUTES.EDIT_PROFILE} component={EditProfileScreen} />
 		</Stack.Navigator>
 	</AppProvider>
 );

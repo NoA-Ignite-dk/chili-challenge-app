@@ -5,13 +5,18 @@ import Colors from '@src/config/colors';
 
 interface ProfileImageProps {
 	imageSource: ImageSourcePropType;
-	size: 'xsmall'| 'small' | 'large'
+	size: 'xsmall'| 'small' | 'large'  | 'xlarge'
 }
 
 const styles = StyleSheet.create({
 	largeImage: {
 		width: 70,
 		height: 70,
+		borderRadius: 50,
+	},
+	xLargeImage: {
+		width: 104,
+		height: 104,
 		borderRadius: 50,
 	},
 	circle: {
@@ -25,6 +30,11 @@ const styles = StyleSheet.create({
 		width: 78,
 		height: 78,
 		borderWidth: 2,
+	},
+	xLargeCircle: {
+		width: 110,
+		height: 110,
+		borderWidth: 2.5,
 	},
 	smallCircle: {
 		width: 64,
@@ -69,6 +79,12 @@ export const ProfileImage = ({ imageSource, size = "small" }: ProfileImageProps)
 			return (
 				<View style={[styles.largeCircle, styles.circle]} >
 					<Image style={styles.largeImage} source={imageSource}></Image>
+				</View>
+			)
+		case 'xlarge':
+			return (
+				<View style={[styles.xLargeCircle, styles.circle]} >
+					<Image style={styles.xLargeImage} source={imageSource}></Image>
 				</View>
 			)
 	}

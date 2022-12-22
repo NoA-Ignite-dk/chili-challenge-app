@@ -27,6 +27,12 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.WHITE
 
 	},
+	container: {
+		minHeight: 170,
+		backgroundColor: Colors.WHITE,
+		paddingHorizontal: 15
+	},
+
 	postItem: {
 		flex: 1,
 		maxWidth: "33.3333%",
@@ -34,6 +40,15 @@ const styles = StyleSheet.create({
 		maxHeight: 135,
 		alignContent: "center",
 		justifyContent: "center"
+	},
+	greenBackground: {
+		backgroundColor: Colors.GREEN_PRIMARY,
+		borderRadius: 15,
+		padding: 12,
+	},
+	buttonText: {
+		color: Colors.WHITE,
+		textTransform: "uppercase"
 	},
 
 	image: {
@@ -96,7 +111,6 @@ export default function ProfileScreen() {
 	const [plantState, setPlantState] = useState<Plant[]>([]);
 	const layout = useWindowDimensions();
 	const [index, setIndex] = React.useState(0);
-	// const [isPrimarySet, setIsPrimarySet] = useState(false);
 	const hasPrimaryPlant = plantState.some((plant) => plant.primary);
 
 	const [routes] = React.useState([
@@ -174,7 +188,6 @@ export default function ProfileScreen() {
 
 				const plants = normalizeRows(data)
 					.filter((e) => !!e?.id)
-				console.log(plants);
 
 				setPlantState(plants);
 			}
@@ -217,10 +230,10 @@ export default function ProfileScreen() {
 				)}
 				{hasPrimaryPlant && (
 					<View>
-						{item.primary ? (
-							<Text>Primary</Text>
-						) : (
-							<Text>Not primary</Text>
+						{item.primary && (
+							<View style={styles.greenBackground}>
+								<Text style={styles.buttonText}>Primary</Text>
+							</View>
 						)}
 					</View>
 				)}
@@ -274,7 +287,6 @@ export default function ProfileScreen() {
 
 				setTotalPointState(totalPoints)
 				setPostCountState(postCount)
-				// setAvatarUrl(data.avatar_url)
 			}
 		} catch (error) {
 			if (error instanceof Error) {
@@ -304,7 +316,6 @@ export default function ProfileScreen() {
 	}
 
 	const allPostsRoute = () => (
-
 		<View style={styles.postItemContainer}>
 			<FlatList data={postState} renderItem={renderPostItem} numColumns={3}></FlatList>
 		</View>
@@ -323,7 +334,6 @@ export default function ProfileScreen() {
 	);
 
 	const getTabBarIcon = (props: any) => {
-
 		const { route } = props
 
 		// eslint-disable-next-line default-case
@@ -362,7 +372,12 @@ export default function ProfileScreen() {
 
 	return (
 		<>
-			<ProfileCard name={fullName} points={totalPointState} posts={postCountState} imageSource={require('../../assets/images/chiliplant.jpg')}></ProfileCard>
+			<View style={styles.container}>
+				<ProfileCard name={fullName} points={totalPointState} posts={postCountState} imageSource={require('../../assets/images/chiliplant.jpg')}></ProfileCard>
+				<Button onPress={() => navigation.navigate(ROUTES.EDIT_PROFILE)}>
+					Edit profile <Icon type={IconType.EDIT} />
+				</Button>
+			</View>
 			<TabView
 				navigationState={{ index, routes }}
 				renderTabBar={renderTabBar}
