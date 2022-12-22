@@ -28,11 +28,11 @@ jobs:
       - name: 📦 Install dependencies
         run: yarn install
 
-      - name: 📦 Lint files
+      - name: 🎡 Lint files
         run: yarn run lint
 
-      - name: 📦 Typecheck files
+      - name: 🎡 Typecheck files
         run: yarn run tsc
 
       - name: 🚀 Build app
-        run: eas build --profile=production --non-interactive
+        run: eas build --profile=production --platform=ios --non-interactive
