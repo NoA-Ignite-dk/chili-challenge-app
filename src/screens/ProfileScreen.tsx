@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.WHITE,
 		paddingHorizontal: 15
 	},
-
 	postItem: {
 		flex: 1,
 		maxWidth: "33.3333%",
@@ -56,7 +55,6 @@ const styles = StyleSheet.create({
 		resizeMode: 'cover',
 		flex: 1,
 	},
-
 	grid: {
 		flex: 1,
 		flexDirection: "row",
@@ -79,7 +77,6 @@ const styles = StyleSheet.create({
 	item3: {
 		justifyContent: "flex-end"
 	},
-
 });
 
 interface Post {
@@ -99,7 +96,6 @@ const renderPostItem = ({ item }: { item: Post }) => (
 		<Image source={{ uri: item.image_url }} style={styles.image} />
 	</View>
 )
-
 
 export default function ProfileScreen() {
 	const [loading, setLoading] = useState(false);
@@ -149,9 +145,8 @@ export default function ProfileScreen() {
 
 				const posts = normalizeRows(data)
 					.filter((e) => !!e?.id)
+
 				setPostState(posts);
-				// console.log("posts", posts);
-				// setAvatarUrl(data.avatar_url)
 			}
 		} catch (error) {
 			if (error instanceof Error) {
@@ -299,8 +294,6 @@ export default function ProfileScreen() {
 			setLoading(false)
 		}
 	}
-
-
 
 	async function logout() {
 		setLoading(true);
