@@ -21,8 +21,7 @@ const styles = StyleSheet.create({
 		maxHeight: 100,
 		alignItems: "center",
 		justifyContent: "space-between",
-		paddingTop: 10,
-		paddingBottom: 10,
+		paddingVertical: 10,
 		backgroundColor: Colors.WHITE
 	},
 	item: {
@@ -33,14 +32,14 @@ const styles = StyleSheet.create({
 	},
 
 	itemLeft: {
-		maxWidth: "70%",
-		minWidth: "70%"
+		maxWidth: "65%",
+		minWidth: "65%",
+
 	},
 	itemRight: {
-		maxWidth: "30%",
-		minWidth: "30%",
+		maxWidth: "20%",
+		minWidth: "20%",
 		justifyContent: "space-between",
-		paddingRight: 20
 	},
 	center: {
 		textAlign: "center",
