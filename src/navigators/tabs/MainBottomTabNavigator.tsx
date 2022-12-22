@@ -12,9 +12,9 @@ import HomeScreen from '@src/screens/HomeScreen';
 import ScoreboardScreen from '@src/screens/ScoreboardScreen';
 import PostScreen from '@src/screens/PostScreen';
 import InformationScreen from '@src/screens/InformationScreen';
-import ProfileScreen from '@src/screens/ProfileScreen';
 import Icon, { IconType } from '@src/components/Icon';
 import { AppProvider } from '@src/components/providers/appContext';
+import ProfileStack from '../stacks/ProfileStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -80,9 +80,9 @@ function MainBottomTabNavigator() {
 					tabBarIcon: () => <Icon type={IconType.INFORMATION} />,
 					title: "Information"
 				}} />
-				<Tab.Screen name={ROUTES.PROFILE} component={ProfileScreen}
+				<Tab.Screen name={ROUTES.PROFILE_STACK} component={ProfileStack}
 				options={{
-					title: "Profile",
+					headerShown: false,
 					tabBarIcon: () => <Icon type={IconType.PROFILE} />,
 				}} />
 			</Tab.Navigator>
