@@ -101,7 +101,7 @@ export default function PostScreen() {
 
 		// Create post
 		const { error } = await supabase.from('post').insert({
-			id: 55,
+			id: 55, // @TODO fix supabase not generating serial ids or use uuid
 			title: 'Post test',
 			description: postDescription,
 			user_id: session?.user.id,
