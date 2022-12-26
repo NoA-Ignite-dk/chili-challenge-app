@@ -62,7 +62,6 @@ export function AppProvider(props: AppProviderProps) {
 			.eq('id', session.user.id)
 			.limit(1)
 			.single();
-			console.log('profile', { data, error });
 
 		if (error) {
 			throw error;

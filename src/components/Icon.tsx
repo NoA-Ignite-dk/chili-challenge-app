@@ -13,6 +13,10 @@ export enum IconType {
 	CAMERA = 'camera',
 	UPLOAD = 'upload',
 	CLOSE = 'close',
+	PROFILE_POSTS = 'profile_posts',
+	// PROFILE_PLANTS = 'profile_plants',
+	PROFILE_CLAIMED_POINTS = 'profile_claimed_points',
+	EDIT = 'edit',
 }
 
 const IconConfig = {
@@ -175,6 +179,76 @@ const IconConfig = {
 				strokeWidth="1.5"
 				d="M6.757 17.243L12 12m5.243-5.243L12 12m0 0L6.757 6.757M12 12l5.243 5.243"
 			/>
+		),
+	},
+	[IconType.PROFILE_CLAIMED_POINTS]: {
+		viewBox: '24 24',
+		definition: (
+			<>
+				<Path
+					d="M6.74531 4H17.3132C17.3132 4 16.4325 17.2571 12.0293 17.2571C9.87823 17.2571 8.56783 14.0935 7.79008 10.8571C6.97571 7.46844 6.74531 4 6.74531 4Z"
+					stroke="#36354A"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<Path
+					d="M17.3132 3.99997C17.3132 3.99997 18.2344 3.0173 19 2.99996C20.5 2.966 20.7773 3.99997 20.7773 3.99997C21.0709 4.6095 21.3057 6.19426 19.8967 7.65712C18.4876 9.11997 16.9103 10.4 16.2684 10.8571"
+					stroke="#36354A"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<Path
+					d="M6.74527 3.99998C6.74527 3.99998 5.78547 3.00611 4.99995 2.99998C3.49995 2.98827 3.22264 3.99998 3.22264 3.99998C2.92908 4.6095 2.69424 6.19426 4.1033 7.65712C5.51235 9.11998 7.14823 10.4 7.79004 10.8571"
+					stroke="#36354A"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<Path
+					d="M8.50662 20C8.50662 18.1714 12.0292 17.2571 12.0292 17.2571C12.0292 17.2571 15.5519 18.1714 15.5519 20H8.50662Z"
+					stroke="#36354A"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+			</>
+		),
+	},
+	[IconType.PROFILE_POSTS]: {
+		viewBox: '24 24',
+		definition: (
+			<>
+				<Path
+					fill-rule="evenodd"
+					clip-rule="evenodd"
+					d="M21.4189 15.7321C21.4189 19.3101 19.3099 21.4191 15.7319 21.4191H7.94991C4.36291 21.4191 2.24991 19.3101 2.24991 15.7321V7.93212C2.24991 4.35912 3.56391 2.25012 7.14291 2.25012H9.14291C9.86091 2.25112 10.5369 2.58812 10.9669 3.16312L11.8799 4.37712C12.3119 4.95112 12.9879 5.28912 13.7059 5.29012H16.5359C20.1229 5.29012 21.4469 7.11612 21.4469 10.7671L21.4189 15.7321Z"
+					stroke="#36354A"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<Path d="M7.481 14.463H16.216" stroke="#36354A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+			</>
+		),
+	},
+	[IconType.EDIT]: {
+		viewBox: '28 28',
+		definition: (
+			<>
+				<Path d="M13.7474 20.4429H21" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+				<Path
+					fill-rule="evenodd"
+					clip-rule="evenodd"
+					d="M12.78 3.79479C13.5557 2.86779 14.95 2.73186 15.8962 3.49173C15.9485 3.53296 17.6295 4.83879 17.6295 4.83879C18.669 5.46719 18.992 6.80311 18.3494 7.82259C18.3153 7.87718 8.81195 19.7645 8.81195 19.7645C8.49578 20.1589 8.01583 20.3918 7.50291 20.3973L3.86353 20.443L3.04353 16.9723C2.92866 16.4843 3.04353 15.9718 3.3597 15.5773L12.78 3.79479Z"
+					stroke="white"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<Path d="M11.0208 6.00092L16.4731 10.188" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+			</>
 		),
 	},
 };
