@@ -1,4 +1,5 @@
 import Colors from '@src/config/colors';
+import { PointToClaim } from '@src/types/supabase';
 import React from 'react';
 import { Alert, FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import Button from './buttons/PrimaryButton';
@@ -38,6 +39,12 @@ const styles = StyleSheet.create({
 	closeButton: {
 		alignSelf: 'flex-end',
 	},
+	closeText: {
+		alignSelf: 'baseline',
+		marginBottom: 30,
+		marginLeft: 'auto',
+		marginRight: 'auto',
+	},
 });
 
 type Props = {
@@ -45,26 +52,32 @@ type Props = {
 	open: boolean;
 	setOpen: (arg: boolean) => void;
 	setSelectedPoint: any;
+	loading: boolean;
 };
 
 type PointItemProps = {
-	title: string | null;
-	amount: number | null;
-	id: number;
-	setSelectedPoint: any;
+	item: PointToClaim;
+	handleSelectPoint: Function;
 };
 
-const PointItem = ({ title, amount, id, setSelectedPoint }: PointItemProps) => (
-	<Button onPress={() => setSelectedPoint(id)} fullWidth style={styles.pointItem}>
-		<Text>{title}</Text>
-		<Text>{amount}</Text>
+type RenderPointItemProps = {
+	item: PointToClaim;
+};
+
+const PointItem = ({ item, handleSelectPoint }: PointItemProps) => (
+	<Button onPress={() => handleSelectPoint(item.id)} fullWidth style={styles.pointItem}>
+		<Text>{item.title}</Text>
+		<Text>{item.amount}</Text>
 	</Button>
 );
 
-export default function PointsModal({ data, open, setOpen, setSelectedPoint }: Props) {
-	const renderPointItem = (item: any) => (
-		<PointItem id={item.id} setSelectedPoint={setSelectedPoint} title={item.title} amount={item.amount} />
-	);
+export default function PointsModal({ data, open, setOpen, setSelectedPoint, loading }: Props) {
+	const handleSelectPoint = (pointId: number) => {
+		setSelectedPoint(pointId);
+		setOpen(!open);
+	};
+
+	const renderPointItem = ({ item }: RenderPointItemProps) => <PointItem handleSelectPoint={handleSelectPoint} item={item} />;
 
 	return (
 		<Modal
@@ -83,6 +96,12 @@ export default function PointsModal({ data, open, setOpen, setSelectedPoint }: P
 					</Pressable>
 
 					<FlatList data={data} renderItem={renderPointItem} keyExtractor={(item: any) => item.id} />
+
+					{loading && <Icon type={IconType.LOADING} />}
+
+					<Pressable style={styles.closeText} onPress={() => setOpen(!open)}>
+						<Text>Close</Text>
+					</Pressable>
 				</View>
 			</View>
 		</Modal>

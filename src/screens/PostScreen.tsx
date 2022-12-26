@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-color-literals */
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, TextInput, Pressable, Alert } from 'react-native';
+import { StyleSheet, View, Image, TextInput, Pressable, Alert, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { supabase } from '@src/lib/supabase';
 
@@ -15,6 +15,9 @@ import Colors from '@src/config/colors';
 import { containerStyles, typography } from '@src/styles/generalStyles';
 import Variables from '@src/config/variables';
 import { normalizeRows } from '@src/utils/normalizeData';
+import { getImageUrl } from '@src/utils/getImageUrl';
+import { uploadImage } from '@src/utils/uploadImage';
+import { useAppContext } from '@src/components/providers/appContext';
 
 // Types
 import { PointToClaim } from '@src/types/supabase';
@@ -84,21 +87,45 @@ const styles = StyleSheet.create({
 
 export default function PostScreen() {
 	const [selectedImage, setSelectedImage] = useState('');
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const [selectedImageId, setSelectedImageId] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [postDescription, setPostDescription] = useState('');
 	const [pointsData, setPointsData] = useState<PointToClaim[]>([]);
 	const [modalVisible, setModalVisible] = useState(false);
 	const [selectedPoint, setSelectedPoint] = useState(null);
 	const selectedPointData = pointsData?.find((item) => item.id === selectedPoint);
+	const { session } = useAppContext();
+
+	const createPost = async () => {
+		const imageUrl = await getImageUrl(selectedImageId);
+
+		// Create post
+		const { error } = await supabase.from('post').insert({
+			id: 55,
+			title: 'Post test',
+			description: postDescription,
+			user_id: session?.user.id,
+			image_url: imageUrl,
+		});
+
+		if (error) {
+			throw error;
+		}
+
+		//  @TODO claim point
+	};
 
 	const openImageLibrary = async () => {
 		const result = await ImagePicker.launchImageLibraryAsync({
+			base64: true,
 			allowsEditing: true,
 			quality: 1,
 		});
 
 		if (!result.cancelled) {
 			setSelectedImage(result.uri);
+			const imageId = await uploadImage(result);
+			setSelectedImageId(imageId);
 		} else {
 			// eslint-disable-next-line no-alert
 			alert('You did not select any image.');
@@ -116,9 +143,6 @@ export default function PostScreen() {
 		}
 
 		const result = await ImagePicker.launchCameraAsync();
-
-		// eslint-disable-next-line no-console
-		console.log(result);
 
 		if (!result.cancelled) {
 			setSelectedImage(result.uri);
@@ -154,8 +178,7 @@ export default function PostScreen() {
 			if (error instanceof Error) {
 				Alert.alert(error.message);
 			} else {
-				// eslint-disable-next-line no-console
-				console.error('Error', error);
+				throw error;
 			}
 		} finally {
 			setLoading(false);
@@ -165,7 +188,7 @@ export default function PostScreen() {
 	return (
 		<View style={[styles.container, containerStyles.padding]}>
 			<View style={styles.section}>
-				<TextInput multiline={true} placeholder="Write something..." />
+				<TextInput onChangeText={(text: string) => setPostDescription(text)} multiline={true} placeholder="Write something..." />
 			</View>
 			<View style={styles.section}>
 				<Txt style={typography.uppercaseBig}>Points (optional)</Txt>
@@ -201,7 +224,10 @@ export default function PostScreen() {
 					</View>
 				)}
 			</View>
-			<PointsModal setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
+			<Pressable onPress={createPost}>
+				<Text>Create post</Text>
+			</Pressable>
+			<PointsModal loading={loading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
 		</View>
 	);
 }
