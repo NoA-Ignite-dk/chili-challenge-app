@@ -2,12 +2,12 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ROUTES } from '@src/config/routes';
 import { AppProvider } from '@src/components/providers/appContext';
-import ProfileScreen from '@src/screens/ProfileScreen';
-import EditProfileScreen from '@src/screens/EditProfileScreen';
+import ProfileScreen from '@src/screens/profile/ProfileScreen';
 import Colors from '@src/config/colors';
 import { View, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AllRoutesParamList } from '@src/types/navigation';
+import EditProfileScreen from '@src/screens/profile/EditProfileScreen';
 
 const Stack = createNativeStackNavigator<AllRoutesParamList>();
 
