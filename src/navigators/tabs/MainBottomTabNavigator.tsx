@@ -85,11 +85,11 @@ function MainBottomTabNavigator() {
 					options={{
 						tabBarIcon: () => <Icon type={IconType.POST} />,
 						title: 'Create post',
-						headerRight: () => (
-							<View style={styles.iconContainer}>
-								<Txt style={typography.headerTitle}>Create</Txt>
-							</View>
-						),
+						// headerRight: () => (
+						// 	<View style={styles.iconContainer}>
+						// 		<Txt style={typography.headerTitle}>Create</Txt>
+						// 	</View>
+						// ),
 						headerTitleAlign: 'center',
 						headerTitleStyle: {
 							fontSize: 20,

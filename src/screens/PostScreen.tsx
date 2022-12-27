@@ -8,6 +8,7 @@ import Txt from '@src/components/Txt';
 import SecondaryButton from '@src/components/buttons/SecondaryButton';
 import PointsModal from '@src/components/PointsModal';
 import Icon, { IconType } from '@src/components/Icon';
+import Button from '@src/components/buttons/PrimaryButton';
 
 // Config
 import Colors from '@src/config/colors';
@@ -21,6 +22,7 @@ import { useAppContext } from '@src/components/providers/appContext';
 import { usePointToClaimQuery } from '@src/data/point-to-claim';
 import { useCreateUserPostsMutation } from '@src/data/user-posts';
 import { useCreateUserPointsMutation } from '@src/data/user-points';
+import { PointToClaim } from '@src/types/supabase';
 
 const styles = StyleSheet.create({
 	container: {
@@ -44,6 +46,8 @@ const styles = StyleSheet.create({
 	selectedButton: {
 		marginTop: 16,
 		backgroundColor: Colors.GREEN_PRIMARY,
+	},
+	selectedButtonText: {
 		color: Colors.WHITE,
 	},
 	imageContainer: {
@@ -120,6 +124,9 @@ export default function PostScreen() {
 				},
 			});
 		}
+
+		// eslint-disable-next-line no-alert
+		alert('Post created!');
 	};
 
 	const openImageLibrary = async () => {
@@ -149,10 +156,14 @@ export default function PostScreen() {
 			return;
 		}
 
-		const result = await ImagePicker.launchCameraAsync();
+		const result = await ImagePicker.launchCameraAsync({
+			base64: true,
+		});
 
 		if (!result.cancelled) {
 			setSelectedImage(result.uri);
+			const imageId = await uploadImage(result);
+			setSelectedImageId(imageId);
 		}
 	};
 
@@ -173,7 +184,7 @@ export default function PostScreen() {
 					</SecondaryButton>
 				)}
 				{selectedPoint && (
-					<SecondaryButton onPress={() => setModalVisible(true)} style={styles.selectedButton}>
+					<SecondaryButton onPress={() => setModalVisible(true)} style={styles.selectedButton} textStyle={styles.selectedButtonText}>
 						{selectedPointData?.title}
 					</SecondaryButton>
 				)}
@@ -199,9 +210,9 @@ export default function PostScreen() {
 					</View>
 				)}
 			</View>
-			<Pressable onPress={createPost}>
+			<Button onPress={createPost}>
 				<Text>Create post</Text>
-			</Pressable>
+			</Button>
 			<PointsModal loading={isLoading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
 		</View>
 	);
