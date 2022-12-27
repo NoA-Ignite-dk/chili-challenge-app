@@ -86,7 +86,7 @@ export function useUpdateUserPointsMutation() {
 }
 
 export interface CreatePointDTO {
-	claimed_at: string;
+	claimed_at?: string;
 	claimed_point_id: number;
 	user_id: string;
 	post_id: number;
