@@ -115,7 +115,6 @@ export default function PostScreen() {
 			await createPointMutation.mutateAsync({
 				payload: {
 					post_id: post.id,
-					claimed_at: new Date().toISOString(),
 					claimed_point_id: selectedPoint,
 					user_id: session?.user.id as string,
 				},
