@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-color-literals */
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, TextInput, Pressable, Alert, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
 	},
 	imagePlaceholder: {
 		width: '100%',
-		height: 150,
+		height: 250,
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: Colors.BACKGROUND_GREY,
@@ -86,6 +85,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	createButton: {},
 });
 
 export default function PostScreen() {
@@ -247,7 +247,7 @@ export default function PostScreen() {
 					</View>
 				)}
 			</View>
-			<Button onPress={createPost}>
+			<Button style={styles.createButton} onPress={createPost}>
 				<Text>Create post</Text>
 			</Button>
 			<PointsModal loading={loading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
