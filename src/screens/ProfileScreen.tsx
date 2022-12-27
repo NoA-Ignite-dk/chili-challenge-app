@@ -17,8 +17,8 @@ import { useAppContext } from '@src/components/providers/appContext';
 import ProfileCard from '@src/components/ProfileCard';
 import { ProfileImage } from '@src/components/ProfileImage';
 import { useUserProfileQuery } from '@src/data/user-profile';
-import { useUserPlantsQuery, useUserPlantsMutation } from '@src/data/user-plants';
-import { useUserPostsQuery } from '@src/data/user-posts';
+import { useUserPlantsQuery, useUpdateUserPlantMutation, Plant } from '@src/data/user-plants';
+import { Post, useUserPostsQuery } from '@src/data/user-posts';
 import { useUserPointsQuery } from '@src/data/user-points';
 
 const styles = StyleSheet.create({
@@ -78,18 +78,6 @@ const styles = StyleSheet.create({
 	},
 });
 
-interface Post {
-	id: string;
-	title: string;
-	image_url?: string;
-}
-interface Plant {
-	id: string;
-	name: string;
-	image_url?: string;
-	primary: boolean;
-}
-
 const renderPostItem = ({ item }: { item: Post }) => (
 	<View style={styles.postItem}>
 		<Image source={{ uri: item.image_url }} style={styles.image} />
@@ -103,7 +91,7 @@ export default function ProfileScreen() {
 	const { data: profileData } = useUserProfileQuery(session?.user.id);
 	const { data: pointsData } = useUserPointsQuery(session?.user.id);
 	const { data: plantState } = useUserPlantsQuery(session?.user.id);
-	const plantsMutation = useUserPlantsMutation();
+	const plantsMutation = useUpdateUserPlantMutation();
 	const { data: postState } = useUserPostsQuery(session?.user.id);
 	const layout = useWindowDimensions();
 	const [index, setIndex] = React.useState(0);

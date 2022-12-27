@@ -1,15 +1,9 @@
 import { supabase } from "@src/lib/supabase";
 import { normalizeRows, takeFirstRow } from "@src/utils/normalizeData";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import { PointToClaim } from "./point-to-claim";
 
 export const QUERY_KEY = 'USER_POINTS';
-
-export interface PointToClaim {
-	id: string;
-	title: string;
-	type: 'height' | 'flower',
-	amount: number;
-}
 
 export interface Point {
 	id: string;
@@ -75,7 +69,7 @@ export async function updateUserPoints(id: string, payload: Partial<Point>): Pro
 	}
 }
 
-export function useUserPointsMutation() {
+export function useUpdateUserPointsMutation() {
 	const queryClient = useQueryClient()
 
 	return useMutation(
@@ -86,6 +80,42 @@ export function useUserPointsMutation() {
 		{
 			onSuccess: (data, { id }) => {
 				queryClient.invalidateQueries([QUERY_KEY, id])
+			},
+		}
+	)
+}
+
+export interface CreatePointDTO {
+	claimed_at: string;
+	claimed_point_id: number;
+	user_id: string;
+	post_id: number;
+}
+
+export async function createUserPoint(payload: CreatePointDTO): Promise<Point> {
+	const { data, error } = await supabase
+		.from('point')
+		.insert(payload)
+		.select()
+		.single();
+
+	if (error) {
+		throw error;
+	}
+
+	return takeFirstRow(data);
+}
+
+export function useCreateUserPointsMutation() {
+	const queryClient = useQueryClient()
+
+	return useMutation(
+		({ payload }: {
+			payload: CreatePointDTO
+		}) => createUserPoint(payload),
+		{
+			onSuccess: (data, { payload }) => {
+				queryClient.invalidateQueries([QUERY_KEY, payload.user_id])
 			},
 		}
 	)

@@ -1,5 +1,5 @@
 import { supabase } from "@src/lib/supabase";
-import { normalizeRows } from "@src/utils/normalizeData";
+import { normalizeRows, takeFirstRow } from "@src/utils/normalizeData";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
 export const QUERY_KEY = 'USER_PLANTS';
@@ -44,7 +44,7 @@ export function useUserPlantsQuery(id: string | undefined) {
 	return hook;
 }
 
-export async function updateUserPlants(id: string, payload: Partial<Plant>): Promise<void> {
+export async function updateUserPlant(id: string, payload: Partial<Plant>): Promise<void> {
 	const { error } = await supabase
 		.from('plants')
 		.update({
@@ -60,17 +60,53 @@ export async function updateUserPlants(id: string, payload: Partial<Plant>): Pro
 	}
 }
 
-export function useUserPlantsMutation() {
+export function useUpdateUserPlantMutation() {
 	const queryClient = useQueryClient()
 
 	return useMutation(
 		({ id, payload }: {
 			id: string,
 			payload: Partial<Plant>
-		}) => updateUserPlants(id, payload),
+		}) => updateUserPlant(id, payload),
 		{
 			onSuccess: (data, { id }) => {
 				queryClient.invalidateQueries([QUERY_KEY, id])
+			},
+		}
+	)
+}
+
+export interface CreatePlantDTO {
+	user_id: string;
+	name?: string;
+	image_url?: string;
+	primary?: boolean;
+}
+
+export async function createUserPlant(payload: CreatePlantDTO): Promise<Plant> {
+	const { data, error } = await supabase
+		.from('plant')
+		.insert(payload)
+		.select()
+		.single();
+
+	if (error) {
+		throw error;
+	}
+
+	return takeFirstRow(data);
+}
+
+export function useCreateUserPlantMutation() {
+	const queryClient = useQueryClient()
+
+	return useMutation(
+		({ payload }: {
+			payload: CreatePlantDTO
+		}) => createUserPlant(payload),
+		{
+			onSuccess: (data, { payload }) => {
+				queryClient.invalidateQueries([QUERY_KEY, payload.user_id])
 			},
 		}
 	)
