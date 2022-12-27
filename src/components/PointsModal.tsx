@@ -13,6 +13,21 @@ const styles = StyleSheet.create({
 		width: '100%',
 		height: 50,
 	},
+	deselectPoint: {
+		backgroundColor: Colors.WHITE,
+		borderColor: Colors.GREEN_PRIMARY,
+		borderStyle: 'solid',
+		borderWidth: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginTop: 22,
+		width: '100%',
+		height: 50,
+		marginBottom: 22,
+	},
+	deselectPointText: {
+		color: Colors.GREEN_PRIMARY,
+	},
 	centeredView: {
 		flex: 1,
 		justifyContent: 'center',
@@ -77,6 +92,11 @@ export default function PointsModal({ data, open, setOpen, setSelectedPoint, loa
 		setOpen(!open);
 	};
 
+	const handleRemovePoint = () => {
+		setSelectedPoint(null);
+		setOpen(!open);
+	};
+
 	const renderPointItem = ({ item }: RenderPointItemProps) => <PointItem handleSelectPoint={handleSelectPoint} item={item} />;
 
 	return (
@@ -96,6 +116,10 @@ export default function PointsModal({ data, open, setOpen, setSelectedPoint, loa
 					</Pressable>
 
 					<FlatList data={data} renderItem={renderPointItem} keyExtractor={(item: any) => item.id} />
+
+					<Button textStyle={styles.deselectPointText} onPress={() => handleRemovePoint()} fullWidth style={styles.deselectPoint}>
+						<Text>Remove point</Text>
+					</Button>
 
 					{loading && <Icon type={IconType.LOADING} />}
 
