@@ -1,8 +1,7 @@
 /* eslint-disable react-native/no-color-literals */
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, TextInput, Pressable, Alert, Text } from 'react-native';
+import { StyleSheet, View, Image, TextInput, Pressable, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { supabase } from '@src/lib/supabase';
 
 // Components
 import Txt from '@src/components/Txt';
@@ -14,13 +13,14 @@ import Icon, { IconType } from '@src/components/Icon';
 import Colors from '@src/config/colors';
 import { containerStyles, typography } from '@src/styles/generalStyles';
 import Variables from '@src/config/variables';
-import { normalizeRows } from '@src/utils/normalizeData';
 import { getImageUrl } from '@src/utils/getImageUrl';
 import { uploadImage } from '@src/utils/uploadImage';
 import { useAppContext } from '@src/components/providers/appContext';
 
 // Types
-import { PointToClaim } from '@src/types/supabase';
+import { usePointToClaimQuery } from '@src/data/point-to-claim';
+import { useCreateUserPostsMutation } from '@src/data/user-posts';
+import { useCreateUserPointsMutation } from '@src/data/user-points';
 
 const styles = StyleSheet.create({
 	container: {
@@ -88,31 +88,39 @@ const styles = StyleSheet.create({
 export default function PostScreen() {
 	const [selectedImage, setSelectedImage] = useState('');
 	const [selectedImageId, setSelectedImageId] = useState('');
-	const [loading, setLoading] = useState(false);
 	const [postDescription, setPostDescription] = useState('');
-	const [pointsData, setPointsData] = useState<PointToClaim[]>([]);
+	const { isLoading, data: pointsData } = usePointToClaimQuery();
 	const [modalVisible, setModalVisible] = useState(false);
-	const [selectedPoint, setSelectedPoint] = useState(null);
+	const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
 	const selectedPointData = pointsData?.find((item) => item.id === selectedPoint);
 	const { session } = useAppContext();
+	const createPostMutation = useCreateUserPostsMutation();
+	const createPointMutation = useCreateUserPointsMutation();
 
 	const createPost = async () => {
 		const imageUrl = await getImageUrl(selectedImageId);
 
 		// Create post
-		const { error } = await supabase.from('post').insert({
-			id: 55, // @TODO fix supabase not generating serial ids or use uuid
-			title: 'Post test',
-			description: postDescription,
-			user_id: session?.user.id,
-			image_url: imageUrl,
+		const post = await createPostMutation.mutateAsync({
+			id: session?.user.id as string,
+			payload: {
+				title: 'Post test',
+				description: postDescription,
+				user_id: session?.user.id as string,
+				image_url: imageUrl,
+			}
 		});
 
-		if (error) {
-			throw error;
+		if (selectedPoint) {
+			await createPointMutation.mutateAsync({
+				payload: {
+					post_id: post.id,
+					claimed_at: new Date().toISOString(),
+					claimed_point_id: selectedPoint,
+					user_id: session?.user.id as string,
+				},
+			});
 		}
-
-		//  @TODO claim point
 	};
 
 	const openImageLibrary = async () => {
@@ -153,38 +161,6 @@ export default function PostScreen() {
 		setSelectedImage('');
 	};
 
-	async function getPointsToClaim() {
-		setModalVisible(true);
-		try {
-			setLoading(true);
-			const { data, error } = await supabase.from('point_to_claim').select(
-				`
-					id,
-					title,
-					type,
-					amount
-				`,
-			);
-
-			if (error) {
-				throw error;
-			}
-
-			if (data) {
-				const pointsToClaim = normalizeRows(data).filter((e) => !!e?.id);
-				setPointsData(pointsToClaim);
-			}
-		} catch (error) {
-			if (error instanceof Error) {
-				Alert.alert(error.message);
-			} else {
-				throw error;
-			}
-		} finally {
-			setLoading(false);
-		}
-	}
-
 	return (
 		<View style={[styles.container, containerStyles.padding]}>
 			<View style={styles.section}>
@@ -193,12 +169,12 @@ export default function PostScreen() {
 			<View style={styles.section}>
 				<Txt style={typography.uppercaseBig}>Points (optional)</Txt>
 				{!selectedPoint && (
-					<SecondaryButton onPress={getPointsToClaim} style={styles.button} icon="plus">
+					<SecondaryButton onPress={() => setModalVisible(true)} style={styles.button} icon="plus">
 						Select points
 					</SecondaryButton>
 				)}
 				{selectedPoint && (
-					<SecondaryButton onPress={getPointsToClaim} style={styles.selectedButton}>
+					<SecondaryButton onPress={() => setModalVisible(true)} style={styles.selectedButton}>
 						{selectedPointData?.title}
 					</SecondaryButton>
 				)}
@@ -227,7 +203,7 @@ export default function PostScreen() {
 			<Pressable onPress={createPost}>
 				<Text>Create post</Text>
 			</Pressable>
-			<PointsModal loading={loading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
+			<PointsModal loading={isLoading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
 		</View>
 	);
 }
