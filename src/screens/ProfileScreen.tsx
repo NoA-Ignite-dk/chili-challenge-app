@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Alert, StyleSheet, View, FlatList, Image, useWindowDimensions, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { TabView, SceneMap, TabBar, SceneRendererProps, NavigationState } from 'react-native-tab-view';
+import { TabView, SceneMap, TabBar, SceneRendererProps, NavigationState, Route } from 'react-native-tab-view';
 import { containerStyles } from '@src/styles/generalStyles'
-
 
 // Components
 import Button from '@src/components/buttons/PrimaryButton';
@@ -15,9 +14,12 @@ import { AllRoutesNavigationProp } from '@src/types/navigation';
 import { ROUTES } from '@src/config/routes';
 import Icon, { IconType } from '@src/components/Icon';
 import { useAppContext } from '@src/components/providers/appContext';
-import { normalizeRows, takeFirstRow } from '@src/utils/normalizeData';
 import ProfileCard from '@src/components/ProfileCard';
 import { ProfileImage } from '@src/components/ProfileImage';
+import { useUserProfileQuery } from '@src/data/user-profile';
+import { useUserPlantsQuery, useUserPlantsMutation } from '@src/data/user-plants';
+import { useUserPostsQuery } from '@src/data/user-posts';
+import { useUserPointsQuery } from '@src/data/user-points';
 
 const styles = StyleSheet.create({
 	postItemContainer: {
@@ -25,7 +27,6 @@ const styles = StyleSheet.create({
 		minWidth: "100%",
 		marginTop: 10,
 		backgroundColor: Colors.WHITE
-
 	},
 	container: {
 		minHeight: 170,
@@ -65,14 +66,12 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		marginHorizontal: 15,
 		paddingVertical: 15,
-
 	},
 	item: {
 		flexDirection: "row",
 		alignItems: "center",
 		flexBasis: 100,
 		flexGrow: 1
-
 	},
 	item3: {
 		justifyContent: "flex-end"
@@ -100,14 +99,25 @@ const renderPostItem = ({ item }: { item: Post }) => (
 export default function ProfileScreen() {
 	const [loading, setLoading] = useState(false);
 	const navigation = useNavigation<AllRoutesNavigationProp>();
-	const { session, fullName } = useAppContext();
-	const [totalPointState, setTotalPointState] = useState<number>(0);
-	const [postCountState, setPostCountState] = useState<number>(0);
-	const [postState, setPostState] = useState<Post[]>([]);
-	const [plantState, setPlantState] = useState<Plant[]>([]);
+	const { session } = useAppContext();
+	const { data: profileData } = useUserProfileQuery(session?.user.id);
+	const { data: pointsData } = useUserPointsQuery(session?.user.id);
+	const { data: plantState } = useUserPlantsQuery(session?.user.id);
+	const plantsMutation = useUserPlantsMutation();
+	const { data: postState } = useUserPostsQuery(session?.user.id);
 	const layout = useWindowDimensions();
 	const [index, setIndex] = React.useState(0);
-	const hasPrimaryPlant = plantState.some((plant) => plant.primary);
+
+	const hasPrimaryPlant = (plantState || [])
+		.some((plant) => plant.primary);
+
+	const postCount = (postState || []).length;
+
+	const totalPointState = (pointsData || [])
+		.reduce(
+			(col, e) => col + (e.point_to_claim?.amount || 0),
+			0,
+		);
 
 	const [routes] = React.useState([
 		{ key: 'allPosts', title: 'Posts' },
@@ -115,100 +125,8 @@ export default function ProfileScreen() {
 		{ key: 'claimedPointsList', title: 'Claimed points list' },
 	]);
 
-	useEffect(() => {
-		if (session) {
-			getProfile();
-			getPosts();
-			getPlants();
-
-		}
-	}, [session])
-
-	async function getPosts() {
-		try {
-			setLoading(true)
-
-			const { data, error } = await supabase
-				.from('post')
-				.select(`
-					id,
-					title,
-					image_url
-				`)
-				.eq('user_id', session?.user.id)
-
-			if (error) {
-				throw error;
-			}
-
-			if (data) {
-
-				const posts = normalizeRows(data)
-					.filter((e) => !!e?.id)
-
-				setPostState(posts);
-			}
-		} catch (error) {
-			if (error instanceof Error) {
-				Alert.alert(error.message)
-			} else {
-				// eslint-disable-next-line no-console
-				console.error('Error', error);
-			}
-		} finally {
-			setLoading(false)
-		}
-	}
-
-	async function getPlants() {
-		try {
-			setLoading(true)
-
-			const { data, error } = await supabase
-				.from('plant')
-				.select(`
-					id,
-					name,
-					image_url,
-					primary
-				`)
-				.eq('user_id', session?.user.id)
-				.order('id', { ascending: true })
-
-			if (error) {
-				throw error;
-			}
-
-			if (data) {
-
-				const plants = normalizeRows(data)
-					.filter((e) => !!e?.id)
-
-				setPlantState(plants);
-			}
-		} catch (error) {
-			if (error instanceof Error) {
-				Alert.alert(error.message)
-			} else {
-				// eslint-disable-next-line no-console
-				console.error('Error', error);
-			}
-		} finally {
-			setLoading(false)
-		}
-	}
-
 	const setPrimary = async (item: Plant) => {
-		const { error } = await supabase
-			.from('plant')
-			.update({ primary: true })
-			.eq('id', item.id);
-
-		if (error) {
-			throw error;
-		}
-
-		await getPlants();
+		plantsMutation.mutate({ id: item.id, payload: { primary: true } });
 	};
 
 	const renderPlant = ({ item }: { item: Plant }) => (
@@ -235,65 +153,6 @@ export default function ProfileScreen() {
 			</View>
 		</View >
 	)
-
-	async function getProfile() {
-		try {
-			setLoading(true)
-
-			const { data, error } = await supabase
-				.from('profiles')
-				.select(`
-					post (
-						id,
-						title
-					),
-					point (
-						point_to_claim (
-							amount
-						)
-					)
-				`)
-				.eq('id', session?.user.id)
-				.limit(1)
-				.single();
-
-			if (error) {
-				throw error;
-			}
-
-			if (data) {
-				const totalPoints = normalizeRows(data.point).reduce((amount, e) => {
-					if (!e) {
-						return amount;
-					}
-
-					const claim = takeFirstRow(e.point_to_claim);
-
-					if (!claim) {
-						return amount;
-					}
-
-					return amount + (claim.amount as number);
-				}, 0);
-
-				const postCount = normalizeRows(data.post)
-					.filter((e) => !!e?.id)
-					.length;
-
-				setTotalPointState(totalPoints)
-				setPostCountState(postCount)
-			}
-		} catch (error) {
-			if (error instanceof Error) {
-				Alert.alert(error.message)
-			} else {
-				// eslint-disable-next-line no-console
-				console.error('Error', error);
-			}
-		} finally {
-			setLoading(false)
-		}
-	}
 
 	async function logout() {
 		setLoading(true);
@@ -326,10 +185,7 @@ export default function ProfileScreen() {
 		</View>
 	);
 
-	const getTabBarIcon = (props: any) => {
-		const { route } = props
-
-		// eslint-disable-next-line default-case
+	const getTabBarIcon = ({ route }: { route: Route }) => {
 		switch (route.key) {
 			case 'allPosts':
 				return <Icon type={IconType.PROFILE_POSTS} />
@@ -337,6 +193,8 @@ export default function ProfileScreen() {
 				return <Icon type={IconType.PROFILE_POSTS} />
 			case 'claimedPointsList':
 				return <Icon type={IconType.PROFILE_CLAIMED_POINTS} />
+			default:
+				return null;
 		}
 	}
 
@@ -366,7 +224,7 @@ export default function ProfileScreen() {
 	return (
 		<>
 			<View style={styles.container}>
-				<ProfileCard name={fullName} points={totalPointState} posts={postCountState} imageSource={require('../../assets/images/chiliplant.jpg')}></ProfileCard>
+				<ProfileCard name={profileData?.fullName || ''} points={totalPointState} posts={postCount} imageSource={require('../../assets/images/chiliplant.jpg')} />
 				<Button onPress={() => navigation.navigate(ROUTES.EDIT_PROFILE)}>
 					Edit profile <Icon type={IconType.EDIT} />
 				</Button>
