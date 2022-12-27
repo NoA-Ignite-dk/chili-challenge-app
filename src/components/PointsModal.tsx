@@ -70,7 +70,7 @@ type Props = {
 	data: any;
 	open: boolean;
 	setOpen: (arg: boolean) => void;
-	setSelectedPoint: (pointId: number) => void;
+	setSelectedPoint: (pointId: number | null) => void;
 	loading: boolean;
 };
 
