@@ -4,6 +4,7 @@ import React from 'react';
 import { Alert, FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import Button from './buttons/PrimaryButton';
 import Icon, { IconType } from './Icon';
+import Txt from './Txt';
 
 const styles = StyleSheet.create({
 	pointItem: {
@@ -51,14 +52,17 @@ const styles = StyleSheet.create({
 		elevation: 5,
 		backgroundColor: Colors.WHITE,
 	},
-	closeButton: {
-		alignSelf: 'flex-end',
-	},
-	closeText: {
+	// closeButton: {
+	// 	alignSelf: 'flex-end',
+	// },
+	closeTextContainer: {
 		alignSelf: 'baseline',
-		marginBottom: 30,
+		marginBottom: 36,
 		marginLeft: 'auto',
 		marginRight: 'auto',
+	},
+	closeText: {
+		fontSize: 18,
 	},
 });
 
@@ -111,9 +115,9 @@ export default function PointsModal({ data, open, setOpen, setSelectedPoint, loa
 		>
 			<View style={styles.centeredView}>
 				<View style={styles.modalView}>
-					<Pressable style={styles.closeButton} onPress={() => setOpen(!open)}>
+					{/* <Pressable style={styles.closeButton} onPress={() => setOpen(!open)}>
 						<Icon width={32} height={32} type={IconType.CLOSE} />
-					</Pressable>
+					</Pressable> */}
 
 					<FlatList data={data} renderItem={renderPointItem} keyExtractor={(item: any) => item.id} />
 
@@ -123,8 +127,8 @@ export default function PointsModal({ data, open, setOpen, setSelectedPoint, loa
 
 					{loading && <Icon type={IconType.LOADING} />}
 
-					<Pressable style={styles.closeText} onPress={() => setOpen(!open)}>
-						<Text>Close</Text>
+					<Pressable style={styles.closeTextContainer} onPress={() => setOpen(!open)}>
+						<Txt style={styles.closeText}>Close</Txt>
 					</Pressable>
 				</View>
 			</View>
