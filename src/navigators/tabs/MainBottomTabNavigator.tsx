@@ -13,8 +13,6 @@ import ScoreboardScreen from '@src/screens/ScoreboardScreen';
 import PostScreen from '@src/screens/PostScreen';
 import InformationScreen from '@src/screens/InformationScreen';
 import Icon, { IconType } from '@src/components/Icon';
-import Txt from '@src/components/Txt';
-import { typography } from '@src/styles/generalStyles';
 import { AppProvider } from '@src/components/providers/appContext';
 import ProfileStack from '../stacks/ProfileStack';
 
