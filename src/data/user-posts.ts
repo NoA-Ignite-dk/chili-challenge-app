@@ -1,12 +1,13 @@
 import { supabase } from "@src/lib/supabase";
-import { normalizeRows } from "@src/utils/normalizeData";
+import { normalizeRows, takeFirstRow } from "@src/utils/normalizeData";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
 export const QUERY_KEY = 'USER_POSTS';
 
 export interface Post {
-	id: string;
+	id: number;
 	title: string;
+	description: string;
 	image_url: string;
 }
 
@@ -16,6 +17,7 @@ export async function getUserPosts(id: string): Promise<Post[]> {
 		.select(`
 			id,
 			title,
+			description,
 			image_url
 		`)
 		.eq('user_id', id)
@@ -58,7 +60,7 @@ export async function updateUserPosts(id: string, payload: Partial<Post>): Promi
 	}
 }
 
-export function useUserPostsMutation() {
+export function useUpdateUserPostsMutation() {
 	const queryClient = useQueryClient()
 
 	return useMutation(
@@ -66,6 +68,36 @@ export function useUserPostsMutation() {
 			id: string,
 			payload: Partial<Post>
 		}) => updateUserPosts(id, payload),
+		{
+			onSuccess: (data, { id }) => {
+				queryClient.invalidateQueries([QUERY_KEY, id])
+			},
+		}
+	)
+}
+
+export async function createUserPost(payload: Omit<Post, 'id'> & { user_id: string } ): Promise<Post> {
+	const { data, error } = await supabase
+		.from('post')
+		.insert(payload)
+		.select()
+		.single();
+
+	if (error) {
+		throw error;
+	}
+
+	return takeFirstRow(data);
+}
+
+export function useCreateUserPostsMutation() {
+	const queryClient = useQueryClient()
+
+	return useMutation(
+		({ payload }: {
+			id: string,
+			payload: Omit<Post, 'id'> & { user_id: string }
+		}) => createUserPost(payload),
 		{
 			onSuccess: (data, { id }) => {
 				queryClient.invalidateQueries([QUERY_KEY, id])

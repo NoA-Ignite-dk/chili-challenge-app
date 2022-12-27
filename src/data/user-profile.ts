@@ -1,4 +1,5 @@
 import { supabase } from "@src/lib/supabase";
+import { takeFirstRow } from "@src/utils/normalizeData";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
 export const QUERY_KEY = 'USER_PROFILE';
@@ -38,8 +39,8 @@ export function useUserProfileQuery(id?: string) {
 	return hook;
 }
 
-export async function updateUserProfile(id: string, { fullName, profilePicture }: Profile): Promise<void> {
-	const { error } = await supabase
+export async function updateUserProfile(id: string, { fullName, profilePicture }: Profile): Promise<Profile> {
+	const { data, error } = await supabase
 		.from('profiles')
 		.update({
 			full_name: fullName,
@@ -48,11 +49,15 @@ export async function updateUserProfile(id: string, { fullName, profilePicture }
 		})
 		.match({
 			id,
-		});
+		})
+		.select()
+		.single();
 
 	if (error) {
 		throw error;
 	}
+
+	return takeFirstRow(data);
 }
 
 export function useUserProfileMutation() {

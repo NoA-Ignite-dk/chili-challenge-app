@@ -3,17 +3,15 @@ import { View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from 'react-query'
 
 // Config
 import { loadFonts } from '@src/config/fonts';
 import { containerStyles } from '@src/styles/generalStyles';
 
 // Navigators
+import { queryClient } from '@src/lib/reactQuery';
 import AppNavigator from './src/navigators/AppNavigator';
-
- // Create a client
- const queryClient = new QueryClient()
 
 export default function App() {
 	const [appIsReady, setAppIsReady] = useState(false);
