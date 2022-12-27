@@ -1,5 +1,5 @@
 import { ProfileImage } from '@src/components/ProfileImage';
-import { AppProvider, useAppContext } from '@src/components/providers/appContext';
+import { useAppContext } from '@src/components/providers/appContext';
 import { containerStyles } from '@src/styles/generalStyles';
 import { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -47,24 +47,22 @@ export default function EditProfileScreen() {
 	}
 
 	return (
-		<AppProvider>
-			<View style={[containerStyles.container, containerStyles.padding]}>
-				<View style={styles.imageContainer}>
-					<ProfileImage imageSource={{ uri: profilePicture }} size={"xlarge"}></ProfileImage>
-				</View>
-				<View style={styles.verticallySpaced}>
-					<Input autoComplete={'name'} label="Full Name" value={fullName || ''} onChangeText={(text) => setFullName(text)} />
-				</View>
-
-				<View style={[styles.verticallySpaced, styles.mt20]}>
-					<Button onPress={() => updateProfile({ fullName, profilePicture })}>
-						{(isLoading || profileMutation.isLoading)
-							? <Icon type={IconType.LOADING} />
-							: 'Update'
-						}
-					</Button>
-				</View>
+		<View style={[containerStyles.container, containerStyles.padding]}>
+			<View style={styles.imageContainer}>
+				<ProfileImage imageSource={{ uri: profilePicture }} size={"xlarge"}></ProfileImage>
 			</View>
-		</AppProvider>
+			<View style={styles.verticallySpaced}>
+				<Input autoComplete={'name'} label="Full Name" value={fullName || ''} onChangeText={(text) => setFullName(text)} />
+			</View>
+
+			<View style={[styles.verticallySpaced, styles.mt20]}>
+				<Button onPress={() => updateProfile({ fullName, profilePicture })}>
+					{(isLoading || profileMutation.isLoading)
+						? <Icon type={IconType.LOADING} />
+						: 'Update'
+					}
+				</Button>
+			</View>
+		</View>
 	);
 }
