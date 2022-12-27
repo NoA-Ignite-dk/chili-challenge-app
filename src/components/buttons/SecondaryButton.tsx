@@ -51,7 +51,6 @@ type Props = {
 	loading?: boolean;
 	textStyle?: TextStyle;
 	icon?: 'plus' | 'none';
-	filled?: boolean;
 };
 
 const SecondaryButton = ({ disabled = false, onPress, children, loading = false, style, textStyle, icon = 'none', ...props }: Props) => {
