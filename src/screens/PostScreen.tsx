@@ -21,6 +21,7 @@ import { useAppContext } from '@src/components/providers/appContext';
 
 // Types
 import { PointToClaim } from '@src/types/supabase';
+import Button from '@src/components/buttons/PrimaryButton';
 
 const styles = StyleSheet.create({
 	container: {
@@ -44,6 +45,8 @@ const styles = StyleSheet.create({
 	selectedButton: {
 		marginTop: 16,
 		backgroundColor: Colors.GREEN_PRIMARY,
+	},
+	selectedButtonText: {
 		color: Colors.WHITE,
 	},
 	imageContainer: {
@@ -100,19 +103,35 @@ export default function PostScreen() {
 		const imageUrl = await getImageUrl(selectedImageId);
 
 		// Create post
-		const { error } = await supabase.from('post').insert({
-			id: 55, // @TODO fix supabase not generating serial ids or use uuid
-			title: 'Post test',
-			description: postDescription,
-			user_id: session?.user.id,
-			image_url: imageUrl,
-		});
+		const { data, error } = await supabase
+			.from('post')
+			.insert({
+				title: 'Post test',
+				description: postDescription,
+				user_id: session?.user.id,
+				image_url: imageUrl,
+			})
+			.select();
 
 		if (error) {
 			throw error;
 		}
 
-		//  @TODO claim point
+		//  Claim point
+		if (selectedPoint) {
+			const { error } = await supabase.from('point').insert({
+				post_id: data[0].id,
+				user_id: session?.user.id,
+				claimed_point_id: selectedPoint,
+			});
+
+			if (error) {
+				throw error;
+			}
+		}
+
+		// eslint-disable-next-line no-alert
+		alert('Post created!');
 	};
 
 	const openImageLibrary = async () => {
@@ -142,10 +161,14 @@ export default function PostScreen() {
 			return;
 		}
 
-		const result = await ImagePicker.launchCameraAsync();
+		const result = await ImagePicker.launchCameraAsync({
+			base64: true,
+		});
 
 		if (!result.cancelled) {
 			setSelectedImage(result.uri);
+			const imageId = await uploadImage(result);
+			setSelectedImageId(imageId);
 		}
 	};
 
@@ -198,7 +221,7 @@ export default function PostScreen() {
 					</SecondaryButton>
 				)}
 				{selectedPoint && (
-					<SecondaryButton onPress={getPointsToClaim} style={styles.selectedButton}>
+					<SecondaryButton onPress={getPointsToClaim} style={styles.selectedButton} textStyle={styles.selectedButtonText}>
 						{selectedPointData?.title}
 					</SecondaryButton>
 				)}
@@ -224,9 +247,9 @@ export default function PostScreen() {
 					</View>
 				)}
 			</View>
-			<Pressable onPress={createPost}>
+			<Button onPress={createPost}>
 				<Text>Create post</Text>
-			</Pressable>
+			</Button>
 			<PointsModal loading={loading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
 		</View>
 	);
