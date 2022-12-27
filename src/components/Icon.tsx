@@ -9,10 +9,14 @@ export enum IconType {
 	INFORMATION = 'information',
 	PROFILE = 'profile',
 	LOADING = 'loading',
+	PLUS = 'plus',
+	CAMERA = 'camera',
+	UPLOAD = 'upload',
+	CLOSE = 'close',
 	PROFILE_POSTS = 'profile_posts',
 	// PROFILE_PLANTS = 'profile_plants',
 	PROFILE_CLAIMED_POINTS = 'profile_claimed_points',
-	EDIT = 'edit'
+	EDIT = 'edit',
 }
 
 const IconConfig = {
@@ -137,6 +141,46 @@ const IconConfig = {
 			</Path>
 		),
 	},
+	[IconType.PLUS]: {
+		viewBox: '20 20',
+		definition: <Path stroke="#01CC8F" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10 3.333v13.334M16.667 10H3.333" />,
+	},
+	[IconType.CAMERA]: {
+		viewBox: '24 24',
+		definition: (
+			<>
+				<Path
+					stroke="#000"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					strokeWidth="1.5"
+					d="M2 19V9a2 2 0 012-2h.5a2 2 0 001.6-.8l2.22-2.96A.6.6 0 018.8 3h6.4a.6.6 0 01.48.24L17.9 6.2a2 2 0 001.6.8h.5a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2z"
+				/>
+				<Path stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 17a4 4 0 100-8 4 4 0 000 8z" />
+			</>
+		),
+	},
+	[IconType.UPLOAD]: {
+		viewBox: '24 24',
+		definition: (
+			<>
+				<Path stroke="#000" strokeWidth="1.5" d="M3 20.4V3.6a.6.6 0 01.6-.6h16.8a.6.6 0 01.6.6v16.8a.6.6 0 01-.6.6H3.6a.6.6 0 01-.6-.6z" />
+				<Path stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18h12M12 14V6m0 0l3.5 3.5M12 6L8.5 9.5" />
+			</>
+		),
+	},
+	[IconType.CLOSE]: {
+		viewBox: '24 24',
+		definition: (
+			<Path
+				stroke="#000"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth="1.5"
+				d="M6.757 17.243L12 12m5.243-5.243L12 12m0 0L6.757 6.757M12 12l5.243 5.243"
+			/>
+		),
+	},
 	[IconType.PROFILE_CLAIMED_POINTS]: {
 		viewBox: '24 24',
 		definition: (
@@ -146,25 +190,29 @@ const IconConfig = {
 					stroke="#36354A"
 					stroke-width="1.5"
 					stroke-linecap="round"
-					stroke-linejoin="round" />
+					stroke-linejoin="round"
+				/>
 				<Path
 					d="M17.3132 3.99997C17.3132 3.99997 18.2344 3.0173 19 2.99996C20.5 2.966 20.7773 3.99997 20.7773 3.99997C21.0709 4.6095 21.3057 6.19426 19.8967 7.65712C18.4876 9.11997 16.9103 10.4 16.2684 10.8571"
 					stroke="#36354A"
 					stroke-width="1.5"
 					stroke-linecap="round"
-					stroke-linejoin="round" />
+					stroke-linejoin="round"
+				/>
 				<Path
 					d="M6.74527 3.99998C6.74527 3.99998 5.78547 3.00611 4.99995 2.99998C3.49995 2.98827 3.22264 3.99998 3.22264 3.99998C2.92908 4.6095 2.69424 6.19426 4.1033 7.65712C5.51235 9.11998 7.14823 10.4 7.79004 10.8571"
 					stroke="#36354A"
 					stroke-width="1.5"
 					stroke-linecap="round"
-					stroke-linejoin="round" />
+					stroke-linejoin="round"
+				/>
 				<Path
 					d="M8.50662 20C8.50662 18.1714 12.0292 17.2571 12.0292 17.2571C12.0292 17.2571 15.5519 18.1714 15.5519 20H8.50662Z"
 					stroke="#36354A"
 					stroke-width="1.5"
 					stroke-linecap="round"
-					stroke-linejoin="round" />
+					stroke-linejoin="round"
+				/>
 			</>
 		),
 	},
@@ -179,13 +227,9 @@ const IconConfig = {
 					stroke="#36354A"
 					stroke-width="1.5"
 					stroke-linecap="round"
-					stroke-linejoin="round" />
-				<Path
-					d="M7.481 14.463H16.216"
-					stroke="#36354A"
-					stroke-width="1.5"
-					stroke-linecap="round"
-					stroke-linejoin="round" />
+					stroke-linejoin="round"
+				/>
+				<Path d="M7.481 14.463H16.216" stroke="#36354A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 			</>
 		),
 	},
@@ -193,12 +237,7 @@ const IconConfig = {
 		viewBox: '28 28',
 		definition: (
 			<>
-				<Path
-					d="M13.7474 20.4429H21"
-					stroke="white"
-					stroke-width="1.5"
-					stroke-linecap="round"
-					stroke-linejoin="round" />
+				<Path d="M13.7474 20.4429H21" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 				<Path
 					fill-rule="evenodd"
 					clip-rule="evenodd"
@@ -206,13 +245,9 @@ const IconConfig = {
 					stroke="white"
 					stroke-width="1.5"
 					stroke-linecap="round"
-					stroke-linejoin="round" />
-				<Path
-					d="M11.0208 6.00092L16.4731 10.188"
-					stroke="white"
-					stroke-width="1.5"
-					stroke-linecap="round"
-					stroke-linejoin="round" />
+					stroke-linejoin="round"
+				/>
+				<Path d="M11.0208 6.00092L16.4731 10.188" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 			</>
 		),
 	},

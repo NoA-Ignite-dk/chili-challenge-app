@@ -1,6 +1,5 @@
-import { StyleSheet } from 'react-native';
 import Colors from '@src/config/colors';
-// Config
+import { StyleSheet } from 'react-native';
 
 export const typography = StyleSheet.create({
 	h1: {
@@ -14,16 +13,25 @@ export const typography = StyleSheet.create({
 	h3: {
 		fontWeight: '100',
 	},
+	uppercaseBig: {
+		fontSize: 12,
+		textTransform: 'uppercase',
+		color: Colors.TEXT_60,
+	},
 	largeTitle: {
 		fontSize: 60,
 		fontWeight: '600',
+	},
+	headerTitle: {
+		fontSize: 16,
+		color: Colors.GREEN_PRIMARY,
 	},
 });
 
 export const containerStyles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: Colors.WHITE
+		backgroundColor: Colors.WHITE,
 	},
 	padding: {
 		padding: 15,
