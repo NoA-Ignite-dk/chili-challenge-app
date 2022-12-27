@@ -1,7 +1,5 @@
 import Colors from '@src/config/colors';
 import { StyleSheet } from 'react-native';
-import Colors from '@src/config/colors';
-// Config
 
 export const typography = StyleSheet.create({
 	h1: {
@@ -33,7 +31,7 @@ export const typography = StyleSheet.create({
 export const containerStyles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: Colors.WHITE
+		backgroundColor: Colors.WHITE,
 	},
 	padding: {
 		padding: 15,
