@@ -21,7 +21,6 @@ import { useAppContext } from '@src/components/providers/appContext';
 import { usePointToClaimQuery } from '@src/data/point-to-claim';
 import { useCreateUserPostsMutation } from '@src/data/user-posts';
 import { useCreateUserPointsMutation } from '@src/data/user-points';
-import { PointToClaim } from '@src/types/supabase';
 
 const styles = StyleSheet.create({
 	container: {
