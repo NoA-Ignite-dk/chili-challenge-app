@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from 'react-query';
 
 // Config
 import { loadFonts } from '@src/config/fonts';
