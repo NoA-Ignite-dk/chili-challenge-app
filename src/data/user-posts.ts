@@ -1,12 +1,11 @@
-import { supabase } from "@src/lib/supabase";
-import { normalizeRows, takeFirstRow } from "@src/utils/normalizeData";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { supabase } from '@src/lib/supabase';
+import { normalizeRows, takeFirstRow } from '@src/utils/normalizeData';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 export const QUERY_KEY = 'USER_POSTS';
 
 export interface Post {
 	id: number;
-	title: string;
 	description: string;
 	image_url: string;
 }
@@ -14,12 +13,13 @@ export interface Post {
 export async function getUserPosts(id: string): Promise<Post[]> {
 	const { data, error } = await supabase
 		.from('post')
-		.select(`
+		.select(
+			`
 			id,
-			title,
 			description,
 			image_url
-		`)
+		`,
+		)
 		.eq('user_id', id)
 		.order('id', { ascending: true });
 
@@ -31,8 +31,7 @@ export async function getUserPosts(id: string): Promise<Post[]> {
 		throw new Error(`Unable to find posts for user id: ${id}`);
 	}
 
-	return normalizeRows(data)
-		.filter((e) => !!e?.id)
+	return normalizeRows(data).filter((e) => !!e?.id);
 }
 
 export function useUserPostsQuery(id: string | undefined) {
@@ -61,27 +60,17 @@ export async function updateUserPosts(id: string, payload: Partial<Post>): Promi
 }
 
 export function useUpdateUserPostsMutation() {
-	const queryClient = useQueryClient()
+	const queryClient = useQueryClient();
 
-	return useMutation(
-		({ id, payload }: {
-			id: string,
-			payload: Partial<Post>
-		}) => updateUserPosts(id, payload),
-		{
-			onSuccess: (data, { id }) => {
-				queryClient.invalidateQueries([QUERY_KEY, id])
-			},
-		}
-	)
+	return useMutation(({ id, payload }: { id: string; payload: Partial<Post> }) => updateUserPosts(id, payload), {
+		onSuccess: (data, { id }) => {
+			queryClient.invalidateQueries([QUERY_KEY, id]);
+		},
+	});
 }
 
-export async function createUserPost(payload: Omit<Post, 'id'> & { user_id: string } ): Promise<Post> {
-	const { data, error } = await supabase
-		.from('post')
-		.insert(payload)
-		.select()
-		.single();
+export async function createUserPost(payload: Omit<Post, 'id'> & { user_id: string }): Promise<Post> {
+	const { data, error } = await supabase.from('post').insert(payload).select().single();
 
 	if (error) {
 		throw error;
@@ -91,17 +80,11 @@ export async function createUserPost(payload: Omit<Post, 'id'> & { user_id: stri
 }
 
 export function useCreateUserPostsMutation() {
-	const queryClient = useQueryClient()
+	const queryClient = useQueryClient();
 
-	return useMutation(
-		({ payload }: {
-			id: string,
-			payload: Omit<Post, 'id'> & { user_id: string }
-		}) => createUserPost(payload),
-		{
-			onSuccess: (data, { id }) => {
-				queryClient.invalidateQueries([QUERY_KEY, id])
-			},
-		}
-	)
+	return useMutation(({ payload }: { id: string; payload: Omit<Post, 'id'> & { user_id: string } }) => createUserPost(payload), {
+		onSuccess: (data, { id }) => {
+			queryClient.invalidateQueries([QUERY_KEY, id]);
+		},
+	});
 }

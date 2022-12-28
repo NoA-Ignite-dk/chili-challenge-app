@@ -103,15 +103,24 @@ export default function PostScreen() {
 	const createPost = async () => {
 		const imageUrl = await getImageUrl(selectedImageId);
 
+		if (!selectedImage) {
+			alert('Please select an image or take a photo');
+			throw Error('No image selected');
+		}
+
+		if (!postDescription) {
+			alert('Please add a description');
+			throw Error('No description added');
+		}
+
 		// Create post
 		const post = await createPostMutation.mutateAsync({
 			id: session?.user.id as string,
 			payload: {
-				title: 'Post test',
 				description: postDescription,
 				user_id: session?.user.id as string,
 				image_url: imageUrl,
-			}
+			},
 		});
 
 		if (selectedPoint) {
