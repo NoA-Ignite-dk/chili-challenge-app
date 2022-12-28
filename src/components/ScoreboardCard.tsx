@@ -56,6 +56,9 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 
 	},
+	marginRight: {
+		marginLeft: 5
+	}
 
 });
 
@@ -67,25 +70,25 @@ export default function ScoreboardCard({ name, points, imageSource, placement, t
 			return (
 				<View style={styles.placement}>
 					<View style={styles.pointBackground}>
-						<Text style={typography.whiteText}> {points} </Text>
+						<Text style={[typography.whiteText, typography.bodySemibold]}> {points} </Text>
 					</View>
-					<ProfileImage imageSource={imageSource} size={"large"}></ProfileImage>
-					<Text style={typography.whiteText}>{name}</Text>
+					<ProfileImage imageSource={imageSource} size={"small"}></ProfileImage>
+					<Text style={[typography.whiteText, typography.h3]}>{name}</Text>
 				</View>
 			)
 		case 'otherPlacements':
 			return (
 				<View style={[containerStyles.container, styles.grid]}>
 					<View style={[styles.item, styles.item1]}>
-						<Text>{placement}</Text>
+						<Text style={typography.bodySecondary}>{placement}</Text>
 					</View>
 					<View style={[styles.item, styles.item2]}>
 						<ProfileImage imageSource={imageSource} size={"small"}></ProfileImage>
-						<Text> {name} </Text>
+						<Text style={[styles.marginRight, typography.h3]}> {name} </Text>
 					</View>
 					<View style={[styles.item, styles.item3]}>
 						<View style={styles.pointBackground}>
-							<Text style={typography.whiteText}> {points} </Text>
+							<Text style={[typography.whiteText, typography.bodySemibold]}> {points} </Text>
 						</View>
 					</View>
 				</View>

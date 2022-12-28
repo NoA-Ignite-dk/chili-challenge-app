@@ -46,7 +46,7 @@ export function useUserPlantsQuery(id: string | undefined) {
 
 export async function updateUserPlant(id: string, payload: Partial<Plant>): Promise<void> {
 	const { error } = await supabase
-		.from('plants')
+		.from('plant')
 		.update({
 			...payload,
 			updated_at: new Date(),

@@ -10,6 +10,7 @@ import { TabView, SceneMap, TabBar, SceneRendererProps, NavigationState } from '
 import Colors from '@src/config/colors';
 import InformationCard from '@src/components/InfoCard';
 import Button from '@src/components/buttons/PrimaryButton';
+import { typography } from '@src/styles/generalStyles';
 
 const RulesRoute = () => (
 	<View style={{ flex: 1, backgroundColor: Colors.WHITE }}>
@@ -54,7 +55,7 @@ const renderTabBar = (props: SceneRendererProps & {
 
 			return (
 				<Button style={{ backgroundColor: color, padding: 15, borderRadius:12  }}>
-					<Text style={{ textTransform: 'none', color: isActive ? Colors.WHITE : Colors.BLACK }}>{route.title}</Text>
+					<Text style={[{ textTransform: 'none', color: isActive ? Colors.WHITE : Colors.BLACK }, typography.bodySecondary]}>{route.title}</Text>
 				</Button>
 			);
 		}}
