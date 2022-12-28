@@ -14,18 +14,18 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: Colors.GREEN_PRIMARY,
+		marginBottom: 140
 	},
 	topContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'flex-end',
-		marginTop: 20
 	},
 	bottomContainer: {
 		width: '100%',
 		backgroundColor: Colors.WHITE,
 		borderRadius: 12,
-		height: 500
+		marginBottom: 140
 	},
 	firstPlacePole: {
 		height: 160,
