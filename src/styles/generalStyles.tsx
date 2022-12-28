@@ -26,6 +26,9 @@ export const typography = StyleSheet.create({
 		fontSize: 16,
 		color: Colors.GREEN_PRIMARY,
 	},
+	whiteText: {
+		color: Colors.WHITE
+	}
 });
 
 export const containerStyles = StyleSheet.create({

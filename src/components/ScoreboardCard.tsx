@@ -8,6 +8,7 @@ import { ProfileImage } from './ProfileImage';
 interface ScoreboardCardProps {
 	name: string;
 	points: number;
+	placement: number;
 	imageSource: ImageSourcePropType;
 }
 
@@ -55,11 +56,11 @@ const styles = StyleSheet.create({
 });
 
 
-export default function ScoreboardCard({ name, points, imageSource }: ScoreboardCardProps) {
+export default function ScoreboardCard({ name, points, imageSource, placement }: ScoreboardCardProps) {
 	return (
 		<View style={[containerStyles.container, styles.grid]}>
 			<View style={[styles.item, styles.item1]}>
-				<Text>4</Text>
+				<Text>{placement}</Text>
 			</View>
 			<View style={[styles.item, styles.item2]}>
 				<ProfileImage imageSource={imageSource} size={"small"}></ProfileImage>
