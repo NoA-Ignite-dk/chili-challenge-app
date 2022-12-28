@@ -8,7 +8,6 @@ import { containerStyles, typography } from '@src/styles/generalStyles'
 import Colors from '@src/config/colors';
 import ScoreboardCard from '@src/components/ScoreboardCard';
 import { UserWithPoints, useUsersWithPointsQuery } from '@src/data/users-with-points';
-import { ProfileImage } from '@src/components/ProfileImage';
 
 
 const styles = StyleSheet.create({
@@ -20,7 +19,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'flex-end',
-		marginTop: 60
+		marginTop: 20
 	},
 	bottomContainer: {
 		width: '100%',
@@ -48,12 +47,6 @@ const styles = StyleSheet.create({
 
 	},
 	placementContainer: {
-		justifyContent: "center",
-		alignItems: "center",
-
-	},
-	placement: {
-		marginBottom: 10,
 		justifyContent: "center",
 		alignItems: "center",
 
@@ -100,12 +93,13 @@ export default function ScoreboardScreen() {
 
 		})
 
-	function renderUserWithPoints({ item }: { item: UserWithPoints & { total: number , placement: number } }) {
+	function renderUserWithPoints({ item }: { item: UserWithPoints & { total: number, placement: number } }) {
 		return (
 			<ScoreboardCard
 				name={item.fullName}
 				points={item.total}
 				placement={item.placement}
+				type={'otherPlacements'}
 				imageSource={item.profilePicture
 					? { uri: item.profilePicture }
 					: require('../../assets/images/chiliplant.jpg')
@@ -118,28 +112,46 @@ export default function ScoreboardScreen() {
 		<View style={styles.container}>
 			<View style={styles.topContainer}>
 				<View style={styles.placementContainer}>
-					<View style={styles.placement}>
-						<ProfileImage imageSource={{ uri: second.profilePicture }} size={"large"}></ProfileImage>
-						<Text style={typography.whiteText}>{second.fullName}</Text>
-					</View>
+					<ScoreboardCard
+						name={second.fullName}
+						points={second.total}
+						placement={second.placement}
+						type={'firstToThirdPlace'}
+						imageSource={second.profilePicture
+							? { uri: second.profilePicture }
+							: require('../../assets/images/chiliplant.jpg')
+						}
+					/>
 					<View style={styles.secondPlacePole}>
 						<Text style={[styles.scoreboardNumbers, typography.whiteText]}>2</Text>
 					</View>
 				</View>
 				<View style={styles.placementContainer}>
-					<View style={styles.placement}>
-						<ProfileImage imageSource={{ uri: first.profilePicture }} size={"large"}></ProfileImage>
-						<Text style={typography.whiteText}>{first.fullName}</Text>
-					</View>
+					<ScoreboardCard
+						name={first.fullName}
+						points={first.total}
+						placement={first.placement}
+						type={'firstToThirdPlace'}
+						imageSource={first.profilePicture
+							? { uri: first.profilePicture }
+							: require('../../assets/images/chiliplant.jpg')
+						}
+					/>
 					<View style={styles.firstPlacePole}>
 						<Text style={[styles.scoreboardNumbers, typography.whiteText]}>1</Text>
 					</View>
 				</View>
 				<View style={styles.placementContainer}>
-					<View style={styles.placement}>
-						<ProfileImage imageSource={{ uri: third.profilePicture }} size={"large"}></ProfileImage>
-						<Text style={typography.whiteText}>{third.fullName}</Text>
-					</View>
+					<ScoreboardCard
+						name={third.fullName}
+						points={third.total}
+						placement={third.placement}
+						type={'firstToThirdPlace'}
+						imageSource={third.profilePicture
+							? { uri: third.profilePicture }
+							: require('../../assets/images/chiliplant.jpg')
+						}
+					/>
 					<View style={styles.thirdPlacePole}>
 						<Text style={[styles.scoreboardNumbers, typography.whiteText]}>3</Text>
 					</View>
