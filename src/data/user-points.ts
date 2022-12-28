@@ -2,6 +2,7 @@ import { supabase } from "@src/lib/supabase";
 import { normalizeRows, takeFirstRow } from "@src/utils/normalizeData";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { PointToClaim } from "./point-to-claim";
+import { QUERY_KEY as USERS_WITH_POINTS } from './users-with-points';
 
 export const QUERY_KEY = 'USER_POINTS';
 
@@ -80,6 +81,7 @@ export function useUpdateUserPointsMutation() {
 		{
 			onSuccess: (data, { id }) => {
 				queryClient.invalidateQueries([QUERY_KEY, id])
+				queryClient.invalidateQueries(USERS_WITH_POINTS)
 			},
 		}
 	)
@@ -116,6 +118,7 @@ export function useCreateUserPointsMutation() {
 		{
 			onSuccess: (data, { payload }) => {
 				queryClient.invalidateQueries([QUERY_KEY, payload.user_id])
+				queryClient.invalidateQueries(USERS_WITH_POINTS)
 			},
 		}
 	)
