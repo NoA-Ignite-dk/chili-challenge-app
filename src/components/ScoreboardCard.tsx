@@ -30,16 +30,16 @@ const styles = StyleSheet.create({
 	},
 
 	item1: {
-		minWidth: 20,
-		maxWidth: 20,
+		minWidth: "5%",
+		maxWidth: "5%",
 	},
 	item2: {
-		minWidth: 280,
-		maxWidth: 280,
+		minWidth: "67%",
+		maxWidth: "67%",
 	},
 	item3: {
-		minWidth: 90,
-		maxWidth: 90,
+		minWidth: "25%",
+		maxWidth: "25%",
 		justifyContent: "flex-end"
 	},
 	pointBackground: {
