@@ -1,10 +1,10 @@
 import { useAppContext } from "@src/components/providers/appContext";
 import Colors from "@src/config/colors";
 import { StyleSheet, View, FlatList, Text } from 'react-native';
-import { containerStyles } from '@src/styles/generalStyles'
+import { containerStyles, typography } from '@src/styles/generalStyles'
 import { Plant, useUpdateUserPlantMutation, useUserPlantsQuery } from "@src/data/user-plants";
 import { ProfileImage } from "@src/components/ProfileImage";
-import Button from '@src/components/buttons/PrimaryButton';
+import SecondaryButton from '@src/components/buttons/SecondaryButton';
 
 const styles = StyleSheet.create({
 	greenBackground: {
@@ -46,8 +46,7 @@ export function allPlantsTab() {
 	const hasPrimaryPlant = (plantState || [])
 		.some((plant) => plant.primary);
 
-
-	const setPrimary = async (item: Plant) => {
+	const setPrimary = (item: Plant) => {
 		plantsMutation.mutate({ id: item.id, payload: { primary: true } });
 	};
 
@@ -56,19 +55,19 @@ export function allPlantsTab() {
 			<View style={[containerStyles.container, styles.grid]}>
 				<View style={styles.item}>
 					<ProfileImage imageSource={{ uri: item.image_url }} size={"large"}></ProfileImage>
-					<Text> {item.name} </Text>
+					<Text style={typography.h3}> {item.name} </Text>
 				</View>
 				<View style={[styles.item, styles.item3]}>
 					{!hasPrimaryPlant && (
 						<View>
-							<Button onPress={() => setPrimary(item)}>Set as primary</Button>
+							<SecondaryButton onPress={() => setPrimary(item)} icon={"plus"}>Set as primary</SecondaryButton>
 						</View>
 					)}
 					{hasPrimaryPlant && (
 						<View>
 							{item.primary && (
 								<View style={styles.greenBackground}>
-									<Text style={styles.buttonText}>Primary</Text>
+									<Text style={[styles.buttonText, typography.uppercaseBig, typography.whiteText]}>Primary</Text>
 								</View>
 							)}
 						</View>

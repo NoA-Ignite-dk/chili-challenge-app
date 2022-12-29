@@ -41,10 +41,7 @@ export function usePointToClaimQuery() {
 export async function updatePointToClaim(id: string, payload: Partial<PointToClaim>): Promise<void> {
 	const { error } = await supabase
 		.from('points')
-		.update({
-			...payload,
-			updated_at: new Date(),
-		})
+		.update(payload)
 		.match({
 			id,
 		});
@@ -63,8 +60,8 @@ export function usePointToClaimMutation() {
 			payload: Partial<PointToClaim>
 		}) => updatePointToClaim(id, payload),
 		{
-			onSuccess: (data, { id }) => {
-				queryClient.invalidateQueries([QUERY_KEY, id])
+			onSuccess: () => {
+				queryClient.invalidateQueries(QUERY_KEY)
 			},
 		}
 	)

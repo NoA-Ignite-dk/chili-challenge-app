@@ -7,12 +7,12 @@ import { QUERY_KEY as USERS_WITH_POINTS } from './users-with-points';
 export const QUERY_KEY = 'USER_POINTS';
 
 export interface Point {
-	id: string;
+	id: number;
 	claimed_at: string;
 	point_to_claim: PointToClaim | null;
 }
 
-export async function getUserPoints(id: string): Promise<Point[]> {
+export async function getUserPoints(user_id: string): Promise<Point[]> {
 	const { data, error } = await supabase
 		.from('point')
 		.select(`
@@ -25,7 +25,7 @@ export async function getUserPoints(id: string): Promise<Point[]> {
 				amount
 			)
 		`)
-		.eq('user_id', id)
+		.eq('user_id', user_id)
 		.order('id', { ascending: true });
 
 	if (error) {
@@ -33,7 +33,7 @@ export async function getUserPoints(id: string): Promise<Point[]> {
 	}
 
 	if (!data) {
-		throw new Error(`Unable to find points for user id: ${id}`);
+		throw new Error(`Unable to find points for user id: ${user_id}`);
 	}
 
 	return normalizeRows(data)
@@ -45,10 +45,10 @@ export async function getUserPoints(id: string): Promise<Point[]> {
 		}) as Point[];
 }
 
-export function useUserPointsQuery(id: string | undefined) {
-	const hook = useQuery([QUERY_KEY, id], {
-		queryFn: () => getUserPoints(id as string),
-		enabled: !!id,
+export function useUserPointsQuery(user_id: string | undefined) {
+	const hook = useQuery(QUERY_KEY, {
+		queryFn: () => getUserPoints(user_id as string),
+		enabled: !!user_id,
 	});
 
 	return hook;
@@ -57,10 +57,7 @@ export function useUserPointsQuery(id: string | undefined) {
 export async function updateUserPoints(id: string, payload: Partial<Point>): Promise<void> {
 	const { error } = await supabase
 		.from('points')
-		.update({
-			...payload,
-			updated_at: new Date(),
-		})
+		.update(payload)
 		.match({
 			id,
 		});
@@ -79,8 +76,8 @@ export function useUpdateUserPointsMutation() {
 			payload: Partial<Point>
 		}) => updateUserPoints(id, payload),
 		{
-			onSuccess: (data, { id }) => {
-				queryClient.invalidateQueries([QUERY_KEY, id])
+			onSuccess: () => {
+				queryClient.invalidateQueries(QUERY_KEY)
 				queryClient.invalidateQueries(USERS_WITH_POINTS)
 			},
 		}
@@ -116,8 +113,8 @@ export function useCreateUserPointsMutation() {
 			payload: CreatePointDTO
 		}) => createUserPoint(payload),
 		{
-			onSuccess: (data, { payload }) => {
-				queryClient.invalidateQueries([QUERY_KEY, payload.user_id])
+			onSuccess: () => {
+				queryClient.invalidateQueries(QUERY_KEY)
 				queryClient.invalidateQueries(USERS_WITH_POINTS)
 			},
 		}

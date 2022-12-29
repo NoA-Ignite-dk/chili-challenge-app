@@ -5,6 +5,7 @@ import Colors from '@src/config/colors';
 import { useUserProfileQuery } from '@src/data/user-profile';
 import { useUserPointsQuery } from '@src/data/user-points';
 import { useUserPostsQuery } from '@src/data/user-posts';
+import { typography } from '@src/styles/generalStyles';
 import { ProfileImage } from './ProfileImage'
 import { useAppContext } from './providers/appContext';
 
@@ -64,16 +65,16 @@ export default function ProfileCard() {
 				{imageSource && (
 					<ProfileImage imageSource={imageSource} size={"large"}></ProfileImage>
 				)}
-				<Text> {profileData?.fullName} </Text>
+				<Text style={typography.h3}> {profileData?.fullName} </Text>
 			</View>
 			<View style={[styles.item, styles.itemRight]}>
 				<View>
-					<Text style={styles.center}>{postCount}</Text>
-					<Text>posts</Text>
+					<Text style={[styles.center, typography.h3]}>{postCount}</Text>
+					<Text style={typography.bodySecondary}>posts</Text>
 				</View>
 				<View>
-					<Text style={styles.center}>{totalPoints}</Text>
-					<Text>points</Text>
+					<Text style={[styles.center, typography.h3]}>{totalPoints}</Text>
+					<Text style={typography.bodySecondary}>points</Text>
 				</View>
 			</View>
 		</View>
