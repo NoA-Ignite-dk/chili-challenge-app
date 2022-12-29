@@ -36,6 +36,8 @@ export default function HomeScreen() {
 	const notificationListener = useRef();
 	const responseListener = useRef();
 
+	console.log(expoPushToken, 'push token');
+
 	useEffect(() => {
 		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
 
@@ -57,12 +59,6 @@ export default function HomeScreen() {
 
 	return (
 		<View style={styles.container}>
-			<Button
-				title="Press to Send Notification"
-				onPress={async () => {
-					await sendPushNotification(expoPushToken);
-				}}
-			/>
 			{isLoading && (
 				<View>
 					<Text>Loading...</Text>
