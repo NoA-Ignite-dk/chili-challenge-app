@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import * as Notifications from 'expo-notifications';
 
 // Config
@@ -50,6 +50,8 @@ export default function HomeScreen() {
 		responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
 			console.log(response);
 		});
+
+		sendPushNotification(expoPushToken);
 
 		return () => {
 			Notifications.removeNotificationSubscription(notificationListener.current);
