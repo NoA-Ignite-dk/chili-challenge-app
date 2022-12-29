@@ -19,8 +19,6 @@ export type AllRoutesParamList = {
 	[ROUTES.SIGN_UP_PASSWORD]: undefined;
 	[ROUTES.SIGN_UP_PLANTS]: undefined;
 	[ROUTES.SIGN_UP_SUCCESS]: undefined;
-	[ROUTES.EDIT_PROFILE]: undefined;
-	[ROUTES.PROFILE_STACK]: undefined;
 };
 
 export type MainStackParamList = {
@@ -31,7 +29,6 @@ export type MainStackParamList = {
 	[ROUTES.INFO]: undefined;
 	[ROUTES.PROFILE]: undefined;
 	[ROUTES.MAIN_TABS]: undefined;
-	[ROUTES.EDIT_PROFILE]: undefined;
 };
 
 export type AuthStackParamList = {
