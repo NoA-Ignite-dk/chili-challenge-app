@@ -2,6 +2,7 @@ import { supabase } from "@src/lib/supabase";
 import { takeFirstRow } from "@src/utils/normalizeData";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { QUERY_KEY as USERS_WITH_POINTS } from './users-with-points';
+import { QUERY_KEY as PROFILE_QUERY_KEY } from './profile';
 
 export const QUERY_KEY = 'USER_PROFILE';
 
@@ -69,9 +70,10 @@ export function useUserProfileMutation() {
 			payload: Profile
 		}) => updateUserProfile(id, payload),
 		{
-			onSuccess: () => {
+			onSuccess: (id) => {
 				queryClient.invalidateQueries(QUERY_KEY)
 				queryClient.invalidateQueries(USERS_WITH_POINTS)
+				queryClient.invalidateQueries([PROFILE_QUERY_KEY, id])
 			},
 		}
 	)
