@@ -41,10 +41,10 @@ export default function InformationCard({ title, subtitle, imageSource }: Inform
 			</View>
 
 			<View style={[styles.textContainer, containerStyles.padding]}>
-				<Text style={typography.h1}>{title}</Text>
-				<Text>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam...</Text>
-				<Text style={typography.h2}>{subtitle}</Text>
-				<Text>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam...</Text>
+				<Text style={typography.h2}>{title}</Text>
+				<Text style={typography.bodyRegular14}>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam...</Text>
+				<Text style={typography.h3}>{subtitle}</Text>
+				<Text style={typography.bodyRegular14}>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam...</Text>
 
 			</View>
 		</View>

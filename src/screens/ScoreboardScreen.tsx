@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
 	scoreboardNumbers: {
 		fontSize: 50,
 		fontWeight: '800',
+		fontFamily: "Manrope_800ExtraBold",
 		marginTop: 10
 	}
 });
