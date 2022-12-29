@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageSourcePropType } from 'react-native';
-import { containerStyles } from '@src/styles/generalStyles'
+import { containerStyles, typography } from '@src/styles/generalStyles'
 
 import Colors from '@src/config/colors';
 import Button from '@src/components/buttons/PrimaryButton';
@@ -44,14 +44,13 @@ export default function PlantCard({ name, primary, imageSource }: PlantCardProps
 		<View style={[containerStyles.container, styles.grid]}>
 			<View style={styles.item}>
 				<ProfileImage imageSource={imageSource} size={"large"}></ProfileImage>
-				<Text> {name} </Text>
+				<Text style={typography.h3}> {name} </Text>
 			</View>
 			<View style={[styles.item, styles.item3]}>
 				<View>
 				{primary === false
-				? <Button>Set as primary</Button>
-				: <Button>Primary</Button> }
-
+				? <Button textStyle={typography.uppercaseBig}>Set as primary</Button>
+				: <Button textStyle={typography.uppercaseBig}>Primary</Button> }
 				</View>
 			</View>
 		</View>

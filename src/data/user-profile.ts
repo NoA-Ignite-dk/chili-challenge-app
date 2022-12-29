@@ -10,14 +10,14 @@ export interface Profile {
 	profilePicture: string;
 }
 
-export async function getUserProfile(id: string): Promise<Profile> {
+export async function getUserProfile(user_id: string): Promise<Profile> {
 	const { data, error } = await supabase
 		.from('profiles')
 		.select(`
 			fullName: full_name,
 			profilePicture: avatar_url
 		`)
-		.eq('id', id)
+		.eq('id', user_id)
 		.single();
 
 	if (error) {
@@ -25,16 +25,16 @@ export async function getUserProfile(id: string): Promise<Profile> {
 	}
 
 	if (!data) {
-		throw new Error(`Unable to find a profile by given id: ${id}`);
+		throw new Error(`Unable to find a profile by given id: ${user_id}`);
 	}
 
 	return data;
 }
 
-export function useUserProfileQuery(id?: string) {
-	const hook = useQuery([QUERY_KEY, id], {
-		queryFn: () => getUserProfile(id as string),
-		enabled: !!id,
+export function useUserProfileQuery(user_id?: string) {
+	const hook = useQuery(QUERY_KEY, {
+		queryFn: () => getUserProfile(user_id as string),
+		enabled: !!user_id,
 	});
 
 	return hook;
@@ -46,7 +46,6 @@ export async function updateUserProfile(id: string, { fullName, profilePicture }
 		.update({
 			full_name: fullName,
 			avatar_url: profilePicture,
-			updated_at: new Date(),
 		})
 		.match({
 			id,
@@ -70,8 +69,8 @@ export function useUserProfileMutation() {
 			payload: Profile
 		}) => updateUserProfile(id, payload),
 		{
-			onSuccess: (data, { id }) => {
-				queryClient.invalidateQueries([QUERY_KEY, id])
+			onSuccess: () => {
+				queryClient.invalidateQueries(QUERY_KEY)
 				queryClient.invalidateQueries(USERS_WITH_POINTS)
 			},
 		}

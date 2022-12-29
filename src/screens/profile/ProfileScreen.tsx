@@ -14,6 +14,7 @@ import { AllRoutesNavigationProp } from '@src/types/navigation';
 import { ROUTES } from '@src/config/routes';
 import Icon, { IconType } from '@src/components/Icon';
 import ProfileCard from '@src/components/ProfileCard';
+import { queryClient } from '@src/lib/reactQuery';
 import { allPostsTab } from './tabs/allPostsTab';
 import { allPlantsTab } from './tabs/allPlantsTab';
 import { claimedPointsListTab } from './tabs/claimedPointsListTab';
@@ -45,6 +46,7 @@ export default function ProfileScreen() {
 		if (error) {
 			Alert.alert(error.message);
 		} else {
+			queryClient.clear()
 			navigation.navigate(ROUTES.AUTH_LANDING_PAGE);
 		}
 
