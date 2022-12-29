@@ -2,8 +2,8 @@ import { ProfileImage } from '@src/components/ProfileImage';
 import { useAppContext } from '@src/components/providers/appContext';
 import { containerStyles } from '@src/styles/generalStyles';
 import { useState, useEffect } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
-import { Input } from 'react-native-elements';
+import { Pressable, StyleSheet, TextInput, View, Text } from 'react-native';
+// import { Input } from 'react-native-elements';
 import Button from '@src/components/buttons/PrimaryButton';
 import Icon, { IconType } from '@src/components/Icon';
 import { useUserProfileQuery, useUserProfileMutation } from '@src/data/user-profile';
@@ -15,6 +15,20 @@ const styles = StyleSheet.create({
 		paddingTop: 4,
 		paddingBottom: 4,
 		alignSelf: 'stretch',
+	},
+	editItem: {
+		flexDirection: "row",
+		backgroundColor:Colors.OFF_WHITE,
+		minHeight: 56,
+		maxHeight: 56,
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	label: {
+		width: "20%"
+	},
+	input: {
+		width: "80%"
 	},
 	mt20: {
 		marginTop: 20,
@@ -64,7 +78,7 @@ export default function EditProfileScreen() {
 	}
 
 	return (
-		<View style={[containerStyles.container, containerStyles.padding]}>
+		<View style={containerStyles.container}>
 				<Pressable onPress={() => setModalVisible(true)}>
 					<View style={styles.imageContainer}>
 						<View style={styles.absolute}>
@@ -74,11 +88,14 @@ export default function EditProfileScreen() {
 						<View style={styles.backgroundOpacity}></View>
 					</View>
 				</Pressable>
-				<View style={styles.verticallySpaced}>
-					<Input autoComplete={'name'} label="Full Name" value={fullName || ''} onChangeText={(text) => setFullName(text)} />
+				<Text style={containerStyles.padding}>General Information</Text>
+				<View style={[styles.verticallySpaced, styles.editItem, containerStyles.padding]}>
+					{/* <Input autoComplete={'name'} label="Full Name" value={fullName || ''} onChangeText={(text) => setFullName(text)} /> */}
+					<Text style={styles.label}>Full Name</Text>
+					<TextInput style={styles.input} autoComplete={'name'} value={fullName || ''} onChangeText={(text) => setFullName(text)} />
 				</View>
 
-				<View style={[styles.verticallySpaced, styles.mt20]}>
+				<View style={[styles.verticallySpaced, styles.mt20, containerStyles.padding]}>
 					<Button onPress={() => updateProfile({ fullName, profilePicture })}>
 						{(isLoading || profileMutation.isLoading)
 							? <Icon type={IconType.LOADING} />
