@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 	circle: {
 		borderColor: Colors.FADED_GREEN,
 		borderStyle: "solid",
-		borderRadius: 50,
+		borderRadius: 60,
 		justifyContent: "center",
 		alignItems: "center"
 	},
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 	},
 	xLargeCircle: {
-		width: 110,
-		height: 110,
+		width: 114,
+		height: 114,
 		borderWidth: 2.5,
 	},
 	smallCircle: {
