@@ -14,7 +14,7 @@ import PostScreen from '@src/screens/PostScreen';
 import InformationScreen from '@src/screens/InformationScreen';
 import Icon, { IconType } from '@src/components/Icon';
 import { AppProvider } from '@src/components/providers/appContext';
-import ProfileStack from '../stacks/ProfileStack';
+import ProfileScreen from '@src/screens/profile/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -33,6 +33,7 @@ function MainBottomTabNavigator() {
 					headerTitleAlign: 'left',
 					headerTitleStyle: {
 						fontSize: 24,
+						fontFamily: "Manrope_600SemiBold"
 					},
 					headerRight: () => (
 						<View style={styles.iconContainer}>
@@ -69,6 +70,7 @@ function MainBottomTabNavigator() {
 						headerTitleStyle: {
 							color: Colors.WHITE,
 							fontSize: 24,
+							fontFamily: "Manrope_600SemiBold"
 						},
 						headerRight: () => (
 							<View style={styles.iconContainer}>
@@ -83,14 +85,9 @@ function MainBottomTabNavigator() {
 					options={{
 						tabBarIcon: () => <Icon type={IconType.POST} />,
 						title: 'Create post',
-						// headerRight: () => (
-						// 	<View style={styles.iconContainer}>
-						// 		<Txt style={typography.headerTitle}>Create</Txt>
-						// 	</View>
-						// ),
-						headerTitleAlign: 'center',
 						headerTitleStyle: {
-							fontSize: 20,
+							fontSize: 24,
+							fontFamily: "Manrope_600SemiBold"
 						},
 					}}
 				/>
@@ -103,10 +100,10 @@ function MainBottomTabNavigator() {
 					}}
 				/>
 				<Tab.Screen
-					name={ROUTES.PROFILE_STACK}
-					component={ProfileStack}
+					name={ROUTES.PROFILE}
+					component={ProfileScreen}
 					options={{
-						headerShown: false,
+						title: 'Profile',
 						tabBarIcon: () => <Icon type={IconType.PROFILE} />,
 					}}
 				/>

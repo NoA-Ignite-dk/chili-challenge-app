@@ -15,6 +15,7 @@ import { ROUTES } from '@src/config/routes';
 import Icon, { IconType } from '@src/components/Icon';
 import ProfileCard from '@src/components/ProfileCard';
 import { queryClient } from '@src/lib/reactQuery';
+import EditProfileModal from '@src/components/EditProfileModal';
 import { allPostsTab } from './tabs/allPostsTab';
 import { allPlantsTab } from './tabs/allPlantsTab';
 import { claimedPointsListTab } from './tabs/claimedPointsListTab';
@@ -32,6 +33,7 @@ export default function ProfileScreen() {
 	const navigation = useNavigation<AllRoutesNavigationProp>();
 	const layout = useWindowDimensions();
 	const [index, setIndex] = React.useState(0);
+	const [editProfileModalVisible, setEditProfileModalVisible] = useState(false);
 
 	const [routes] = React.useState([
 		{ key: 'allPosts', title: 'Posts' },
@@ -94,7 +96,10 @@ export default function ProfileScreen() {
 		<>
 			<View style={styles.container}>
 				<ProfileCard />
-				<Button onPress={() => navigation.navigate(ROUTES.EDIT_PROFILE)}>
+				{/* <Button onPress={() => navigation.navigate(ROUTES.EDIT_PROFILE)}>
+					Edit profile <Icon type={IconType.EDIT} />
+				</Button> */}
+				<Button onPress={() => setEditProfileModalVisible(true)}>
 					Edit profile <Icon type={IconType.EDIT} />
 				</Button>
 			</View>
@@ -107,6 +112,7 @@ export default function ProfileScreen() {
 				style={containerStyles.container}
 			/>
 			<Button onPress={logout}>{loading ? <Icon type={IconType.LOADING} /> : 'Logout'}</Button>
+			<EditProfileModal open={editProfileModalVisible} setOpen={setEditProfileModalVisible} />
 		</>
 	);
 }
