@@ -46,8 +46,7 @@ export function allPlantsTab() {
 	const hasPrimaryPlant = (plantState || [])
 		.some((plant) => plant.primary);
 
-
-	const setPrimary = async (item: Plant) => {
+	const setPrimary = (item: Plant) => {
 		plantsMutation.mutate({ id: item.id, payload: { primary: true } });
 	};
 

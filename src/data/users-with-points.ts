@@ -14,7 +14,7 @@ export interface UserWithPoints {
 	}[];
 }
 
-export async function getUserWithPoints(): Promise<UserWithPoints[]> {
+export async function getUsersWithPoints(): Promise<UserWithPoints[]> {
 	const { data, error } = await supabase
 		.from('profiles')
 		.select(`
@@ -29,7 +29,6 @@ export async function getUserWithPoints(): Promise<UserWithPoints[]> {
 					amount
 				)
 			)
-
 		`)
 		.order('id', { ascending: true });
 
@@ -59,5 +58,5 @@ export async function getUserWithPoints(): Promise<UserWithPoints[]> {
 }
 
 export function useUsersWithPointsQuery() {
-	return useQuery(QUERY_KEY, () => getUserWithPoints());
+	return useQuery(QUERY_KEY, () => getUsersWithPoints());
 }

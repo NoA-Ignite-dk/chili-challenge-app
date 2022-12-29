@@ -10,7 +10,7 @@ export interface Post {
 	image_url: string;
 }
 
-export async function getUserPosts(id: string): Promise<Post[]> {
+export async function getUserPosts(user_id: string): Promise<Post[]> {
 	const { data, error } = await supabase
 		.from('post')
 		.select(
@@ -20,7 +20,7 @@ export async function getUserPosts(id: string): Promise<Post[]> {
 			image_url
 		`,
 		)
-		.eq('user_id', id)
+		.eq('user_id', user_id)
 		.order('id', { ascending: true });
 
 	if (error) {
@@ -28,16 +28,16 @@ export async function getUserPosts(id: string): Promise<Post[]> {
 	}
 
 	if (!data) {
-		throw new Error(`Unable to find posts for user id: ${id}`);
+		throw new Error(`Unable to find posts for user id: ${user_id}`);
 	}
 
 	return normalizeRows(data).filter((e) => !!e?.id);
 }
 
-export function useUserPostsQuery(id: string | undefined) {
-	const hook = useQuery([QUERY_KEY, id], {
-		queryFn: () => getUserPosts(id as string),
-		enabled: !!id,
+export function useUserPostsQuery(user_id: string | undefined) {
+	const hook = useQuery(QUERY_KEY, {
+		queryFn: () => getUserPosts(user_id as string),
+		enabled: !!user_id,
 	});
 
 	return hook;
@@ -46,10 +46,7 @@ export function useUserPostsQuery(id: string | undefined) {
 export async function updateUserPosts(id: string, payload: Partial<Post>): Promise<void> {
 	const { error } = await supabase
 		.from('posts')
-		.update({
-			...payload,
-			updated_at: new Date(),
-		})
+		.update(payload)
 		.match({
 			id,
 		});
@@ -63,13 +60,20 @@ export function useUpdateUserPostsMutation() {
 	const queryClient = useQueryClient();
 
 	return useMutation(({ id, payload }: { id: string; payload: Partial<Post> }) => updateUserPosts(id, payload), {
-		onSuccess: (data, { id }) => {
-			queryClient.invalidateQueries([QUERY_KEY, id]);
+		onSuccess: () => {
+			queryClient.invalidateQueries(QUERY_KEY);
 		},
 	});
 }
 
-export async function createUserPost(payload: Omit<Post, 'id'> & { user_id: string }): Promise<Post> {
+
+export interface CreatePostDTO {
+	user_id: string;
+	description?: string;
+	image_url?: string;
+}
+
+export async function createUserPost(payload: CreatePostDTO): Promise<Post> {
 	const { data, error } = await supabase.from('post').insert(payload).select().single();
 
 	if (error) {
@@ -82,9 +86,9 @@ export async function createUserPost(payload: Omit<Post, 'id'> & { user_id: stri
 export function useCreateUserPostsMutation() {
 	const queryClient = useQueryClient();
 
-	return useMutation(({ payload }: { id: string; payload: Omit<Post, 'id'> & { user_id: string } }) => createUserPost(payload), {
-		onSuccess: (data, { id }) => {
-			queryClient.invalidateQueries([QUERY_KEY, id]);
+	return useMutation(({ payload }: { id: string; payload: CreatePostDTO }) => createUserPost(payload), {
+		onSuccess: () => {
+			queryClient.invalidateQueries(QUERY_KEY);
 		},
 	});
 }

@@ -5,13 +5,13 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 export const QUERY_KEY = 'USER_PLANTS';
 
 export interface Plant {
-	id: string;
+	id: number;
 	name: string;
 	image_url: string;
 	primary: boolean;
 }
 
-export async function getUserPlants(id: string): Promise<Plant[]> {
+export async function getUserPlants(user_id: string): Promise<Plant[]> {
 	const { data, error } = await supabase
 		.from('plant')
 		.select(`
@@ -20,7 +20,7 @@ export async function getUserPlants(id: string): Promise<Plant[]> {
 			image_url,
 			primary
 		`)
-		.eq('user_id', id)
+		.eq('user_id', user_id)
 		.order('id', { ascending: true });
 
 	if (error) {
@@ -28,29 +28,26 @@ export async function getUserPlants(id: string): Promise<Plant[]> {
 	}
 
 	if (!data) {
-		throw new Error(`Unable to find plants for user id: ${id}`);
+		throw new Error(`Unable to find plants for user id: ${user_id}`);
 	}
 
 	return normalizeRows(data)
 		.filter((e) => !!e?.id)
 }
 
-export function useUserPlantsQuery(id: string | undefined) {
-	const hook = useQuery([QUERY_KEY, id], {
-		queryFn: () => getUserPlants(id as string),
-		enabled: !!id,
+export function useUserPlantsQuery(user_id: string | undefined) {
+	const hook = useQuery(QUERY_KEY, {
+		queryFn: () => getUserPlants(user_id as string),
+		enabled: !!user_id,
 	});
 
 	return hook;
 }
 
-export async function updateUserPlant(id: string, payload: Partial<Plant>): Promise<void> {
+export async function updateUserPlant(id: number, payload: Partial<Plant>): Promise<void> {
 	const { error } = await supabase
 		.from('plant')
-		.update({
-			...payload,
-			updated_at: new Date(),
-		})
+		.update(payload)
 		.match({
 			id,
 		});
@@ -65,12 +62,12 @@ export function useUpdateUserPlantMutation() {
 
 	return useMutation(
 		({ id, payload }: {
-			id: string,
-			payload: Partial<Plant>
+			id: number,
+			payload: Partial<Plant>,
 		}) => updateUserPlant(id, payload),
 		{
-			onSuccess: (data, { id }) => {
-				queryClient.invalidateQueries([QUERY_KEY, id])
+			onSuccess: () => {
+				queryClient.invalidateQueries(QUERY_KEY)
 			},
 		}
 	)
@@ -105,8 +102,8 @@ export function useCreateUserPlantMutation() {
 			payload: CreatePlantDTO
 		}) => createUserPlant(payload),
 		{
-			onSuccess: (data, { payload }) => {
-				queryClient.invalidateQueries([QUERY_KEY, payload.user_id])
+			onSuccess: () => {
+				queryClient.invalidateQueries(QUERY_KEY)
 			},
 		}
 	)
