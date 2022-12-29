@@ -2,11 +2,13 @@ import { ProfileImage } from '@src/components/ProfileImage';
 import { useAppContext } from '@src/components/providers/appContext';
 import { containerStyles } from '@src/styles/generalStyles';
 import { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Input } from 'react-native-elements';
 import Button from '@src/components/buttons/PrimaryButton';
 import Icon, { IconType } from '@src/components/Icon';
 import { useUserProfileQuery, useUserProfileMutation } from '@src/data/user-profile';
+import Colors from '@src/config/colors';
+import EditProfilePictureModal from '@src/components/EditProfilePictureModal';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -20,8 +22,22 @@ const styles = StyleSheet.create({
 	imageContainer: {
 		justifyContent: "center",
 		alignItems: "center",
-		paddingVertical: 40
+		paddingVertical: 40,
+		position: "relative"
 
+	},
+	absolute: {
+		zIndex: 1000,
+		position: "absolute",
+	},
+	backgroundOpacity: {
+		backgroundColor: Colors.DARK_GREY,
+		opacity: 0.4,
+		zIndex: 999,
+		width: 104,
+		height: 104,
+		borderRadius: 50,
+		position: "absolute"
 	}
 });
 
@@ -31,6 +47,7 @@ export default function EditProfileScreen() {
 	const profileMutation = useUserProfileMutation();
 	const [fullName, setFullName] = useState('');
 	const [profilePicture, setProfilePicture] = useState('');
+	const [modalVisible, setModalVisible] = useState(false);
 
 	useEffect(() => {
 		if (profileData) {
@@ -48,21 +65,28 @@ export default function EditProfileScreen() {
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
-			<View style={styles.imageContainer}>
-				<ProfileImage imageSource={{ uri: profilePicture }} size={"xlarge"}></ProfileImage>
-			</View>
-			<View style={styles.verticallySpaced}>
-				<Input autoComplete={'name'} label="Full Name" value={fullName || ''} onChangeText={(text) => setFullName(text)} />
-			</View>
+				<Pressable onPress={() => setModalVisible(true)}>
+					<View style={styles.imageContainer}>
+						<View style={styles.absolute}>
+							<Icon type={IconType.EDIT} />
+						</View>
+						<ProfileImage imageSource={{ uri: profilePicture }} size={"xlarge"}></ProfileImage>
+						<View style={styles.backgroundOpacity}></View>
+					</View>
+				</Pressable>
+				<View style={styles.verticallySpaced}>
+					<Input autoComplete={'name'} label="Full Name" value={fullName || ''} onChangeText={(text) => setFullName(text)} />
+				</View>
 
-			<View style={[styles.verticallySpaced, styles.mt20]}>
-				<Button onPress={() => updateProfile({ fullName, profilePicture })}>
-					{(isLoading || profileMutation.isLoading)
-						? <Icon type={IconType.LOADING} />
-						: 'Update'
-					}
-				</Button>
-			</View>
+				<View style={[styles.verticallySpaced, styles.mt20]}>
+					<Button onPress={() => updateProfile({ fullName, profilePicture })}>
+						{(isLoading || profileMutation.isLoading)
+							? <Icon type={IconType.LOADING} />
+							: 'Update'
+						}
+					</Button>
+				</View>
+			<EditProfilePictureModal loading={isLoading} open={modalVisible} setOpen={setModalVisible} />
 		</View>
 	);
 }

@@ -10,6 +10,7 @@ const Colors = {
 	TEXT_60: '#686777',
 	BACKGROUND_GREY: '#FAFAFA',
 	FADED_GREEN: '#B3F0DD',
+	DARK_GREY: '#181C1A'
 };
 
 export default Colors;

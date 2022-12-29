@@ -40,7 +40,7 @@ export function useUserProfileQuery(user_id?: string) {
 	return hook;
 }
 
-export async function updateUserProfile(id: string, { fullName, profilePicture }: Profile): Promise<Profile> {
+export async function updateUserProfile(id: string, { fullName, profilePicture }: Partial<Profile>): Promise<Profile> {
 	const { data, error } = await supabase
 		.from('profiles')
 		.update({
@@ -66,7 +66,7 @@ export function useUserProfileMutation() {
 	return useMutation(
 		({ id, payload }: {
 			id: string,
-			payload: Profile
+			payload: Partial<Profile>
 		}) => updateUserProfile(id, payload),
 		{
 			onSuccess: () => {
