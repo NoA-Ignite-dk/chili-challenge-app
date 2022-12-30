@@ -56,14 +56,14 @@ export default function ProfileScreen() {
 	}
 
 
-	const getTabBarIcon = ({ route }: { route: Route }) => {
+	const getTabBarIcon = ({ route, color }: { route: Route, color: string }) => {
 		switch (route.key) {
 			case 'allPosts':
-				return <Icon type={IconType.PROFILE_POSTS} />
+				return <Icon type={IconType.PROFILE_POSTS} stroke={color} />
 			case 'allPlants':
-				return <Icon type={IconType.PROFILE_POSTS} />
+				return <Icon type={IconType.PROFILE_PLANTS} stroke={color} />
 			case 'claimedPointsList':
-				return <Icon type={IconType.PROFILE_CLAIMED_POINTS} />
+				return <Icon type={IconType.PROFILE_CLAIMED_POINTS} stroke={color} />
 			default:
 				return null;
 		}
@@ -77,11 +77,14 @@ export default function ProfileScreen() {
 	}) => (
 		<TabBar
 			{...props}
+			activeColor={Colors.GREEN_PRIMARY}
+			inactiveColor={Colors.GREY}
 			style={{ backgroundColor: Colors.WHITE, borderBottomWidth: 0.5, borderBottomColor: Colors.LIGHT_GREY }}
 			tabStyle={{ width: layout.width / 3, marginTop: 10, marginBottom: 10 }}
 			labelStyle={{ display: 'none', height: 0 }}
 			scrollEnabled={false}
-			renderIndicator={() => null}
+			// renderIndicator={() => null}
+			indicatorStyle={{backgroundColor: Colors.GREEN_PRIMARY}}
 			renderIcon={getTabBarIcon}
 		/>
 	);
@@ -96,11 +99,8 @@ export default function ProfileScreen() {
 		<>
 			<View style={styles.container}>
 				<ProfileCard />
-				{/* <Button onPress={() => navigation.navigate(ROUTES.EDIT_PROFILE)}>
-					Edit profile <Icon type={IconType.EDIT} />
-				</Button> */}
-				<Button onPress={() => setEditProfileModalVisible(true)}>
-					Edit profile <Icon type={IconType.EDIT} />
+				<Button onPress={() => setEditProfileModalVisible(true)} icon={'edit'}>
+					Edit profile
 				</Button>
 			</View>
 			<TabView

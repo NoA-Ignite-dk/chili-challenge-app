@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, TextStyle, ViewStyle, TextProps } from 'react-native';
+import { Pressable, StyleSheet, TextStyle, ViewStyle, TextProps, View } from 'react-native';
 
 // Config
 import Colors from '@src/config/colors';
@@ -11,6 +11,8 @@ import Txt from '@src/components/Txt';
 // Utils
 import { verticalScale, scale } from '@src/utils/scaling';
 import Variables from '@src/config/variables';
+import { typography } from '@src/styles/generalStyles';
+import Icon, { IconType } from '../Icon';
 
 const styles = StyleSheet.create({
 	pressable: {
@@ -20,6 +22,8 @@ const styles = StyleSheet.create({
 		paddingHorizontal: scale(20),
 		justifyContent: 'center',
 		backgroundColor: Colors.GREEN_PRIMARY,
+		flexDirection: 'row',
+		alignContent: 'center'
 	},
 	pressed: {
 		backgroundColor: Colors.BLACK,
@@ -34,6 +38,9 @@ const styles = StyleSheet.create({
 	fullWidth: {
 		minWidth: '100%',
 	},
+	icon: {
+		marginLeft: 6,
+	},
 });
 
 type Props = {
@@ -44,9 +51,10 @@ type Props = {
 	loading?: boolean;
 	textStyle?: TextStyle;
 	fullWidth?: boolean;
+	icon?: 'edit' | 'none';
 };
 
-const Button = ({ disabled = false, onPress, children, loading = false, style, textStyle, fullWidth = false, ...props }: Props) => {
+const Button = ({ disabled = false, onPress, children, loading = false, style, textStyle, fullWidth = false, icon= 'none', ...props }: Props) => {
 	return (
 		<Pressable
 			disabled={disabled}
@@ -61,7 +69,12 @@ const Button = ({ disabled = false, onPress, children, loading = false, style, t
 			{...props}
 		>
 			{loading && <LoadingIndicator />}
-			{!loading && <Txt style={{ ...styles.text, ...textStyle }}>{children}</Txt>}
+			{!loading && <Txt style={{...typography.uppercaseBig,...styles.text, ...textStyle }}>{children}</Txt>}
+			{icon && icon === 'edit' && (
+				<View style={styles.icon}>
+					<Icon width={20} type={IconType.EDIT} stroke={Colors.WHITE} />
+				</View>
+			)}
 		</Pressable>
 	);
 };

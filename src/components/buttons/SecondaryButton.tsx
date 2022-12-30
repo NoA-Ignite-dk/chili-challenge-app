@@ -65,7 +65,7 @@ const SecondaryButton = ({ disabled = false, onPress, children, loading = false,
 			{!loading && <Txt style={{ ...styles.text, ...textStyle }}>{children}</Txt>}
 			{icon && icon === 'plus' && (
 				<View style={styles.icon}>
-					<Icon width={20} type={IconType.PLUS} />
+					<Icon width={20} type={IconType.PLUS} stroke={Colors.GREEN_PRIMARY} />
 				</View>
 			)}
 		</Pressable>
