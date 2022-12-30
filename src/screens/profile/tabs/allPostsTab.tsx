@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
 	postItemContainer: {
 		flex: 1,
 		minWidth: "100%",
-		marginTop: 10,
 		backgroundColor: Colors.WHITE
 	},
 	postItem: {
