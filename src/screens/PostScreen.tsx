@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
 });
 
 export default function PostScreen() {
+	const [loading, setLoading] = useState(false);
 	const [selectedImage, setSelectedImage] = useState('');
 	const [selectedImageResult, setSelectedImageResult] = useState<ImagePicker.ImageInfo>({ uri: '', height: 0, width: 0, cancelled: false });
 	const [postDescription, setPostDescription] = useState('');
@@ -102,9 +103,6 @@ export default function PostScreen() {
 	const createPointMutation = useCreateUserPointsMutation();
 
 	const createPost = async () => {
-		const imageId = await uploadImage(selectedImageResult);
-		const imageUrl = await getImageUrl(imageId);
-
 		if (!selectedImage) {
 			alert('Please select an image or take a photo');
 			throw Error('No image selected');
@@ -114,6 +112,11 @@ export default function PostScreen() {
 			alert('Please add a description');
 			throw Error('No description added');
 		}
+
+		setLoading(true);
+
+		const imageId = await uploadImage(selectedImageResult);
+		const imageUrl = await getImageUrl(imageId);
 
 		// Create post
 		const post = await createPostMutation.mutateAsync({
@@ -135,6 +138,7 @@ export default function PostScreen() {
 			});
 		}
 
+		setLoading(false);
 		// eslint-disable-next-line no-alert
 		alert('Post created!');
 	};
@@ -224,7 +228,8 @@ export default function PostScreen() {
 				)}
 			</View>
 			<Button style={styles.createButton} onPress={createPost}>
-				<Text style={typography.buttonText}>Create post</Text>
+				{!loading && <Text style={typography.buttonText}>Create post</Text>}
+				{loading && <Icon type={IconType.LOADING} />}
 			</Button>
 			<PointsModal loading={isLoading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
 		</View>
