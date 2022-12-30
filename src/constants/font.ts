@@ -1,3 +1,5 @@
+// @TODO delete this file
+
 import { setFontFace } from '@mthines/react-native-font-face';
 
 export enum FontNames {
