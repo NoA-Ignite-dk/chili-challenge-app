@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
 
 export default function PostScreen() {
 	const [selectedImage, setSelectedImage] = useState('');
-	// const [selectedImageId, setSelectedImageId] = useState('');
 	const [selectedImageResult, setSelectedImageResult] = useState<ImagePicker.ImageInfo>({ uri: '', height: 0, width: 0, cancelled: false });
 	const [postDescription, setPostDescription] = useState('');
 	const { isLoading, data: pointsData } = usePointToClaimQuery();
@@ -183,13 +182,18 @@ export default function PostScreen() {
 	return (
 		<View style={[styles.container, containerStyles.padding]}>
 			<View style={styles.section}>
-				<TextInput onChangeText={(text: string) => setPostDescription(text)} multiline={true} placeholder="Write something..." />
+				<TextInput
+					style={typography.bodyRegular14}
+					onChangeText={(text: string) => setPostDescription(text)}
+					multiline={true}
+					placeholder="Write something..."
+				/>
 			</View>
 			<View style={styles.section}>
-				<Txt style={typography.uppercaseBig}>Points (optional)</Txt>
+				<Text style={typography.uppercaseBig}>Points (optional)</Text>
 				{!selectedPoint && (
 					<SecondaryButton onPress={() => setModalVisible(true)} style={styles.button} icon="plus">
-						Select points
+						<Text style={typography.buttonText}>Select points</Text>
 					</SecondaryButton>
 				)}
 				{selectedPoint && (
@@ -199,11 +203,11 @@ export default function PostScreen() {
 				)}
 			</View>
 			<View style={styles.section}>
-				<Txt style={typography.uppercaseBig}>Image</Txt>
+				<Text style={typography.uppercaseBig}>Image</Text>
 				{selectedImage && (
 					<View style={styles.imageContainer}>
 						<Pressable onPress={removeImage} style={styles.imageCloseButton}>
-							<Txt style={{ fontSize: 18, color: Colors.WHITE }}>X</Txt>
+							<Text style={{ fontSize: 18, color: Colors.WHITE }}>X</Text>
 						</Pressable>
 						<Image style={styles.image} source={{ uri: selectedImage }}></Image>
 					</View>
@@ -220,7 +224,7 @@ export default function PostScreen() {
 				)}
 			</View>
 			<Button style={styles.createButton} onPress={createPost}>
-				<Text>Create post</Text>
+				<Text style={typography.buttonText}>Create post</Text>
 			</Button>
 			<PointsModal loading={isLoading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
 		</View>

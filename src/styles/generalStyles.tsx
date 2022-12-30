@@ -14,7 +14,7 @@ export const typography = StyleSheet.create({
 	},
 	h3: {
 		fontFamily: 'Manrope_500Medium',
-		fontSize: 16
+		fontSize: 16,
 	},
 	uppercaseBig: {
 		fontFamily: 'Manrope_600SemiBold',
@@ -28,20 +28,20 @@ export const typography = StyleSheet.create({
 		fontWeight: '600',
 	},
 	bodyRegular16: {
-		fontFamily: "Manrope_400Regular",
-		fontSize: 16
+		fontFamily: 'Manrope_400Regular',
+		fontSize: 16,
 	},
 	bodyRegular14: {
-		fontFamily: "Manrope_400Regular",
-		fontSize: 14
+		fontFamily: 'Manrope_400Regular',
+		fontSize: 14,
 	},
 	bodySemibold: {
 		fontFamily: 'Manrope_600SemiBold',
-		fontSize: 14
+		fontSize: 14,
 	},
-	bodySecondary:{
-		fontFamily: "Manrope_500Medium",
-		fontSize: 12
+	bodySecondary: {
+		fontFamily: 'Manrope_500Medium',
+		fontSize: 12,
 	},
 	headerTitle: {
 		fontFamily: 'Manrope_600SemiBold',
@@ -49,8 +49,13 @@ export const typography = StyleSheet.create({
 		color: Colors.GREEN_PRIMARY,
 	},
 	whiteText: {
-		color: Colors.WHITE
-	}
+		color: Colors.WHITE,
+	},
+	buttonText: {
+		fontFamily: 'Manrope_600SemiBold',
+		fontSize: 14,
+		textTransform: 'uppercase',
+	},
 });
 
 export const containerStyles = StyleSheet.create({
