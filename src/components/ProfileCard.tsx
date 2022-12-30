@@ -14,11 +14,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "row",
 		flexWrap: "wrap",
-		minHeight:100,
-		maxHeight: 100,
+
 		alignItems: "center",
 		justifyContent: "space-between",
-		paddingVertical: 10,
+		paddingVertical: 20,
 		backgroundColor: Colors.WHITE
 	},
 	item: {

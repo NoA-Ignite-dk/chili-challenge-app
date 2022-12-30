@@ -2,7 +2,7 @@ import { ProfileImage } from '@src/components/ProfileImage';
 import { useAppContext } from '@src/components/providers/appContext';
 import { containerStyles, typography } from '@src/styles/generalStyles';
 import { useState, useEffect } from 'react';
-import { Pressable, StyleSheet, TextInput, View, Text } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View, Text, Modal, Alert } from 'react-native';
 // import { Input } from 'react-native-elements';
 import Button from '@src/components/buttons/PrimaryButton';
 import Icon, { IconType } from '@src/components/Icon';
@@ -52,10 +52,30 @@ const styles = StyleSheet.create({
 		height: 104,
 		borderRadius: 50,
 		position: "absolute"
-	}
+	},
+	modalView: {
+		width: '100%',
+		bottom: -108,
+		borderRadius: 20,
+		padding: 20,
+		alignItems: 'center',
+		// shadowOffset: {
+		// 	width: 0,
+		// 	height: 2,
+		// },
+		// shadowOpacity: 0.25,
+		// shadowRadius: 10,
+		// elevation: 5,
+		backgroundColor: Colors.WHITE,
+	},
 });
 
-export default function EditProfileScreen() {
+type Props = {
+	open: boolean;
+	setOpen: (arg: boolean) => void;
+};
+
+export default function EditProfileScreen({ open, setOpen }: Props) {
 	const { session } = useAppContext();
 	const { isLoading, data: profileData } = useUserProfileQuery(session?.user.id as string);
 	const profileMutation = useUserProfileMutation();
@@ -75,10 +95,20 @@ export default function EditProfileScreen() {
 			id: session?.user.id as string,
 			payload: { fullName, profilePicture }
 		})
+		setOpen(false);
 	}
 
 	return (
-		<View style={containerStyles.container}>
+		<Modal
+			animationType="slide"
+			transparent={true}
+			visible={open}
+			onRequestClose={() => {
+				Alert.alert('Modal has been closed.');
+				setOpen(!open);
+			}}
+		>
+		<View style={[containerStyles.container, styles.modalView]}>
 				<Pressable onPress={() => setModalVisible(true)}>
 					<View style={styles.imageContainer}>
 						<View style={styles.absolute}>
@@ -104,5 +134,6 @@ export default function EditProfileScreen() {
 				</View>
 			<EditProfilePictureModal loading={isLoading} open={modalVisible} setOpen={setModalVisible} />
 		</View>
+		</Modal>
 	);
 }
