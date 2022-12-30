@@ -45,7 +45,7 @@ export default function App() {
 	// eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
 	const [notification, setNotification] = useState<Notification>();
 	const notificationListener = useRef<Subscription>();
-	const responseListener = useRef();
+	const responseListener = useRef<Subscription>();
 
 	const [fontsLoaded] = useFonts({
 		Manrope_200ExtraLight,
@@ -82,7 +82,6 @@ export default function App() {
 		});
 
 		// This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-		// @TODO fix typescript errors
 		responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
 			console.log(response);
 		});
@@ -90,8 +89,13 @@ export default function App() {
 		schedulePushNotification(expoPushToken);
 
 		return () => {
-			Notifications.removeNotificationSubscription(notificationListener.current);
-			Notifications.removeNotificationSubscription(responseListener.current);
+			if (notificationListener.current) {
+				Notifications.removeNotificationSubscription(notificationListener.current);
+			}
+
+			if (responseListener.current) {
+				Notifications.removeNotificationSubscription(responseListener.current);
+			}
 		};
 	}, []);
 
