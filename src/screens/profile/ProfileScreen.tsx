@@ -96,11 +96,8 @@ export default function ProfileScreen() {
 		<>
 			<View style={styles.container}>
 				<ProfileCard />
-				{/* <Button onPress={() => navigation.navigate(ROUTES.EDIT_PROFILE)}>
-					Edit profile <Icon type={IconType.EDIT} />
-				</Button> */}
-				<Button onPress={() => setEditProfileModalVisible(true)}>
-					Edit profile <Icon type={IconType.EDIT} />
+				<Button onPress={() => setEditProfileModalVisible(true)} icon={'edit'}>
+					Edit profile
 				</Button>
 			</View>
 			<TabView
