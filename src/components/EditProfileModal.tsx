@@ -59,14 +59,16 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		padding: 20,
 		alignItems: 'center',
-		// shadowOffset: {
-		// 	width: 0,
-		// 	height: 2,
-		// },
-		// shadowOpacity: 0.25,
-		// shadowRadius: 10,
-		// elevation: 5,
 		backgroundColor: Colors.WHITE,
+	},
+	closeTextContainer: {
+		alignSelf: "baseline",
+		marginBottom: 36,
+		marginLeft: 'auto',
+		marginRight: 'auto',
+	},
+	closeText: {
+		fontSize: 18,
 	},
 });
 
@@ -131,6 +133,9 @@ export default function EditProfileScreen({ open, setOpen }: Props) {
 							: 'Update'
 						}
 					</Button>
+					<Pressable style={styles.closeTextContainer} onPress={() => setOpen(!open)}>
+						<Text style={styles.closeText}>Close</Text>
+					</Pressable>
 				</View>
 			<EditProfilePictureModal loading={isLoading} open={modalVisible} setOpen={setModalVisible} />
 		</View>

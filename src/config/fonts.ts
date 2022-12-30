@@ -1,3 +1,5 @@
+// @TODO delete this file
+
 import * as Font from 'expo-font';
 
 import { FontNames } from '@src/constants/font';

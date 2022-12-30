@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, TextInput, Pressable, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -90,7 +91,8 @@ const styles = StyleSheet.create({
 
 export default function PostScreen() {
 	const [selectedImage, setSelectedImage] = useState('');
-	const [selectedImageId, setSelectedImageId] = useState('');
+	// const [selectedImageId, setSelectedImageId] = useState('');
+	const [selectedImageResult, setSelectedImageResult] = useState<ImagePicker.ImageInfo>({ uri: '', height: 0, width: 0, cancelled: false });
 	const [postDescription, setPostDescription] = useState('');
 	const { isLoading, data: pointsData } = usePointToClaimQuery();
 	const [modalVisible, setModalVisible] = useState(false);
@@ -101,7 +103,8 @@ export default function PostScreen() {
 	const createPointMutation = useCreateUserPointsMutation();
 
 	const createPost = async () => {
-		const imageUrl = await getImageUrl(selectedImageId);
+		const imageId = await uploadImage(selectedImageResult);
+		const imageUrl = await getImageUrl(imageId);
 
 		if (!selectedImage) {
 			alert('Please select an image or take a photo');
@@ -146,8 +149,7 @@ export default function PostScreen() {
 
 		if (!result.cancelled) {
 			setSelectedImage(result.uri);
-			const imageId = await uploadImage(result);
-			setSelectedImageId(imageId);
+			setSelectedImageResult(result);
 		} else {
 			// eslint-disable-next-line no-alert
 			alert('You did not select any image.');
@@ -170,8 +172,7 @@ export default function PostScreen() {
 
 		if (!result.cancelled) {
 			setSelectedImage(result.uri);
-			const imageId = await uploadImage(result);
-			setSelectedImageId(imageId);
+			setSelectedImageResult(result);
 		}
 	};
 
