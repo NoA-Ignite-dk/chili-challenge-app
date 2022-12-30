@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 // Config
@@ -15,6 +15,8 @@ import InformationScreen from '@src/screens/InformationScreen';
 import Icon, { IconType } from '@src/components/Icon';
 import { AppProvider } from '@src/components/providers/appContext';
 import ProfileScreen from '@src/screens/profile/ProfileScreen';
+import { useNavigation } from '@react-navigation/native';
+import { AllRoutesNavigationProp } from '@src/types/navigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -105,6 +107,15 @@ function MainBottomTabNavigator() {
 					options={{
 						title: 'Profile',
 						tabBarIcon: () => <Icon type={IconType.PROFILE} />,
+						headerRight: () => {
+							const navigation = useNavigation<AllRoutesNavigationProp>();
+
+							return (
+								<Pressable style={styles.iconContainer} onPress={() => navigation.navigate(ROUTES.SETTINGS)}>
+									<Ionicons name="settings-outline" size={24} color={Colors.BLACK} />
+								</Pressable>
+							);
+						},
 					}}
 				/>
 			</Tab.Navigator>
