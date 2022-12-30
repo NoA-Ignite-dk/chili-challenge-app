@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: Colors.GREEN_PRIMARY,
 		flexDirection: 'row',
-		alignContent: 'center'
+		alignContent: 'center',
 	},
 	pressed: {
 		backgroundColor: Colors.BLACK,
@@ -54,7 +54,17 @@ type Props = {
 	icon?: 'edit' | 'none';
 };
 
-const Button = ({ disabled = false, onPress, children, loading = false, style, textStyle, fullWidth = false, icon= 'none', ...props }: Props) => {
+const Button = ({
+	disabled = false,
+	onPress,
+	children,
+	loading = false,
+	style,
+	textStyle,
+	fullWidth = false,
+	icon = 'none',
+	...props
+}: Props) => {
 	return (
 		<Pressable
 			disabled={disabled}
@@ -69,7 +79,7 @@ const Button = ({ disabled = false, onPress, children, loading = false, style, t
 			{...props}
 		>
 			{loading && <LoadingIndicator />}
-			{!loading && <Txt style={{...typography.uppercaseBig,...styles.text, ...textStyle }}>{children}</Txt>}
+			{!loading && <Txt style={{ ...typography.uppercaseBig, ...styles.text, ...textStyle }}>{children}</Txt>}
 			{icon && icon === 'edit' && (
 				<View style={styles.icon}>
 					<Icon width={20} type={IconType.EDIT} stroke={Colors.WHITE} />

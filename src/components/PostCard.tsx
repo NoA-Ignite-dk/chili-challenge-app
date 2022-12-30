@@ -4,8 +4,10 @@ import Colors from '@src/config/colors';
 import { PublicPost } from '@src/data/posts';
 import { useProfileQuery } from '@src/data/profile';
 import { usePointsQuery } from '@src/data/points';
-import { ProfileImage } from './ProfileImage';
 import Variables from '@src/config/variables';
+import { POINT_TYPES } from '@src/constants/general';
+import { ProfileImage } from './ProfileImage';
+import SecondaryButton from './buttons/SecondaryButton';
 
 const styles = StyleSheet.create({
 	container: {
@@ -55,12 +57,19 @@ const styles = StyleSheet.create({
 		marginRight: 10,
 	},
 	claimedPoint: {
-		backgroundColor: Colors.GREEN_PRIMARY,
+		paddingHorizontal: 18,
+		paddingVertical: 18,
+		paddingBottom: 10,
+	},
+	claimedPointButton: {
+		backgroundColor: Colors.YELLOW_GOLD,
 		paddingHorizontal: 14,
 		paddingVertical: 6,
-		borderRadius: Variables.BORDER_RADIUS_XLARGE,
-		marginLeft: 18,
-		marginTop: 18,
+		borderRadius: Variables.BORDER_RADIUS_LARGE,
+		borderColor: Colors.YELLOW_GOLD,
+	},
+	claimedPointButtonText: {
+		color: Colors.WHITE,
 	},
 });
 
@@ -99,7 +108,11 @@ export default function PostCard({ item }: Props) {
 			</View>
 			{claimedPoint && (
 				<View style={styles.claimedPoint}>
-					<Text>Point claimed: {claimedPoint.point_to_claim?.title}</Text>
+					<SecondaryButton icon="star" fullWidth style={styles.claimedPointButton} textStyle={styles.claimedPointButtonText}>
+						{POINT_TYPES[claimedPoint?.point_to_claim?.type || 'flower']}
+						{': '}
+						{claimedPoint.point_to_claim?.title}
+					</SecondaryButton>
 				</View>
 			)}
 			<Text style={styles.text}>{item.description}</Text>

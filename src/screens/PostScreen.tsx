@@ -4,7 +4,6 @@ import { StyleSheet, View, Image, TextInput, Pressable, Text } from 'react-nativ
 import * as ImagePicker from 'expo-image-picker';
 
 // Components
-import Txt from '@src/components/Txt';
 import SecondaryButton from '@src/components/buttons/SecondaryButton';
 import PointsModal from '@src/components/PointsModal';
 import Icon, { IconType } from '@src/components/Icon';
@@ -196,7 +195,7 @@ export default function PostScreen() {
 			<View style={styles.section}>
 				<Text style={typography.uppercaseBig}>Points (optional)</Text>
 				{!selectedPoint && (
-					<SecondaryButton onPress={() => setModalVisible(true)} style={styles.button} icon="plus">
+					<SecondaryButton iconColor={Colors.GREEN_PRIMARY} onPress={() => setModalVisible(true)} style={styles.button} icon="plus">
 						<Text style={typography.buttonText}>Select points</Text>
 					</SecondaryButton>
 				)}
