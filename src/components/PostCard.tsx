@@ -3,8 +3,8 @@ import { Image, StyleSheet, View, Text, Dimensions } from 'react-native';
 
 // Config
 import Colors from '@src/config/colors';
-import { useUserProfileQuery } from '@src/data/user-profile';
 import { PublicPost } from '@src/data/posts';
+import { useProfileQuery } from '@src/data/profile';
 import { ProfileImage } from './ProfileImage';
 
 const styles = StyleSheet.create({
@@ -62,7 +62,7 @@ type Props = {
 };
 
 export default function PostCard({ item }: Props) {
-	const { data: profileData } = useUserProfileQuery(item.user_id);
+	const { data: profileData } = useProfileQuery(item.user_id);
 	const { width } = Dimensions.get('window');
 	const date = new Date(item.created_at);
 
