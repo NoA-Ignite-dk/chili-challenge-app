@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 
 // Config
 import Colors from '@src/config/colors';

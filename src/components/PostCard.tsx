@@ -1,11 +1,11 @@
 import React from 'react';
 import { Image, StyleSheet, View, Text, Dimensions } from 'react-native';
-
-// Config
 import Colors from '@src/config/colors';
 import { PublicPost } from '@src/data/posts';
 import { useProfileQuery } from '@src/data/profile';
+import { usePointsQuery } from '@src/data/points';
 import { ProfileImage } from './ProfileImage';
+import Variables from '@src/config/variables';
 
 const styles = StyleSheet.create({
 	container: {
@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 		minWidth: '100%',
 		marginBottom: 20,
-		// padding: 10,
 		shadowOffset: {
 			width: 0,
 			height: 1,
@@ -55,6 +54,14 @@ const styles = StyleSheet.create({
 	date: {
 		marginRight: 10,
 	},
+	claimedPoint: {
+		backgroundColor: Colors.GREEN_PRIMARY,
+		paddingHorizontal: 14,
+		paddingVertical: 6,
+		borderRadius: Variables.BORDER_RADIUS_XLARGE,
+		marginLeft: 18,
+		marginTop: 18,
+	},
 });
 
 type Props = {
@@ -65,6 +72,8 @@ export default function PostCard({ item }: Props) {
 	const { data: profileData } = useProfileQuery(item.user_id);
 	const { width } = Dimensions.get('window');
 	const date = new Date(item.created_at);
+	const { data: pointsData } = usePointsQuery(item.user_id);
+	const claimedPoint = pointsData?.find((pointItem) => pointItem.post_id === item.id);
 
 	const options = {
 		year: 'numeric',
@@ -88,6 +97,11 @@ export default function PostCard({ item }: Props) {
 			<View style={styles.imageContainer}>
 				<Image style={styles.image} source={{ uri: item.image_url }} />
 			</View>
+			{claimedPoint && (
+				<View style={styles.claimedPoint}>
+					<Text>Point claimed: {claimedPoint.point_to_claim?.title}</Text>
+				</View>
+			)}
 			<Text style={styles.text}>{item.description}</Text>
 		</View>
 	);
