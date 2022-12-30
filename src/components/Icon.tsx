@@ -198,7 +198,7 @@ const IconConfig = {
 					stroke-linecap="round"
 					stroke-linejoin="round"
 				/>
-				<Path d="M7.481 14.463H16.216" stroke="#36354A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+				<Path d="M7.481 14.463H16.216" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 			</>
 		),
 	},
