@@ -2,7 +2,7 @@ import { supabase } from '@src/lib/supabase';
 import { normalizeRows } from '@src/utils/normalizeData';
 import { useQuery } from 'react-query';
 
-export const QUERY_KEY = 'ALL_POSTS';
+export const QUERY_KEY = 'USER_POSTS';
 
 export interface PublicPost {
 	id: number;

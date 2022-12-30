@@ -1,19 +1,37 @@
-export const sendPushNotification = async (expoPushToken: any) => {
-	const message = {
+import * as Notifications from 'expo-notifications';
+
+export const schedulePushNotification = async (expoPushToken: any) => {
+	const weeklyNotification = {
 		to: expoPushToken,
 		sound: 'default',
-		title: 'Original Title',
-		body: 'And here is the body!',
-		data: { someData: 'goes here' },
+		content: {
+			title: '🚿 Watering time 🚿',
+			body: 'Remember to water your plants for the weekend!',
+			data: {},
+		},
+		trigger: {
+			dayOfWeek: [5],
+			hour: 12,
+			minute: 0,
+			repeats: true,
+		},
 	};
 
-	await fetch('https://exp.host/--/api/v2/push/send', {
-		method: 'POST',
-		headers: {
-			Accept: 'application/json',
-			'Accept-encoding': 'gzip, deflate',
-			'Content-Type': 'application/json',
+	const dailyNotification = {
+		to: expoPushToken,
+		sound: 'default',
+		content: {
+			title: '🚿 Watering time 🚿',
+			body: 'Remember to water your plants before you go home!',
+			data: {},
 		},
-		body: JSON.stringify(message),
-	});
+		trigger: {
+			hour: 15,
+			minute: 30,
+			repeats: true,
+		},
+	};
+
+	await Notifications.scheduleNotificationAsync(weeklyNotification);
+	await Notifications.scheduleNotificationAsync(dailyNotification);
 };
