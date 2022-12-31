@@ -1,12 +1,18 @@
 import React from 'react';
-import { Image, StyleSheet, View, Text, Dimensions } from 'react-native';
+import { Image, StyleSheet, View, Text, Dimensions, Pressable } from 'react-native';
+
+// Config
 import Colors from '@src/config/colors';
 import { PublicPost } from '@src/data/posts';
 import { useProfileQuery } from '@src/data/profile';
-import { usePointsByUserIdQuery } from '@src/data/points';
+import { useNavigation } from '@react-navigation/native';
+import { AllRoutesNavigationProp } from '@src/types/navigation';
 import Variables from '@src/config/variables';
 import { POINT_TYPES } from '@src/constants/general';
+import { ROUTES } from '@src/config/routes';
+import { usePointsByUserIdQuery } from '@src/data/points';
 import { ProfileImage } from './ProfileImage';
+import { useAppContext } from './providers/appContext';
 import SecondaryButton from './buttons/SecondaryButton';
 
 const styles = StyleSheet.create({
@@ -78,11 +84,21 @@ type Props = {
 };
 
 export default function PostCard({ item }: Props) {
+	const { session } = useAppContext()
 	const { data: profileData } = useProfileQuery(item.user_id);
 	const { width } = Dimensions.get('window');
 	const date = new Date(item.created_at);
 	const { data: pointsData } = usePointsByUserIdQuery(item.user_id);
 	const claimedPoint = pointsData?.find((pointItem) => pointItem.post_id === item.id);
+	const navigation = useNavigation<AllRoutesNavigationProp>();
+
+	function openUserProfile() {
+		if (session?.user.id === item.user_id) {
+			return navigation.navigate(ROUTES.PROFILE)
+		}
+
+		return navigation.push(ROUTES.USER, { user_id: item.user_id })
+	}
 
 	const options = {
 		year: 'numeric',
@@ -93,10 +109,10 @@ export default function PostCard({ item }: Props) {
 	return (
 		<View style={styles.container}>
 			<View style={[styles.flex, { width }]}>
-				<View style={[styles.item, styles.itemLeft]}>
+				<Pressable onPress={() => openUserProfile()} style={[styles.item, styles.itemLeft]}>
 					<ProfileImage imageSource={{ uri: profileData?.profilePicture }} size={'small'}></ProfileImage>
 					<Text style={styles.profileName}>{profileData?.fullName}</Text>
-				</View>
+				</Pressable>
 				<View style={[styles.item, styles.itemRight]}>
 					<View>
 						<Text style={styles.date}>{date.toLocaleDateString(undefined, options)}</Text>

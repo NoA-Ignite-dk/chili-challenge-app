@@ -6,6 +6,7 @@ export enum ROUTES {
 	POST = 'post',
 	INFO = 'info',
 	PROFILE = 'profile',
+	USER = 'user',
 	AUTH_LANDING_PAGE = 'auth-landing-page',
 	LOGIN = 'login',
 	SIGN_UP = 'sign-up',
