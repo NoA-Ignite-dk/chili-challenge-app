@@ -213,7 +213,7 @@ export default function PostScreen() {
 				/>
 			</View>
 			<View style={styles.section}>
-				<Text style={typography.uppercaseBig}>Points (optional)</Text>
+				<Text style={typography.uppercaseBig}>Claim points (optional)</Text>
 				{!selectedPoint && (
 					<SecondaryButton iconColor={Colors.GREEN_PRIMARY} onPress={() => setModalVisible(true)} style={styles.button} icon="plus">
 						<Text style={typography.buttonText}>Select points</Text>
@@ -222,7 +222,7 @@ export default function PostScreen() {
 				{selectedPoint && (
 					<SecondaryButton onPress={() => setModalVisible(true)} style={styles.selectedButton} textStyle={styles.selectedButtonText}>
 						<View style={styles.pointItemContainer}>
-							<Text style={[styles.pointItemText, typography.primaryButtonText]}>
+							<Text style={[styles.pointItemText, typography.buttonText]}>
 								{POINT_TYPES[selectedPointData?.type as keyof typeof POINT_TYPES]}
 								{': '}
 								{selectedPointData?.title}
