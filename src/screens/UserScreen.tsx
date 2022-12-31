@@ -1,22 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
-import { useRoute } from '@react-navigation/native';
 import { TabView, SceneMap, TabBar, SceneRendererProps, NavigationState, Route } from 'react-native-tab-view';
 import { containerStyles } from '@src/styles/generalStyles'
 
-// Components
-import Button from '@src/components/buttons/PrimaryButton';
-
 // Config
 import Colors from '@src/config/colors';
-
+import { AllRoutesParamList } from '@src/types/navigation';
+import { ROUTES } from '@src/config/routes';
 import Icon, { IconType } from '@src/components/Icon';
 import ProfileCard from '@src/components/ProfileCard';
-import EditProfileModal from '@src/components/EditProfileModal';
-import { useAppContext } from '@src/components/providers/appContext';
-import { AllPostsTab } from './tabs/AllPostsTab';
-import { AllPlantsTab } from './tabs/AllPlantsTab';
-import { ClaimedPointsListTab } from './tabs/ClaimedPointsListTab';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { AllPostsTab } from './profile/tabs/AllPostsTab';
+import { AllPlantsTab } from './profile/tabs/AllPlantsTab';
+import { ClaimedPointsListTab } from './profile/tabs/ClaimedPointsListTab';
 
 const styles = StyleSheet.create({
 	container: {
@@ -26,23 +22,16 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default function ProfileScreen() {
+export default function UserScreen() {
+	const { params } = useRoute<RouteProp<AllRoutesParamList, ROUTES.USER>>()
 	const layout = useWindowDimensions();
 	const [index, setIndex] = React.useState(0);
-	const [editProfileModalVisible, setEditProfileModalVisible] = useState(false);
-	const { session } = useAppContext();
-	const { params } = useRoute();
-
-	console.log('session', session?.user.id, params);
 
 	const [routes] = React.useState([
 		{ key: 'allPosts', title: 'Posts' },
 		{ key: 'allPlants', title: 'Plants' },
 		{ key: 'claimedPointsList', title: 'Claimed points list' },
 	]);
-
-
-
 
 	const getTabBarIcon = ({ route, color }: { route: Route, color: string }) => {
 		switch (route.key) {
@@ -78,20 +67,15 @@ export default function ProfileScreen() {
 	);
 
 	const renderScene = SceneMap({
-		allPosts: () => session?.user.id ? (<AllPostsTab userId={session.user.id} />) : (<></>),
-		allPlants: () => session?.user.id ? (<AllPlantsTab userId={session.user.id} />) : (<></>),
-		claimedPointsList: () => session?.user.id ? (<ClaimedPointsListTab userId={session.user.id} />) : (<></>),
+		allPosts: () => (<AllPostsTab userId={params.user_id} />),
+		allPlants: () => (<AllPlantsTab userId={params.user_id} />),
+		claimedPointsList: () => (<ClaimedPointsListTab userId={params.user_id} />),
 	});
 
 	return (
 		<>
 			<View style={styles.container}>
-				{session && (
-					<ProfileCard userId={session.user.id} />
-				)}
-				<Button onPress={() => setEditProfileModalVisible(true)} icon={'edit'}>
-					Edit profile
-				</Button>
+				<ProfileCard userId={params.user_id} />
 			</View>
 			<TabView
 				navigationState={{ index, routes }}
@@ -101,7 +85,6 @@ export default function ProfileScreen() {
 				initialLayout={{ width: layout.width }}
 				style={containerStyles.container}
 			/>
-			<EditProfileModal open={editProfileModalVisible} setOpen={setEditProfileModalVisible} />
 		</>
 	);
 }

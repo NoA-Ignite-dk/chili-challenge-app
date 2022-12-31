@@ -10,6 +10,7 @@ export type AllRoutesParamList = {
 	[ROUTES.SCOREBOARD]: undefined;
 	[ROUTES.INFO]: undefined;
 	[ROUTES.PROFILE]: undefined;
+	[ROUTES.USER]: { user_id: string };
 	[ROUTES.MAIN_TABS]: undefined;
 	[ROUTES.AUTH_LANDING_PAGE]: undefined;
 	[ROUTES.SIGN_UP]: undefined;
@@ -30,6 +31,7 @@ export type MainStackParamList = {
 	[ROUTES.SCOREBOARD]: undefined;
 	[ROUTES.INFO]: undefined;
 	[ROUTES.PROFILE]: undefined;
+	[ROUTES.USER]: { user_id: string };
 	[ROUTES.MAIN_TABS]: undefined;
 };
 
