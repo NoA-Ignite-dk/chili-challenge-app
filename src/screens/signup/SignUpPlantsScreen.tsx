@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View, Text } from 'react-native';
 import Button from '@src/components/buttons/PrimaryButton';
-import Txt from '@src/components/Txt';
-import { containerStyles } from '@src/styles/generalStyles';
+import { containerStyles, typography } from '@src/styles/generalStyles';
 import { useNavigation } from '@react-navigation/native';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
 import { useAuthContext } from '@src/components/providers/authContext';
@@ -33,6 +32,7 @@ export default function SignUpPlantsScreen() {
 
 	async function signUpWithEamail() {
 		setLoading(true);
+		// eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
 		const { data, error } = await supabase.auth.signUp({
 			email: allUserData.email,
 			password: allUserData.password,
@@ -54,8 +54,8 @@ export default function SignUpPlantsScreen() {
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
-			<Txt>What are your chili plants called?</Txt>
-			<Txt>Add up to three names</Txt>
+			<Text style={typography.signupTitle}>What are your chili plants called?</Text>
+			<Text style={typography.signupText}>Add up to three names</Text>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
 				{/* <InputField
 					isValid={firstNameValid}
@@ -81,7 +81,7 @@ export default function SignUpPlantsScreen() {
 				<Button onPress={handleContinue}>{loading ? <Icon type={IconType.LOADING} /> : 'Continue'}</Button>
 			</View>
 
-			{error && <Txt>{error}</Txt>}
+			{error && <Text style={typography.errorMessage}>{error}</Text>}
 		</View>
 	);
 }

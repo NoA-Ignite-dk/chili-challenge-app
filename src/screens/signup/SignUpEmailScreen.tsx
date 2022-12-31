@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Button from '@src/components/buttons/PrimaryButton';
-import Txt from '@src/components/Txt';
-import { containerStyles } from '@src/styles/generalStyles';
+import { containerStyles, typography } from '@src/styles/generalStyles';
 import InputField from '@src/components/InputField';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
 import { useNavigation } from '@react-navigation/native';
@@ -28,6 +27,7 @@ export default function SignUpEmailScreen() {
 
 	const handleContinue = () => {
 		if (emailValid) {
+			setError('');
 			navigation.navigate(ROUTES.SIGN_UP_PASSWORD);
 		} else {
 			setError('Please fill out all fields');
@@ -36,8 +36,8 @@ export default function SignUpEmailScreen() {
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
-			<Txt>What’s your company email?</Txt>
-			<Txt>You will need it to sign in to the application</Txt>
+			<Text style={typography.signupTitle}>What’s your company email?</Text>
+			<Text style={typography.signupText}>You will need it to sign in to the application</Text>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
 				<InputField
 					isValid={emailValid}
@@ -47,6 +47,7 @@ export default function SignUpEmailScreen() {
 					label="Email"
 					placeholder="email@address.com"
 					errorMessage="Field required"
+					autoCapitalize="none"
 				/>
 			</View>
 
@@ -54,7 +55,7 @@ export default function SignUpEmailScreen() {
 				<Button onPress={handleContinue}>Continue</Button>
 			</View>
 
-			{error && <Txt>{error}</Txt>}
+			{error && <Text style={typography.errorMessage}>{error}</Text>}
 		</View>
 	);
 }

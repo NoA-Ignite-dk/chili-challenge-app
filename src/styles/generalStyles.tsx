@@ -14,7 +14,7 @@ export const typography = StyleSheet.create({
 	},
 	h3: {
 		fontFamily: 'Manrope_500Medium',
-		fontSize: 16
+		fontSize: 16,
 	},
 	uppercaseBig: {
 		fontFamily: 'Manrope_600SemiBold',
@@ -24,24 +24,24 @@ export const typography = StyleSheet.create({
 	},
 	largeTitle: {
 		fontFamily: 'Manrope_700Bold',
-		fontSize: 60,
-		fontWeight: '600',
+		fontSize: 50,
+		lineHeight: 60,
 	},
 	bodyRegular16: {
-		fontFamily: "Manrope_400Regular",
-		fontSize: 16
+		fontFamily: 'Manrope_400Regular',
+		fontSize: 16,
 	},
 	bodyRegular14: {
-		fontFamily: "Manrope_400Regular",
-		fontSize: 14
+		fontFamily: 'Manrope_400Regular',
+		fontSize: 14,
 	},
 	bodySemibold: {
 		fontFamily: 'Manrope_600SemiBold',
-		fontSize: 14
+		fontSize: 14,
 	},
-	bodySecondary:{
-		fontFamily: "Manrope_500Medium",
-		fontSize: 12
+	bodySecondary: {
+		fontFamily: 'Manrope_500Medium',
+		fontSize: 12,
 	},
 	headerTitle: {
 		fontFamily: 'Manrope_600SemiBold',
@@ -49,8 +49,27 @@ export const typography = StyleSheet.create({
 		color: Colors.GREEN_PRIMARY,
 	},
 	whiteText: {
-		color: Colors.WHITE
-	}
+		color: Colors.WHITE,
+	},
+	signupTitle: {
+		fontFamily: 'Manrope_700Bold',
+		fontSize: 32,
+		lineHeight: 42,
+		maxWidth: '80%',
+		marginBottom: 10,
+		marginTop: 14,
+	},
+	signupText: {
+		fontFamily: 'Manrope_400Regular',
+		fontSize: 16,
+		marginBottom: 20,
+	},
+	errorMessage: {
+		fontFamily: 'Manrope_400Regular',
+		color: Colors.ERROR_RED,
+		paddingHorizontal: 20,
+		paddingTop: 10,
+	},
 });
 
 export const containerStyles = StyleSheet.create({

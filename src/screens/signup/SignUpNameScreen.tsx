@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Button from '@src/components/buttons/PrimaryButton';
-import Txt from '@src/components/Txt';
-import { containerStyles } from '@src/styles/generalStyles';
+import { containerStyles, typography } from '@src/styles/generalStyles';
 import InputField from '@src/components/InputField';
 import { useNavigation } from '@react-navigation/native';
 import { ROUTES } from '@src/config/routes';
@@ -29,6 +28,7 @@ export default function SignUpNameScreen() {
 
 	const handleContinue = () => {
 		if (firstNameValid && lastNameValid) {
+			setError('');
 			navigation.navigate(ROUTES.SIGN_UP_PLANTS);
 		} else {
 			setError('Please fill out all fields');
@@ -37,8 +37,8 @@ export default function SignUpNameScreen() {
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
-			<Txt>Whats your name?</Txt>
-			<Txt>Identify yourself</Txt>
+			<Text style={typography.signupTitle}>Whats your name?</Text>
+			<Text style={typography.signupText}>Identify yourself</Text>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
 				<InputField
 					isValid={firstNameValid}
@@ -64,7 +64,7 @@ export default function SignUpNameScreen() {
 				<Button onPress={handleContinue}>Continue</Button>
 			</View>
 
-			{error && <Txt>{error}</Txt>}
+			{error && <Text style={typography.errorMessage}>{error}</Text>}
 		</View>
 	);
 }

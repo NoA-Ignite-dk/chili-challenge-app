@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Button from '@src/components/buttons/PrimaryButton';
-import Txt from '@src/components/Txt';
-import { containerStyles } from '@src/styles/generalStyles';
+import { containerStyles, typography } from '@src/styles/generalStyles';
 import InputField from '@src/components/InputField';
 import { ROUTES } from '@src/config/routes';
 import { useNavigation } from '@react-navigation/native';
@@ -29,17 +28,24 @@ export default function SignUpPasswordScreen() {
 	const [error, setError] = useState('');
 
 	const handleContinue = () => {
-		if (password === confirmPassword) {
-			navigation.navigate(ROUTES.SIGN_UP_NAME);
-		} else {
+		if (password !== confirmPassword) {
 			setError("Passwords don't match");
+			return;
 		}
+
+		if (confirmPassword.length < 6) {
+			setError('Password must be at least 6 characters');
+			return;
+		}
+
+		setError('');
+		navigation.navigate(ROUTES.SIGN_UP_NAME);
 	};
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
-			<Txt>Create Password</Txt>
-			<Txt>You will need it to sign in to the application</Txt>
+			<Text style={typography.signupTitle}>Create Password</Text>
+			<Text style={typography.signupText}>You will need it to sign in to the application</Text>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
 				<InputField
 					isValid={passwordValid}
@@ -50,6 +56,7 @@ export default function SignUpPasswordScreen() {
 					placeholder="******"
 					errorMessage="Field required"
 					password
+					autoCapitalize="none"
 				/>
 				<InputField
 					isValid={confirmPasswordValid}
@@ -60,6 +67,7 @@ export default function SignUpPasswordScreen() {
 					placeholder="******"
 					errorMessage="Field required"
 					password
+					autoCapitalize="none"
 				/>
 			</View>
 
@@ -67,7 +75,7 @@ export default function SignUpPasswordScreen() {
 				<Button onPress={handleContinue}>Continue</Button>
 			</View>
 
-			{error && <Txt>{error}</Txt>}
+			{error && <Text style={typography.errorMessage}>{error}</Text>}
 		</View>
 	);
 }

@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Session } from '@supabase/supabase-js';
 import { ROUTES } from '@src/config/routes';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
 import { supabase } from '@src/lib/supabase';
 import Button from '@src/components/buttons/PrimaryButton';
-import Txt from '@src/components/Txt';
 import { containerStyles, typography } from '@src/styles/generalStyles';
 
 const styles = StyleSheet.create({
 	container: {
 		justifyContent: 'space-between',
+		paddingTop: 150,
+		paddingBottom: 80,
 	},
 	buttonsContainer: {
 		flexDirection: 'row',
@@ -40,19 +41,11 @@ export default function AuthLandingScreen() {
 		if (session && session.user) {
 			navigation.navigate(ROUTES.MAIN_TABS);
 		}
-	}, [session])
+	}, [session]);
 
 	return (
-		<View
-			style={[
-				containerStyles.container,
-				containerStyles.padding,
-				styles.container,
-				containerStyles.largePaddingBottom,
-				containerStyles.largePaddingTop,
-			]}
-		>
-			<Txt style={typography.largeTitle}>Chili Challenge</Txt>
+		<View style={[containerStyles.container, containerStyles.padding, styles.container]}>
+			<Text style={typography.largeTitle}>Chili Challenge</Text>
 			<View style={styles.buttonsContainer}>
 				<Button style={styles.button} onPress={() => navigation.navigate(ROUTES.SIGN_UP_EMAIL)}>
 					Sign up
