@@ -2,7 +2,7 @@ import { supabase } from "@src/lib/supabase";
 import { takeFirstRow } from "@src/utils/normalizeData";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { QUERY_KEY as USERS_WITH_POINTS } from './users-with-points';
-import { QUERY_KEY as PROFILE_QUERY_KEY } from './profile';
+import { getProfile, QUERY_KEY as PROFILE_QUERY_KEY } from './profile';
 
 export const QUERY_KEY = 'USER_PROFILE';
 
@@ -11,30 +11,9 @@ export interface Profile {
 	profilePicture: string;
 }
 
-export async function getUserProfile(user_id: string): Promise<Profile> {
-	const { data, error } = await supabase
-		.from('profiles')
-		.select(`
-			fullName: full_name,
-			profilePicture: avatar_url
-		`)
-		.eq('id', user_id)
-		.single();
-
-	if (error) {
-		throw error;
-	}
-
-	if (!data) {
-		throw new Error(`Unable to find a profile by given id: ${user_id}`);
-	}
-
-	return data;
-}
-
 export function useUserProfileQuery(user_id?: string) {
 	const hook = useQuery(QUERY_KEY, {
-		queryFn: () => getUserProfile(user_id as string),
+		queryFn: () => getProfile(user_id as string),
 		enabled: !!user_id,
 	});
 

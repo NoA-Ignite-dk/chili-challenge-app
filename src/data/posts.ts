@@ -15,15 +15,13 @@ export interface PublicPost {
 export async function getAllPosts(): Promise<PublicPost[]> {
 	const { data, error } = await supabase
 		.from('post')
-		.select(
-			`
+		.select(`
 			id,
 			description,
 			image_url,
 			user_id,
 			created_at
-		`,
-		)
+		`)
 		.order('id', { ascending: false });
 
 	if (error) {
@@ -39,4 +37,34 @@ export async function getAllPosts(): Promise<PublicPost[]> {
 
 export function usePostsQuery() {
 	return useQuery(QUERY_KEY, () => getAllPosts());
+}
+
+export async function getPostsByUserID(userId: string): Promise<PublicPost[]> {
+	const { data, error } = await supabase
+		.from('post')
+		.select(`
+			id,
+			description,
+			image_url,
+			user_id,
+			created_at
+		`)
+		.order('id', { ascending: false })
+		.match({
+			user_id: userId,
+		});
+
+	if (error) {
+		throw error;
+	}
+
+	if (!data) {
+		throw new Error(`Unable to find posts`);
+	}
+
+	return normalizeRows(data).filter((e) => !!e?.id);
+}
+
+export function usePostsByUserIDQuery(userId: string) {
+	return useQuery([QUERY_KEY, userId], () => getPostsByUserID(userId));
 }

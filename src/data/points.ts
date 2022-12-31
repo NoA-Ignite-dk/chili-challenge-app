@@ -1,24 +1,25 @@
-import { supabase } from '@src/lib/supabase';
-import { normalizeRows, takeFirstRow } from '@src/utils/normalizeData';
-import { useQuery } from 'react-query';
-import { PointToClaim } from './point-to-claim';
+import { supabase } from "@src/lib/supabase";
+import { normalizeRows, takeFirstRow } from "@src/utils/normalizeData";
+import { useQuery } from "react-query";
+import { PointToClaim } from "./point-to-claim";
 
 export const QUERY_KEY = 'POINTS';
 
 export interface Point {
 	id: number;
 	claimed_at: string;
-	point_to_claim: PointToClaim | null;
+	user_id: string;
 	post_id: number;
+	point_to_claim: PointToClaim | null;
 }
 
-export async function getPoints(user_id: string): Promise<Point[]> {
+export async function getPointsByUserId(user_id: string): Promise<Point[]> {
 	const { data, error } = await supabase
 		.from('point')
-		.select(
-			`
+		.select(`
 			id,
 			claimed_at,
+			user_id,
 			post_id,
 			point_to_claim (
 				id,
@@ -26,8 +27,7 @@ export async function getPoints(user_id: string): Promise<Point[]> {
 				type,
 				amount
 			)
-		`,
-		)
+		`)
 		.eq('user_id', user_id)
 		.order('id', { ascending: true });
 
@@ -48,10 +48,9 @@ export async function getPoints(user_id: string): Promise<Point[]> {
 		}) as Point[];
 }
 
-export function usePointsQuery(user_id: string | undefined) {
-	const hook = useQuery(QUERY_KEY, {
-		queryFn: () => getPoints(user_id as string),
-		enabled: !!user_id,
+export function usePointsByUserIdQuery(user_id: string) {
+	const hook = useQuery([QUERY_KEY, user_id], {
+		queryFn: () => getPointsByUserId(user_id),
 	});
 
 	return hook;
