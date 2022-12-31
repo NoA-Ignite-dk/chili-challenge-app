@@ -8,6 +8,7 @@ import { useAuthContext } from '@src/components/providers/authContext';
 import Icon, { IconType } from '@src/components/Icon';
 import { supabase } from '@src/lib/supabase';
 import ROUTES from '@src/config/routes';
+import InputField from '@src/components/InputField';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -25,6 +26,12 @@ export default function SignUpPlantsScreen() {
 	const { allUserData } = useAuthContext();
 	const [error] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [plant1Valid, setPlant1Valid] = useState(false);
+	const [plant1, setPlant1] = useState('');
+	const [plant2Valid, setPlant2Valid] = useState(false);
+	const [plant2, setPlant2] = useState('');
+	const [plant3Valid, setPlant3Valid] = useState(false);
+	const [plant3, setPlant3] = useState('');
 
 	const handleContinue = () => {
 		signUpWithEamail();
@@ -57,24 +64,33 @@ export default function SignUpPlantsScreen() {
 			<Text style={typography.signupTitle}>What are your chili plants called?</Text>
 			<Text style={typography.signupText}>Add up to three names</Text>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
-				{/* <InputField
-					isValid={firstNameValid}
-					setIsValid={setFirstNameValid}
-					text={firstName}
-					setText={setFirstName}
-					label="First name"
-					placeholder="Jane"
+				<InputField
+					isValid={plant1Valid}
+					setIsValid={setPlant1Valid}
+					text={plant1}
+					setText={setPlant1}
+					label="Plant 1"
+					placeholder="Name"
 					errorMessage="Field required"
 				/>
 				<InputField
-					isValid={lastNameValid}
-					setIsValid={setLastNameValid}
-					text={lastName}
-					setText={setLastName}
-					label="Last name"
-					placeholder="Doe"
+					isValid={plant2Valid}
+					setIsValid={setPlant2Valid}
+					text={plant2}
+					setText={setPlant2}
+					label="Plant 2"
+					placeholder="Name"
 					errorMessage="Field required"
-				/> */}
+				/>
+				<InputField
+					isValid={plant3Valid}
+					setIsValid={setPlant3Valid}
+					text={plant3}
+					setText={setPlant3}
+					label="Plant 3"
+					placeholder="Name"
+					errorMessage="Field required"
+				/>
 			</View>
 
 			<View style={[styles.verticallySpaced, styles.mt20]}>
