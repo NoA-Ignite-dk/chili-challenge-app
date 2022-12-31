@@ -109,7 +109,7 @@ export default function PostCard({ item }: Props) {
 			{claimedPoint && (
 				<View style={styles.claimedPoint}>
 					<SecondaryButton icon="star" fullWidth style={styles.claimedPointButton} textStyle={styles.claimedPointButtonText}>
-						{POINT_TYPES[claimedPoint?.point_to_claim?.type || 'flower']}
+						{POINT_TYPES[claimedPoint?.point_to_claim?.type as keyof typeof POINT_TYPES]}
 						{': '}
 						{claimedPoint.point_to_claim?.title}
 					</SecondaryButton>
