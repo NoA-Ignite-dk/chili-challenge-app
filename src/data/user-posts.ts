@@ -1,6 +1,7 @@
 import { supabase } from '@src/lib/supabase';
-import { normalizeRows, takeFirstRow } from '@src/utils/normalizeData';
+import { takeFirstRow } from '@src/utils/normalizeData';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { getPostsByUserID } from './posts';
 
 export const QUERY_KEY = 'USER_POSTS';
 
@@ -10,33 +11,9 @@ export interface Post {
 	image_url: string;
 }
 
-export async function getUserPosts(user_id: string): Promise<Post[]> {
-	const { data, error } = await supabase
-		.from('post')
-		.select(
-			`
-			id,
-			description,
-			image_url
-		`,
-		)
-		.eq('user_id', user_id)
-		.order('id', { ascending: true });
-
-	if (error) {
-		throw error;
-	}
-
-	if (!data) {
-		throw new Error(`Unable to find posts for user id: ${user_id}`);
-	}
-
-	return normalizeRows(data).filter((e) => !!e?.id);
-}
-
 export function useUserPostsQuery(user_id: string | undefined) {
 	const hook = useQuery(QUERY_KEY, {
-		queryFn: () => getUserPosts(user_id as string),
+		queryFn: () => getPostsByUserID(user_id as string),
 		enabled: !!user_id,
 	});
 

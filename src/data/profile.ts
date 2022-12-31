@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 export const QUERY_KEY = 'PROFILE';
 
 export interface Profile {
+	id: string;
 	fullName: string;
 	profilePicture: string;
 }
@@ -12,6 +13,7 @@ export async function getProfile(id: string): Promise<Profile> {
 	const { data, error } = await supabase
 		.from('profiles')
 		.select(`
+			id,
 			fullName: full_name,
 			profilePicture: avatar_url
 		`)

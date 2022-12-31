@@ -1,70 +1,33 @@
 import { supabase } from "@src/lib/supabase";
-import { normalizeRows, takeFirstRow } from "@src/utils/normalizeData";
+import { takeFirstRow } from "@src/utils/normalizeData";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { PointToClaim } from "./point-to-claim";
+import { getPointsByUserId, Point, QUERY_KEY as POINTS_QUERY_KEY } from "./points";
 import { QUERY_KEY as USERS_WITH_POINTS } from './users-with-points';
 
 export const QUERY_KEY = 'USER_POINTS';
 
-export interface Point {
-	id: number;
-	claimed_at: string;
-	point_to_claim: PointToClaim | null;
-}
-
-export async function getUserPoints(user_id: string): Promise<Point[]> {
-	const { data, error } = await supabase
-		.from('point')
-		.select(`
-			id,
-			claimed_at,
-			point_to_claim (
-				id,
-				title,
-				type,
-				amount
-			)
-		`)
-		.eq('user_id', user_id)
-		.order('id', { ascending: true });
-
-	if (error) {
-		throw error;
-	}
-
-	if (!data) {
-		throw new Error(`Unable to find points for user id: ${user_id}`);
-	}
-
-	return normalizeRows(data)
-		.filter((e) => !!e?.id)
-		.map((e) => {
-			e.point_to_claim = takeFirstRow(e.point_to_claim);
-
-			return e;
-		}) as Point[];
-}
-
 export function useUserPointsQuery(user_id: string | undefined) {
 	const hook = useQuery(QUERY_KEY, {
-		queryFn: () => getUserPoints(user_id as string),
+		queryFn: () => getPointsByUserId(user_id as string),
 		enabled: !!user_id,
 	});
 
 	return hook;
 }
 
-export async function updateUserPoints(id: string, payload: Partial<Point>): Promise<void> {
-	const { error } = await supabase
-		.from('points')
+export async function updateUserPoints(id: string, payload: Partial<Point>): Promise<Point> {
+	const { data, error } = await supabase
+		.from('point')
 		.update(payload)
-		.match({
-			id,
-		});
+		.eq('id', id)
+		.select()
+		.single();
 
 	if (error) {
 		throw error;
 	}
+
+	return data;
 }
 
 export function useUpdateUserPointsMutation() {
@@ -76,9 +39,10 @@ export function useUpdateUserPointsMutation() {
 			payload: Partial<Point>
 		}) => updateUserPoints(id, payload),
 		{
-			onSuccess: () => {
+			onSuccess: ({ user_id }) => {
 				queryClient.invalidateQueries(QUERY_KEY)
 				queryClient.invalidateQueries(USERS_WITH_POINTS)
+				queryClient.invalidateQueries([POINTS_QUERY_KEY, user_id])
 			},
 		}
 	)
@@ -113,9 +77,10 @@ export function useCreateUserPointsMutation() {
 			payload: CreatePointDTO
 		}) => createUserPoint(payload),
 		{
-			onSuccess: () => {
+			onSuccess: ({ user_id }) => {
 				queryClient.invalidateQueries(QUERY_KEY)
 				queryClient.invalidateQueries(USERS_WITH_POINTS)
+				queryClient.invalidateQueries([POINTS_QUERY_KEY, user_id])
 			},
 		}
 	)

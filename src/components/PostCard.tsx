@@ -3,7 +3,7 @@ import { Image, StyleSheet, View, Text, Dimensions } from 'react-native';
 import Colors from '@src/config/colors';
 import { PublicPost } from '@src/data/posts';
 import { useProfileQuery } from '@src/data/profile';
-import { usePointsQuery } from '@src/data/points';
+import { usePointsByUserIdQuery } from '@src/data/points';
 import Variables from '@src/config/variables';
 import { POINT_TYPES } from '@src/constants/general';
 import { ProfileImage } from './ProfileImage';
@@ -81,7 +81,7 @@ export default function PostCard({ item }: Props) {
 	const { data: profileData } = useProfileQuery(item.user_id);
 	const { width } = Dimensions.get('window');
 	const date = new Date(item.created_at);
-	const { data: pointsData } = usePointsQuery(item.user_id);
+	const { data: pointsData } = usePointsByUserIdQuery(item.user_id);
 	const claimedPoint = pointsData?.find((pointItem) => pointItem.post_id === item.id);
 
 	const options = {
