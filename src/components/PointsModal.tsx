@@ -1,16 +1,18 @@
 import Colors from '@src/config/colors';
+import Variables from '@src/config/variables';
+import { POINT_TYPES } from '@src/constants/general';
+import { typography } from '@src/styles/generalStyles';
 import { PointToClaim } from '@src/types/supabase';
 import React from 'react';
 import { Alert, FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import Button from './buttons/PrimaryButton';
 import Icon, { IconType } from './Icon';
-import Txt from './Txt';
 
 const styles = StyleSheet.create({
 	pointItem: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginTop: 22,
+		marginTop: 20,
 		width: '100%',
 		height: 50,
 	},
@@ -52,17 +54,29 @@ const styles = StyleSheet.create({
 		elevation: 5,
 		backgroundColor: Colors.WHITE,
 	},
-	// closeButton: {
-	// 	alignSelf: 'flex-end',
-	// },
 	closeTextContainer: {
 		alignSelf: 'baseline',
-		marginBottom: 36,
+		marginBottom: 45,
 		marginLeft: 'auto',
 		marginRight: 'auto',
 	},
-	closeText: {
-		fontSize: 18,
+	pointAmount: {
+		backgroundColor: Colors.FADED_GREEN,
+		paddingHorizontal: 10,
+		paddingVertical: 3,
+		borderRadius: Variables.BORDER_RADIUS_LARGE,
+		textAlign: 'right',
+		marginTop: 5,
+	},
+	pointItemContainer: {
+		width: '100%',
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	pointItemText: {
+		marginTop: 5,
+		color: Colors.WHITE,
 	},
 });
 
@@ -85,8 +99,16 @@ type RenderPointItemProps = {
 
 const PointItem = ({ item, handleSelectPoint }: PointItemProps) => (
 	<Button onPress={() => handleSelectPoint(item.id)} fullWidth style={styles.pointItem}>
-		<Text>{item.title}</Text>
-		<Text>{item.amount}</Text>
+		<View style={styles.pointItemContainer}>
+			<Text style={[styles.pointItemText, typography.primaryButtonText]}>
+				{POINT_TYPES[item.type as keyof typeof POINT_TYPES]}
+				{': '}
+				{item.title}
+			</Text>
+			<View style={styles.pointAmount}>
+				<Text style={{ color: Colors.TEXT_60 }}>{item.amount}</Text>
+			</View>
+		</View>
 	</Button>
 );
 
@@ -128,7 +150,7 @@ export default function PointsModal({ data, open, setOpen, setSelectedPoint, loa
 					{loading && <Icon type={IconType.LOADING} />}
 
 					<Pressable style={styles.closeTextContainer} onPress={() => setOpen(!open)}>
-						<Txt style={styles.closeText}>Close</Txt>
+						<Text style={typography.closeButton}>Close</Text>
 					</Pressable>
 				</View>
 			</View>

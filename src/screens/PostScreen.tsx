@@ -21,6 +21,7 @@ import { useAppContext } from '@src/components/providers/appContext';
 import { usePointToClaimQuery } from '@src/data/point-to-claim';
 import { useCreateUserPostsMutation } from '@src/data/user-posts';
 import { useCreateUserPointsMutation } from '@src/data/user-points';
+import { POINT_TYPES } from '@src/constants/general';
 
 const styles = StyleSheet.create({
 	container: {
@@ -77,15 +78,34 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	imagePlaceholderButton: {
-		backgroundColor: Colors.LIGHT_GREY,
+		backgroundColor: Colors.GREEN_PRIMARY,
 		color: Colors.BLACK,
 		borderRadius: 50,
 		height: 46,
 		width: 46,
 		justifyContent: 'center',
 		alignItems: 'center',
+		marginHorizontal: 5,
 	},
 	createButton: {},
+	pointItemContainer: {
+		width: '100%',
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	pointItemText: {
+		marginTop: 5,
+		color: Colors.WHITE,
+	},
+	pointAmount: {
+		backgroundColor: Colors.FADED_GREEN,
+		paddingHorizontal: 10,
+		paddingVertical: 3,
+		borderRadius: Variables.BORDER_RADIUS_LARGE,
+		textAlign: 'right',
+		marginTop: 5,
+	},
 });
 
 export default function PostScreen() {
@@ -201,7 +221,16 @@ export default function PostScreen() {
 				)}
 				{selectedPoint && (
 					<SecondaryButton onPress={() => setModalVisible(true)} style={styles.selectedButton} textStyle={styles.selectedButtonText}>
-						{selectedPointData?.title}
+						<View style={styles.pointItemContainer}>
+							<Text style={[styles.pointItemText, typography.primaryButtonText]}>
+								{POINT_TYPES[selectedPointData?.type as keyof typeof POINT_TYPES]}
+								{': '}
+								{selectedPointData?.title}
+							</Text>
+							<View style={styles.pointAmount}>
+								<Text style={{ color: Colors.TEXT_60 }}>{selectedPointData?.amount}</Text>
+							</View>
+						</View>
 					</SecondaryButton>
 				)}
 			</View>
@@ -218,16 +247,16 @@ export default function PostScreen() {
 				{!selectedImage && (
 					<View style={styles.imagePlaceholder}>
 						<Pressable style={styles.imagePlaceholderButton} onPress={openCamera}>
-							<Icon type={IconType.CAMERA} />
+							<Icon stroke={Colors.WHITE} type={IconType.CAMERA} />
 						</Pressable>
 						<Pressable style={styles.imagePlaceholderButton} onPress={openImageLibrary}>
-							<Icon type={IconType.UPLOAD} />
+							<Icon stroke={Colors.WHITE} type={IconType.UPLOAD} />
 						</Pressable>
 					</View>
 				)}
 			</View>
 			<Button style={styles.createButton} onPress={createPost}>
-				{!loading && <Text style={typography.buttonText}>Create post</Text>}
+				{!loading && <Text>Create post</Text>}
 				{loading && <Icon type={IconType.LOADING} />}
 			</Button>
 			<PointsModal loading={isLoading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
