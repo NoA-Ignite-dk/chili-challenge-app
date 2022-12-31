@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 const AuthStack = () => (
 	<AuthProvider>
-		<Stack.Navigator initialRouteName={ROUTES.AUTH_LANDING_PAGE}>
+		<Stack.Navigator screenOptions={{ headerBackTitle: '' }} initialRouteName={ROUTES.AUTH_LANDING_PAGE}>
 			<Stack.Screen options={{ headerShown: false }} name={ROUTES.AUTH_LANDING_PAGE} component={AuthLandingScreen} />
 			<Stack.Screen options={{ title: 'Login' }} name={ROUTES.LOGIN} component={LoginScreen} />
 			<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_EMAIL} component={SignUpEmailScreen} />

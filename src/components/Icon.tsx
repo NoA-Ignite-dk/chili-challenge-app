@@ -17,6 +17,7 @@ export enum IconType {
 	PROFILE_PLANTS = 'profile_plants',
 	PROFILE_CLAIMED_POINTS = 'profile_claimed_points',
 	EDIT = 'edit',
+	BACK_ICON = 'back-icon',
 }
 
 const IconConfig = {
@@ -36,9 +37,22 @@ const IconConfig = {
 		viewBox: '24 24',
 		definition: (
 			<>
-				<Path d="M13.8761 5.50996C15.7249 3.72254 20.5361 4.00571 20.5361 4.00571C20.5361 4.00571 20.871 9.71324 18.7601 11.5271C16.8282 13.1871 14.3767 13.5323 12.9881 11.5271C11.6886 9.65053 11.9902 7.33331 13.8761 5.50996Z" stroke-width="1.3" stroke-linejoin="round" />
-				<Path d="M7.76314 3.66187C5.79831 2.04007 1.02048 2.73969 1.02048 2.73969C1.02048 2.73969 1.07475 8.45941 3.30273 10.0848C5.3418 11.5723 7.80955 11.7039 9.0577 9.58418C10.2257 7.60049 9.76748 5.31627 7.76314 3.66187Z" stroke-width="1.3" stroke-linejoin="round" />
-				<Path d="M5 6C5 6 7.7007 8.35903 8.80769 10.3333C10.4859 13.3264 10.5 19 10.5 19C10.5 19 10.6622 13.4222 12.6154 10.7667C13.6722 9.32985 16 7.73333 16 7.73333" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+				<Path
+					d="M13.8761 5.50996C15.7249 3.72254 20.5361 4.00571 20.5361 4.00571C20.5361 4.00571 20.871 9.71324 18.7601 11.5271C16.8282 13.1871 14.3767 13.5323 12.9881 11.5271C11.6886 9.65053 11.9902 7.33331 13.8761 5.50996Z"
+					stroke-width="1.3"
+					stroke-linejoin="round"
+				/>
+				<Path
+					d="M7.76314 3.66187C5.79831 2.04007 1.02048 2.73969 1.02048 2.73969C1.02048 2.73969 1.07475 8.45941 3.30273 10.0848C5.3418 11.5723 7.80955 11.7039 9.0577 9.58418C10.2257 7.60049 9.76748 5.31627 7.76314 3.66187Z"
+					stroke-width="1.3"
+					stroke-linejoin="round"
+				/>
+				<Path
+					d="M5 6C5 6 7.7007 8.35903 8.80769 10.3333C10.4859 13.3264 10.5 19 10.5 19C10.5 19 10.6622 13.4222 12.6154 10.7667C13.6722 9.32985 16 7.73333 16 7.73333"
+					stroke-width="1.3"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
 			</>
 		),
 	},
@@ -105,11 +119,7 @@ const IconConfig = {
 		viewBox: '24 24',
 		definition: (
 			<>
-				<Path
-					d="M5 20V19C5 15.134 8.13401 12 12 12V12C15.866 12 19 15.134 19 19V20"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-				/>
+				<Path d="M5 20V19C5 15.134 8.13401 12 12 12V12C15.866 12 19 15.134 19 19V20" stroke-linecap="round" stroke-linejoin="round" />
 				<Path
 					d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
 					stroke-linecap="round"
@@ -163,11 +173,7 @@ const IconConfig = {
 	[IconType.CLOSE]: {
 		viewBox: '24 24',
 		definition: (
-			<Path
-				strokeLinecap="round"
-				strokeLinejoin="round"
-				d="M6.757 17.243L12 12m5.243-5.243L12 12m0 0L6.757 6.757M12 12l5.243 5.243"
-			/>
+			<Path strokeLinecap="round" strokeLinejoin="round" d="M6.757 17.243L12 12m5.243-5.243L12 12m0 0L6.757 6.757M12 12l5.243 5.243" />
 		),
 	},
 	[IconType.PROFILE_CLAIMED_POINTS]: {
@@ -225,6 +231,14 @@ const IconConfig = {
 					stroke-linejoin="round"
 				/>
 				<Path d="M11.0208 6.00092L16.4731 10.188" stroke-linecap="round" stroke-linejoin="round" />
+			</>
+		),
+	},
+	[IconType.BACK_ICON]: {
+		viewBox: '24 24',
+		definition: (
+			<>
+				<Path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15.5 19l-7-7 7-7" />
 			</>
 		),
 	},
