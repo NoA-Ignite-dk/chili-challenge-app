@@ -11,6 +11,7 @@ import SignUpEmailScreen from '@src/screens/signup/SignUpEmailScreen';
 import SignUpPasswordScreen from '@src/screens/signup/SignUpPasswordScreen';
 import SignUpNameScreen from '@src/screens/signup/SignUpNameScreen';
 import SignUpPlantsScreen from '@src/screens/signup/SignUpPlantsScreen';
+import SignUpSuccessScreen from '@src/screens/signup/SignUpSuccessScreen';
 
 // Types
 import { AuthStackParamList } from '@src/types/navigation';
@@ -27,7 +28,7 @@ const AuthStack = () => (
 			<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_PASSWORD} component={SignUpPasswordScreen} />
 			<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_NAME} component={SignUpNameScreen} />
 			<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_PLANTS} component={SignUpPlantsScreen} />
-			{/* <Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_SUCCESS} component={} /> */}
+			<Stack.Screen options={{ title: 'Account created' }} name={ROUTES.SIGN_UP_SUCCESS} component={SignUpSuccessScreen} />
 		</Stack.Navigator>
 	</AuthProvider>
 );

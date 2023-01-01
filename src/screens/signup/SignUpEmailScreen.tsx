@@ -37,7 +37,7 @@ export default function SignUpEmailScreen() {
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
 			<Text style={typography.signupTitle}>What’s your company email?</Text>
-			<Text style={typography.signupText}>You will need it to sign in to the application</Text>
+			<Text style={typography.signupText}>You will need it to sign in to the application.</Text>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
 				<InputField
 					isValid={emailValid}
@@ -45,7 +45,7 @@ export default function SignUpEmailScreen() {
 					text={email}
 					setText={setEmail}
 					label="Email"
-					placeholder="email@address.com"
+					placeholder="email@noaignite.com"
 					errorMessage="Field required"
 					autoCapitalize="none"
 				/>

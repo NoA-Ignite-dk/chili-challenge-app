@@ -53,7 +53,7 @@ export default function SignUpPlantsScreen() {
 		if (error) {
 			Alert.alert(error.message);
 		} else {
-			navigation.navigate(ROUTES.MAIN_TABS);
+			navigation.navigate(ROUTES.SIGN_UP_SUCCESS);
 		}
 
 		setLoading(false);
@@ -94,7 +94,7 @@ export default function SignUpPlantsScreen() {
 			</View>
 
 			<View style={[styles.verticallySpaced, styles.mt20]}>
-				<Button onPress={handleContinue}>{loading ? <Icon type={IconType.LOADING} /> : 'Continue'}</Button>
+				<Button onPress={handleContinue}>{loading ? <Icon type={IconType.LOADING} /> : 'Create account'}</Button>
 			</View>
 
 			{error && <Text style={typography.errorMessage}>{error}</Text>}

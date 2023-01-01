@@ -27,6 +27,8 @@ export default function AuthLandingScreen() {
 	const navigation = useNavigation<AllRoutesNavigationProp>();
 	const [session, setSession] = useState<Session | null>(null);
 
+	console.log(session);
+
 	useEffect(() => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
 			setSession(session);

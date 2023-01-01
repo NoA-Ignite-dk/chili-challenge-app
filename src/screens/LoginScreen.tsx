@@ -48,6 +48,7 @@ export default function LoginScreen() {
 					label="Email"
 					placeholder="email@address.com"
 					errorMessage="Field required"
+					autoCapitalize="none"
 				/>
 			</View>
 			<View style={styles.verticallySpaced}>
@@ -60,6 +61,7 @@ export default function LoginScreen() {
 					errorMessage="Field required"
 					password
 					placeholder="******"
+					autoCapitalize="none"
 				/>
 			</View>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
