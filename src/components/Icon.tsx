@@ -18,6 +18,7 @@ export enum IconType {
 	PROFILE_CLAIMED_POINTS = 'profile_claimed_points',
 	EDIT = 'edit',
 	BACK_ICON = 'back-icon',
+	STAR = 'star',
 }
 
 const IconConfig = {
@@ -239,6 +240,20 @@ const IconConfig = {
 		definition: (
 			<>
 				<Path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15.5 19l-7-7 7-7" />
+			</>
+		),
+	},
+	[IconType.STAR]: {
+		viewBox: '18 16',
+		definition: (
+			<>
+				<Path
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					strokeWidth="1.5"
+					d="M9.92 1.48l1.523 3.043c.15.299.437.506.771.554l3.407.49c.842.122 1.177 1.142.568 1.726L13.725 9.66a1.003 1.003 0 00-.295.896l.582 3.342c.143.827-.737 1.457-1.49 1.066l-3.044-1.579a1.04 1.04 0 00-.956 0l-3.045 1.58c-.752.39-1.632-.24-1.488-1.067l.58-3.342a1.003 1.003 0 00-.294-.896L1.81 7.293c-.609-.584-.274-1.604.568-1.726l3.407-.49c.334-.048.623-.255.772-.554L8.08 1.481c.376-.753 1.464-.753 1.84 0z"
+					clipRule="evenodd"
+				/>
 			</>
 		),
 	},

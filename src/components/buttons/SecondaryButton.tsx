@@ -1,12 +1,11 @@
 import React from 'react';
-import { Pressable, StyleSheet, TextStyle, ViewStyle, TextProps, View } from 'react-native';
+import { Pressable, StyleSheet, TextStyle, ViewStyle, TextProps, View, Text } from 'react-native';
 
 // Config
 import Colors from '@src/config/colors';
 
 // Components
 import LoadingIndicator from '@src/components/LoadingIndicator';
-import Txt from '@src/components/Txt';
 
 // Utils
 import { verticalScale, scale } from '@src/utils/scaling';
@@ -18,7 +17,8 @@ const styles = StyleSheet.create({
 		height: verticalScale(30),
 		borderRadius: Variables.BORDER_RADIUS_LARGE,
 		alignItems: 'center',
-		paddingHorizontal: scale(20),
+		paddingHorizontal: scale(12),
+		paddingRight: 5,
 		justifyContent: 'center',
 		backgroundColor: Colors.WHITE,
 		flexDirection: 'row',
@@ -39,7 +39,10 @@ const styles = StyleSheet.create({
 		marginTop: 2,
 	},
 	icon: {
-		marginLeft: 6,
+		marginLeft: 8,
+	},
+	fullWidth: {
+		minWidth: '100%',
 	},
 });
 
@@ -50,22 +53,46 @@ type Props = {
 	style?: ViewStyle | ViewStyle[];
 	loading?: boolean;
 	textStyle?: TextStyle;
-	icon?: 'plus' | 'none';
+	icon?: 'plus' | 'none' | 'star';
+	fullWidth?: boolean;
+	iconColor?: string;
 };
 
-const SecondaryButton = ({ disabled = false, onPress, children, loading = false, style, textStyle, icon = 'none', ...props }: Props) => {
+const SecondaryButton = ({
+	disabled = false,
+	onPress,
+	children,
+	loading = false,
+	style,
+	textStyle,
+	icon = 'none',
+	fullWidth = false,
+	iconColor = Colors.WHITE,
+	...props
+}: Props) => {
+	const iconType = {
+		plus: IconType.PLUS,
+		star: IconType.STAR,
+	};
+
 	return (
 		<Pressable
 			disabled={disabled}
 			onPress={onPress}
-			style={({ pressed }) => [{ ...styles.pressable }, pressed && styles.pressed, disabled ? styles.disabled : {}, style && style]}
+			style={({ pressed }) => [
+				{ ...styles.pressable },
+				pressed && styles.pressed,
+				disabled ? styles.disabled : {},
+				style && style,
+				fullWidth && styles.fullWidth,
+			]}
 			{...props}
 		>
 			{loading && <LoadingIndicator />}
-			{!loading && <Txt style={{ ...styles.text, ...textStyle }}>{children}</Txt>}
-			{icon && icon === 'plus' && (
+			{!loading && <Text style={{ ...styles.text, ...textStyle }}>{children}</Text>}
+			{icon && icon !== 'none' && (
 				<View style={styles.icon}>
-					<Icon width={20} type={IconType.PLUS} stroke={Colors.GREEN_PRIMARY} />
+					<Icon width={20} type={iconType[icon]} stroke={iconColor} />
 				</View>
 			)}
 		</Pressable>

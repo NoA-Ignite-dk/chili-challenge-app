@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 
 // Config
 import Colors from '@src/config/colors';
@@ -18,8 +18,12 @@ const styles = StyleSheet.create({
 });
 
 export default function HomeScreen() {
-	const { data: postsData, isLoading } = usePostsQuery();
+	const { data: postsData, isLoading, refetch, isRefetching } = usePostsQuery();
 	const renderPostItem = ({ item }: { item: PublicPost }) => <PostCard item={item} />;
+
+	const onRefresh = React.useCallback(() => {
+		refetch();
+	}, []);
 
 	return (
 		<View style={styles.container}>
@@ -28,7 +32,13 @@ export default function HomeScreen() {
 					<Text>Loading...</Text>
 				</View>
 			)}
-			<FlatList data={postsData} renderItem={renderPostItem} keyExtractor={(item) => `postCard-${item.id}`} />
+
+			<FlatList
+				refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />}
+				data={postsData}
+				renderItem={renderPostItem}
+				keyExtractor={(item) => `postCard-${item.id}`}
+			/>
 		</View>
 	);
 }

@@ -4,7 +4,6 @@ import { StyleSheet, View, Image, TextInput, Pressable, Text } from 'react-nativ
 import * as ImagePicker from 'expo-image-picker';
 
 // Components
-import Txt from '@src/components/Txt';
 import SecondaryButton from '@src/components/buttons/SecondaryButton';
 import PointsModal from '@src/components/PointsModal';
 import Icon, { IconType } from '@src/components/Icon';
@@ -22,6 +21,7 @@ import { useAppContext } from '@src/components/providers/appContext';
 import { usePointToClaimQuery } from '@src/data/point-to-claim';
 import { useCreateUserPostsMutation } from '@src/data/user-posts';
 import { useCreateUserPointsMutation } from '@src/data/user-points';
+import { POINT_TYPES } from '@src/constants/general';
 
 const styles = StyleSheet.create({
 	container: {
@@ -78,20 +78,39 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	imagePlaceholderButton: {
-		backgroundColor: Colors.LIGHT_GREY,
+		backgroundColor: Colors.GREEN_PRIMARY,
 		color: Colors.BLACK,
 		borderRadius: 50,
 		height: 46,
 		width: 46,
 		justifyContent: 'center',
 		alignItems: 'center',
+		marginHorizontal: 5,
 	},
 	createButton: {},
+	pointItemContainer: {
+		width: '100%',
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	pointItemText: {
+		marginTop: 5,
+		color: Colors.WHITE,
+	},
+	pointAmount: {
+		backgroundColor: Colors.FADED_GREEN,
+		paddingHorizontal: 10,
+		paddingVertical: 3,
+		borderRadius: Variables.BORDER_RADIUS_LARGE,
+		textAlign: 'right',
+		marginTop: 5,
+	},
 });
 
 export default function PostScreen() {
+	const [loading, setLoading] = useState(false);
 	const [selectedImage, setSelectedImage] = useState('');
-	// const [selectedImageId, setSelectedImageId] = useState('');
 	const [selectedImageResult, setSelectedImageResult] = useState<ImagePicker.ImageInfo>({ uri: '', height: 0, width: 0, cancelled: false });
 	const [postDescription, setPostDescription] = useState('');
 	const { isLoading, data: pointsData } = usePointToClaimQuery();
@@ -103,9 +122,6 @@ export default function PostScreen() {
 	const createPointMutation = useCreateUserPointsMutation();
 
 	const createPost = async () => {
-		const imageId = await uploadImage(selectedImageResult);
-		const imageUrl = await getImageUrl(imageId);
-
 		if (!selectedImage) {
 			alert('Please select an image or take a photo');
 			throw Error('No image selected');
@@ -115,6 +131,11 @@ export default function PostScreen() {
 			alert('Please add a description');
 			throw Error('No description added');
 		}
+
+		setLoading(true);
+
+		const imageId = await uploadImage(selectedImageResult);
+		const imageUrl = await getImageUrl(imageId);
 
 		// Create post
 		const post = await createPostMutation.mutateAsync({
@@ -136,6 +157,7 @@ export default function PostScreen() {
 			});
 		}
 
+		setLoading(false);
 		// eslint-disable-next-line no-alert
 		alert('Post created!');
 	};
@@ -183,27 +205,41 @@ export default function PostScreen() {
 	return (
 		<View style={[styles.container, containerStyles.padding]}>
 			<View style={styles.section}>
-				<TextInput onChangeText={(text: string) => setPostDescription(text)} multiline={true} placeholder="Write something..." />
+				<TextInput
+					style={typography.bodyRegular14}
+					onChangeText={(text: string) => setPostDescription(text)}
+					multiline={true}
+					placeholder="Write something..."
+				/>
 			</View>
 			<View style={styles.section}>
-				<Txt style={typography.uppercaseBig}>Points (optional)</Txt>
+				<Text style={typography.uppercaseBig}>Claim points (optional)</Text>
 				{!selectedPoint && (
-					<SecondaryButton onPress={() => setModalVisible(true)} style={styles.button} icon="plus">
-						Select points
+					<SecondaryButton iconColor={Colors.GREEN_PRIMARY} onPress={() => setModalVisible(true)} style={styles.button} icon="plus">
+						<Text style={typography.buttonText}>Select points</Text>
 					</SecondaryButton>
 				)}
 				{selectedPoint && (
 					<SecondaryButton onPress={() => setModalVisible(true)} style={styles.selectedButton} textStyle={styles.selectedButtonText}>
-						{selectedPointData?.title}
+						<View style={styles.pointItemContainer}>
+							<Text style={[styles.pointItemText, typography.buttonText]}>
+								{POINT_TYPES[selectedPointData?.type as keyof typeof POINT_TYPES]}
+								{': '}
+								{selectedPointData?.title}
+							</Text>
+							<View style={styles.pointAmount}>
+								<Text style={{ color: Colors.TEXT_60 }}>{selectedPointData?.amount}</Text>
+							</View>
+						</View>
 					</SecondaryButton>
 				)}
 			</View>
 			<View style={styles.section}>
-				<Txt style={typography.uppercaseBig}>Image</Txt>
+				<Text style={typography.uppercaseBig}>Image</Text>
 				{selectedImage && (
 					<View style={styles.imageContainer}>
 						<Pressable onPress={removeImage} style={styles.imageCloseButton}>
-							<Txt style={{ fontSize: 18, color: Colors.WHITE }}>X</Txt>
+							<Text style={{ fontSize: 18, color: Colors.WHITE }}>X</Text>
 						</Pressable>
 						<Image style={styles.image} source={{ uri: selectedImage }}></Image>
 					</View>
@@ -211,16 +247,17 @@ export default function PostScreen() {
 				{!selectedImage && (
 					<View style={styles.imagePlaceholder}>
 						<Pressable style={styles.imagePlaceholderButton} onPress={openCamera}>
-							<Icon type={IconType.CAMERA} />
+							<Icon stroke={Colors.WHITE} type={IconType.CAMERA} />
 						</Pressable>
 						<Pressable style={styles.imagePlaceholderButton} onPress={openImageLibrary}>
-							<Icon type={IconType.UPLOAD} />
+							<Icon stroke={Colors.WHITE} type={IconType.UPLOAD} />
 						</Pressable>
 					</View>
 				)}
 			</View>
 			<Button style={styles.createButton} onPress={createPost}>
-				<Text>Create post</Text>
+				{!loading && <Text>Create post</Text>}
+				{loading && <Icon type={IconType.LOADING} />}
 			</Button>
 			<PointsModal loading={isLoading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
 		</View>

@@ -12,6 +12,7 @@ const Colors = {
 	FADED_GREEN: '#B3F0DD',
 	DARK_GREY: '#181C1A',
 	ERROR_RED: '#FF0000',
+	YELLOW_GOLD: '#F6B900',
 };
 
 export default Colors;

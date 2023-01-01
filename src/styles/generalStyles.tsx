@@ -70,6 +70,20 @@ export const typography = StyleSheet.create({
 		paddingHorizontal: 20,
 		paddingTop: 10,
 	},
+	buttonText: {
+		fontFamily: 'Manrope_600SemiBold',
+		fontSize: 14,
+		textTransform: 'uppercase',
+	},
+	primaryButtonText: {
+		fontFamily: 'Manrope_500Medium',
+		fontSize: 16,
+	},
+	closeButton: {
+		fontFamily: 'Manrope_600SemiBold',
+		fontSize: 16,
+		color: Colors.TEXT_60,
+	},
 });
 
 export const containerStyles = StyleSheet.create({
