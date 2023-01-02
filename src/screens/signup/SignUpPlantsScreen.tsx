@@ -34,10 +34,10 @@ export default function SignUpPlantsScreen() {
 	const [plant3, setPlant3] = useState('');
 
 	const handleContinue = () => {
-		signUpWithEamail();
+		signUp();
 	};
 
-	async function signUpWithEamail() {
+	async function signUp() {
 		setLoading(true);
 		// eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
 		const { data, error } = await supabase.auth.signUp({
