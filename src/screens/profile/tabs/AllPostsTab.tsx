@@ -1,6 +1,5 @@
 import Colors from "@src/config/colors";
-import { usePostsByUserIDQuery } from "@src/data/posts";
-import { Post } from "@src/data/user-posts";
+import { usePostsByUserIDQuery, PublicPost } from "@src/data/posts";
 import { StyleSheet, View, FlatList, Image } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -28,7 +27,7 @@ const styles = StyleSheet.create({
 export function AllPostsTab({ userId }: { userId: string }) {
 	const { data: postState } = usePostsByUserIDQuery(userId);
 
-	const renderPostItem = ({ item }: { item: Post }) => (
+	const renderPostItem = ({ item }: { item: PublicPost }) => (
 		<View style={styles.postItem}>
 			<Image source={{ uri: item.image_url }} style={styles.image} />
 		</View>
