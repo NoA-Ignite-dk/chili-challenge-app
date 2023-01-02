@@ -25,7 +25,14 @@ const AuthStack = () => {
 
 	return (
 		<AppProvider session={session}>
-			<Stack.Navigator initialRouteName={ROUTES.MAIN_TABS}>
+			<Stack.Navigator
+				screenOptions={{
+					headerShown: false,
+					animation: 'none',
+					gestureEnabled: false,
+				}}
+				initialRouteName={ROUTES.MAIN_TABS}
+			>
 				<Stack.Screen name={ROUTES.MAIN_TABS} component={MainBottomTabs} />
 				<Stack.Screen name={ROUTES.USER} options={{ headerShown: true, headerTitle: '', headerBackVisible: true }} component={UserScreen} />
 				<Stack.Screen
