@@ -2,8 +2,6 @@ import React from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 import { containerStyles, typography } from '@src/styles/generalStyles'
 
-// Components
-
 // Config
 import Colors from '@src/config/colors';
 import ScoreboardCard from '@src/components/ScoreboardCard';
@@ -97,14 +95,10 @@ export default function ScoreboardScreen() {
 	function renderUserWithPoints({ item }: { item: UserWithPoints & { total: number, placement: number } }) {
 		return (
 			<ScoreboardCard
-				name={item.fullName}
+				user={item}
 				points={item.total}
 				placement={item.placement}
 				type={'otherPlacements'}
-				imageSource={item.profilePicture
-					? { uri: item.profilePicture }
-					: require('../../assets/images/chiliplant.jpg')
-				}
 			/>
 		)
 	}
@@ -114,14 +108,10 @@ export default function ScoreboardScreen() {
 			<View style={styles.topContainer}>
 				<View style={styles.placementContainer}>
 					<ScoreboardCard
-						name={second.fullName}
+						user={second}
 						points={second.total}
 						placement={second.placement}
 						type={'firstToThirdPlace'}
-						imageSource={second.profilePicture
-							? { uri: second.profilePicture }
-							: require('../../assets/images/chiliplant.jpg')
-						}
 					/>
 					<View style={styles.secondPlacePole}>
 						<Text style={[styles.scoreboardNumbers, typography.whiteText]}>2</Text>
@@ -129,14 +119,10 @@ export default function ScoreboardScreen() {
 				</View>
 				<View style={styles.placementContainer}>
 					<ScoreboardCard
-						name={first.fullName}
+						user={first}
 						points={first.total}
 						placement={first.placement}
 						type={'firstToThirdPlace'}
-						imageSource={first.profilePicture
-							? { uri: first.profilePicture }
-							: require('../../assets/images/chiliplant.jpg')
-						}
 					/>
 					<View style={styles.firstPlacePole}>
 						<Text style={[styles.scoreboardNumbers, typography.whiteText]}>1</Text>
@@ -144,14 +130,10 @@ export default function ScoreboardScreen() {
 				</View>
 				<View style={styles.placementContainer}>
 					<ScoreboardCard
-						name={third.fullName}
+						user={third}
 						points={third.total}
 						placement={third.placement}
 						type={'firstToThirdPlace'}
-						imageSource={third.profilePicture
-							? { uri: third.profilePicture }
-							: require('../../assets/images/chiliplant.jpg')
-						}
 					/>
 					<View style={styles.thirdPlacePole}>
 						<Text style={[styles.scoreboardNumbers, typography.whiteText]}>3</Text>

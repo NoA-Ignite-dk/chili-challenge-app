@@ -2,13 +2,11 @@ import { supabase } from "@src/lib/supabase";
 import { normalizeRows, takeFirstRow } from "@src/utils/normalizeData";
 import { useQuery } from "react-query";
 import { PointToClaim } from "./point-to-claim";
+import { Profile } from "./profile";
 
 export const QUERY_KEY = 'USERS_WITH_POINTS';
 
-export interface UserWithPoints {
-	id: string;
-	fullName: string;
-	profilePicture: string;
+export type UserWithPoints = Profile & {
 	point: {
 		point_to_claim: PointToClaim | null;
 	}[];
