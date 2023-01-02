@@ -17,6 +17,7 @@ import { AppProvider } from '@src/components/providers/appContext';
 import ProfileScreen from '@src/screens/profile/ProfileScreen';
 import { useNavigation } from '@react-navigation/native';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
+import { useSession } from '@src/data/session';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,8 +28,14 @@ const styles = StyleSheet.create({
 });
 
 function MainBottomTabNavigator() {
+	const { session } = useSession();
+
+	if (!session) {
+		return null;
+	}
+
 	return (
-		<AppProvider>
+		<AppProvider session={session}>
 			<Tab.Navigator
 				screenOptions={{
 					headerStyle: { backgroundColor: Colors.BACKGROUND_GREY, height: 124 },

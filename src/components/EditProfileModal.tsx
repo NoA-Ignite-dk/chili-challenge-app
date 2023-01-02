@@ -79,7 +79,7 @@ type Props = {
 
 export default function EditProfileScreen({ open, setOpen }: Props) {
 	const { session } = useAppContext();
-	const { isLoading, data: profileData } = useUserProfileQuery(session?.user.id as string);
+	const { isLoading, data: profileData } = useUserProfileQuery(session.user.id);
 	const profileMutation = useUserProfileMutation();
 	const [fullName, setFullName] = useState('');
 	const [profilePicture, setProfilePicture] = useState('');
