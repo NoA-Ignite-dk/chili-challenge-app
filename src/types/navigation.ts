@@ -5,6 +5,7 @@ import { ROUTES } from '@src/config/routes';
 
 export type AllRoutesParamList = {
 	[ROUTES.AUTH_STACK]: undefined;
+	[ROUTES.MAIN_STACK]: undefined;
 	[ROUTES.FEED]: undefined;
 	[ROUTES.POST]: undefined;
 	[ROUTES.SCOREBOARD]: undefined;
@@ -25,14 +26,14 @@ export type AllRoutesParamList = {
 };
 
 export type MainStackParamList = {
-	[ROUTES.AUTH_STACK]: undefined;
+	[ROUTES.MAIN_TABS]: undefined;
 	[ROUTES.FEED]: undefined;
 	[ROUTES.POST]: undefined;
 	[ROUTES.SCOREBOARD]: undefined;
 	[ROUTES.INFO]: undefined;
 	[ROUTES.PROFILE]: undefined;
 	[ROUTES.USER]: { user_id: string };
-	[ROUTES.MAIN_TABS]: undefined;
+	[ROUTES.SETTINGS]: undefined;
 };
 
 export type AuthStackParamList = {

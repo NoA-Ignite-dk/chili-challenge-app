@@ -1,11 +1,10 @@
 import Colors from "@src/config/colors";
 import { StyleSheet, View, FlatList, Text } from 'react-native';
 import { containerStyles, typography } from '@src/styles/generalStyles'
-import { Plant, usePlantsByUserIdQuery } from "@src/data/plants";
+import { Plant, usePlantsByUserIdQuery, useUpdatePlantMutation } from "@src/data/plants";
 import { ProfileImage } from "@src/components/ProfileImage";
 import SecondaryButton from '@src/components/buttons/SecondaryButton';
 import { useAppContext } from "@src/components/providers/appContext";
-import { useUpdateUserPlantMutation } from "@src/data/user-plants";
 
 const styles = StyleSheet.create({
 	greenBackground: {
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
 export function AllPlantsTab({ userId }: { userId: string }) {
 	const { session } = useAppContext();
 	const { data: plantState } = usePlantsByUserIdQuery(userId);
-	const plantsMutation = useUpdateUserPlantMutation();
+	const plantsMutation = useUpdatePlantMutation();
 	const isCurrentProfile = session?.user.id === userId;
 
 	const hasPrimaryPlant = (plantState || [])
