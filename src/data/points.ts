@@ -1,7 +1,8 @@
 import { supabase } from "@src/lib/supabase";
 import { normalizeRows, takeFirstRow } from "@src/utils/normalizeData";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { PointToClaim } from "./point-to-claim";
+import { QUERY_KEY as USERS_WITH_POINTS } from './users-with-points';
 
 export const QUERY_KEY = 'POINTS';
 
@@ -54,4 +55,74 @@ export function usePointsByUserIdQuery(user_id: string) {
 	});
 
 	return hook;
+}
+
+
+export async function updatePoints(id: string, payload: Partial<Point>): Promise<Point> {
+	const { data, error } = await supabase
+		.from('point')
+		.update(payload)
+		.eq('id', id)
+		.select()
+		.single();
+
+	if (error) {
+		throw error;
+	}
+
+	return data;
+}
+
+export function useUpdatePointsMutation() {
+	const queryClient = useQueryClient()
+
+	return useMutation(
+		({ id, payload }: {
+			id: string,
+			payload: Partial<Point>
+		}) => updatePoints(id, payload),
+		{
+			onSuccess: ({ user_id }) => {
+				queryClient.invalidateQueries(USERS_WITH_POINTS)
+				queryClient.invalidateQueries([QUERY_KEY, user_id])
+			},
+		}
+	)
+}
+
+export interface CreatePointDTO {
+	claimed_at?: string;
+	claimed_point_id: number;
+	user_id: string;
+	post_id: number;
+}
+
+export async function createPoint(payload: CreatePointDTO): Promise<Point> {
+	const { data, error } = await supabase
+		.from('point')
+		.insert(payload)
+		.select()
+		.single();
+
+	if (error) {
+		throw error;
+	}
+
+	return takeFirstRow(data);
+}
+
+export function useCreatePointsMutation() {
+	const queryClient = useQueryClient()
+
+	return useMutation(
+		({ payload }: {
+			payload: CreatePointDTO
+		}) => createPoint(payload),
+		{
+			onSuccess: ({ user_id }) => {
+				queryClient.invalidateQueries(USERS_WITH_POINTS)
+				queryClient.invalidateQueries([QUERY_KEY, user_id])
+			},
+		}
+	)
 }

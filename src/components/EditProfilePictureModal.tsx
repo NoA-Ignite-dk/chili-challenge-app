@@ -3,7 +3,7 @@ import React from 'react';
 import { Alert, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { uploadImage } from '@src/utils/uploadImage';
-import { useUserProfileMutation } from '@src/data/user-profile';
+import { useUserProfileMutation } from '@src/data/profile';
 import { getImageUrl } from '@src/utils/getImageUrl';
 import Button from './buttons/PrimaryButton';
 import Icon, { IconType } from './Icon';

@@ -1,8 +1,8 @@
 import { supabase } from "@src/lib/supabase";
 import { normalizeRows, takeFirstRow } from "@src/utils/normalizeData";
 import { useQuery } from "react-query";
-import { PointToClaim } from "./point-to-claim";
-import { Profile } from "./profile";
+import type { PointToClaim } from "./point-to-claim";
+import type { Profile } from "./profile";
 
 export const QUERY_KEY = 'USERS_WITH_POINTS';
 

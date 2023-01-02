@@ -2,10 +2,10 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
 import Colors from '@src/config/colors';
-import { useUserProfileQuery } from '@src/data/user-profile';
 import { typography } from '@src/styles/generalStyles';
 import { usePointsByUserIdQuery } from '@src/data/points';
 import { usePostsByUserIDQuery } from '@src/data/posts';
+import { useProfileQuery } from '@src/data/profile';
 import { ProfileImage } from './ProfileImage'
 
 const styles = StyleSheet.create({
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 });
 
 export default function ProfileCard({ userId }: { userId: string }) {
-	const { data: profileData } = useUserProfileQuery(userId);
+	const { data: profileData } = useProfileQuery(userId);
 	const { data: pointsData } = usePointsByUserIdQuery(userId);
 	const { data: postState } = usePostsByUserIDQuery(userId);
 

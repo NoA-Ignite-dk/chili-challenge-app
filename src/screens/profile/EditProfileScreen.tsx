@@ -6,9 +6,9 @@ import { Pressable, StyleSheet, TextInput, View, Text } from 'react-native';
 // import { Input } from 'react-native-elements';
 import Button from '@src/components/buttons/PrimaryButton';
 import Icon, { IconType } from '@src/components/Icon';
-import { useUserProfileQuery, useUserProfileMutation } from '@src/data/user-profile';
 import Colors from '@src/config/colors';
 import EditProfilePictureModal from '@src/components/EditProfilePictureModal';
+import { useProfileQuery, useUserProfileMutation } from '@src/data/profile';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 
 export default function EditProfileScreen() {
 	const { session } = useAppContext();
-	const { isLoading, data: profileData } = useUserProfileQuery(session.user.id);
+	const { isLoading, data: profileData } = useProfileQuery(session.user.id);
 	const profileMutation = useUserProfileMutation();
 	const [fullName, setFullName] = useState('');
 	const [profilePicture, setProfilePicture] = useState('');
