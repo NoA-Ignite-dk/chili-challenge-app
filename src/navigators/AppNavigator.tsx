@@ -14,6 +14,7 @@ import AuthStack from '@src/navigators/stacks/AuthStack';
 
 // Tabs
 import MainBottomTabNavigator from '@src/navigators/tabs/MainBottomTabNavigator';
+import SettingsScreen from '@src/components/SettingsScreen';
 
 // Stacks
 const Stack = createNativeStackNavigator();
@@ -32,6 +33,8 @@ const AppNavigator = () => {
 			}} initialRouteName={ROUTES.AUTH_STACK}>
 				<Stack.Screen name={ROUTES.AUTH_STACK} component={AuthStack} />
 				<Stack.Screen name={ROUTES.MAIN_TABS} component={MainBottomTabNavigator} />
+				<Stack.Screen options={{ title: 'Settings', presentation: 'transparentModal', animation: 'slide_from_bottom' }} name={ROUTES.SETTINGS} component={SettingsScreen} />
+
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

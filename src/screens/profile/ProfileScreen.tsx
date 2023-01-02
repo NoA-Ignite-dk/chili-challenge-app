@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, StyleSheet, View, useWindowDimensions } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, View, useWindowDimensions } from 'react-native';
 import { TabView, SceneMap, TabBar, SceneRendererProps, NavigationState, Route } from 'react-native-tab-view';
 import { containerStyles } from '@src/styles/generalStyles'
 
@@ -9,12 +8,9 @@ import Button from '@src/components/buttons/PrimaryButton';
 
 // Config
 import Colors from '@src/config/colors';
-import { supabase } from '@src/lib/supabase';
-import { AllRoutesNavigationProp } from '@src/types/navigation';
-import { ROUTES } from '@src/config/routes';
+
 import Icon, { IconType } from '@src/components/Icon';
 import ProfileCard from '@src/components/ProfileCard';
-import { queryClient } from '@src/lib/reactQuery';
 import EditProfileModal from '@src/components/EditProfileModal';
 import { allPostsTab } from './tabs/allPostsTab';
 import { allPlantsTab } from './tabs/allPlantsTab';
@@ -29,8 +25,6 @@ const styles = StyleSheet.create({
 });
 
 export default function ProfileScreen() {
-	const [loading, setLoading] = useState(false);
-	const navigation = useNavigation<AllRoutesNavigationProp>();
 	const layout = useWindowDimensions();
 	const [index, setIndex] = React.useState(0);
 	const [editProfileModalVisible, setEditProfileModalVisible] = useState(false);
@@ -41,19 +35,7 @@ export default function ProfileScreen() {
 		{ key: 'claimedPointsList', title: 'Claimed points list' },
 	]);
 
-	async function logout() {
-		setLoading(true);
-		const { error } = await supabase.auth.signOut();
 
-		if (error) {
-			Alert.alert(error.message);
-		} else {
-			queryClient.clear()
-			navigation.navigate(ROUTES.AUTH_LANDING_PAGE);
-		}
-
-		setLoading(false);
-	}
 
 
 	const getTabBarIcon = ({ route, color }: { route: Route, color: string }) => {
@@ -111,7 +93,6 @@ export default function ProfileScreen() {
 				initialLayout={{ width: layout.width }}
 				style={containerStyles.container}
 			/>
-			<Button onPress={logout}>{loading ? <Icon type={IconType.LOADING} /> : 'Logout'}</Button>
 			<EditProfileModal open={editProfileModalVisible} setOpen={setEditProfileModalVisible} />
 		</>
 	);
