@@ -1,33 +1,22 @@
-import { supabase } from '@src/lib/supabase';
 import { Session } from '@supabase/supabase-js';
-import React, { ReactNode, useState, useMemo, useEffect } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 
 type AppContextType = {
-	session: Session | null;
+	session: Session;
 };
 
-const AppContext = React.createContext<AppContextType>({
-	session: null,
-});
+const AppContext = React.createContext<AppContextType>({} as AppContextType);
 
 export function useAppContext() {
 	return React.useContext(AppContext);
 }
 
 type AppProviderProps = {
+	session: Session;
 	children: ReactNode;
 };
 
-export function AppProvider(props: AppProviderProps) {
-	const { children } = props;
-	const [session, setSession] = useState<Session | null>(null);
-
-	useEffect(() => {
-		supabase.auth.getSession().then(({ data: { session } }) => {
-			setSession(session);
-		});
-	}, [])
-
+export function AppProvider({ session, children }: AppProviderProps) {
 	const value = useMemo(
 		() => ({
 			session,

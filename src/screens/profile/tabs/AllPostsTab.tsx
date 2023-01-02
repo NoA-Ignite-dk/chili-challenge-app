@@ -1,6 +1,5 @@
-import { useAppContext } from "@src/components/providers/appContext";
 import Colors from "@src/config/colors";
-import { Post, useUserPostsQuery } from "@src/data/user-posts";
+import { usePostsByUserIDQuery, PublicPost } from "@src/data/posts";
 import { StyleSheet, View, FlatList, Image } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -25,11 +24,10 @@ const styles = StyleSheet.create({
 	}
 });
 
-export function allPostsTab() {
-	const { session } = useAppContext();
-	const { data: postState } = useUserPostsQuery(session?.user.id);
+export function AllPostsTab({ userId }: { userId: string }) {
+	const { data: postState } = usePostsByUserIDQuery(userId);
 
-	const renderPostItem = ({ item }: { item: Post }) => (
+	const renderPostItem = ({ item }: { item: PublicPost }) => (
 		<View style={styles.postItem}>
 			<Image source={{ uri: item.image_url }} style={styles.image} />
 		</View>

@@ -1,8 +1,7 @@
 import Colors from "@src/config/colors";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import { Point, useUserPointsQuery } from '@src/data/user-points';
-import { useAppContext } from "@src/components/providers/appContext";
 import { containerStyles, typography } from "@src/styles/generalStyles";
+import { Point, usePointsByUserIdQuery } from "@src/data/points";
 
 const styles = StyleSheet.create({
 	grid: {
@@ -49,11 +48,10 @@ const styles = StyleSheet.create({
 	marginRight: {
 		marginLeft: 5
 	}
-
 });
-export function claimedPointsListTab() {
-	const { session } = useAppContext();
-	const { data: pointsData } = useUserPointsQuery(session?.user.id);
+
+export function ClaimedPointsListTab({ userId }: { userId: string }) {
+	const { data: pointsData } = usePointsByUserIdQuery(userId);
 
 	function renderClaimedPoints({ item }: { item: Point }) {
 		return (
@@ -72,8 +70,6 @@ export function claimedPointsListTab() {
 			</View>
 		)
 	}
-
-
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>

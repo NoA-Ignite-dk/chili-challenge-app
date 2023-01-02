@@ -19,8 +19,8 @@ import { useAppContext } from '@src/components/providers/appContext';
 
 // Types
 import { usePointToClaimQuery } from '@src/data/point-to-claim';
-import { useCreateUserPostsMutation } from '@src/data/user-posts';
-import { useCreateUserPointsMutation } from '@src/data/user-points';
+import { useCreatePostsMutation } from '@src/data/posts';
+import { useCreatePointsMutation } from '@src/data/points';
 import { POINT_TYPES } from '@src/constants/general';
 
 const styles = StyleSheet.create({
@@ -118,8 +118,8 @@ export default function PostScreen() {
 	const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
 	const selectedPointData = pointsData?.find((item) => item.id === selectedPoint);
 	const { session } = useAppContext();
-	const createPostMutation = useCreateUserPostsMutation();
-	const createPointMutation = useCreateUserPointsMutation();
+	const createPostMutation = useCreatePostsMutation();
+	const createPointMutation = useCreatePointsMutation();
 
 	const createPost = async () => {
 		if (!selectedImage) {

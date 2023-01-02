@@ -1,17 +1,14 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageSourcePropType } from 'react-native';
+import { Text, View, StyleSheet, Pressable } from 'react-native';
 import { containerStyles, typography } from '@src/styles/generalStyles'
 
 import Colors from '@src/config/colors';
+import { Profile } from '@src/data/profile';
+import { useNavigation } from '@react-navigation/native';
+import { AllRoutesNavigationProp } from '@src/types/navigation';
+import { ROUTES } from '@src/config/routes';
+import { useAppContext } from './providers/appContext';
 import { ProfileImage } from './ProfileImage';
-
-interface ScoreboardCardProps {
-	name: string;
-	points: number;
-	placement?: number;
-	imageSource: ImageSourcePropType;
-	type: 'firstToThirdPlace' | 'otherPlacements'
-}
 
 const styles = StyleSheet.create({
 	grid: {
@@ -62,9 +59,32 @@ const styles = StyleSheet.create({
 
 });
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const placeholderImage = require('../../assets/images/chiliplant.jpg');
 
-export default function ScoreboardCard({ name, points, imageSource, placement, type }: ScoreboardCardProps) {
-	// eslint-disable-next-line default-case
+interface ScoreboardCardProps {
+	user: Profile;
+	points: number;
+	placement?: number;
+	type: 'firstToThirdPlace' | 'otherPlacements';
+}
+
+export default function ScoreboardCard({ user, points, placement, type }: ScoreboardCardProps) {
+	const { session } = useAppContext()
+	const navigation = useNavigation<AllRoutesNavigationProp>();
+
+	const imageSource = user.profilePicture
+		? { uri: user.profilePicture }
+		: placeholderImage;
+
+	function openUserProfile() {
+		if (session?.user.id === user.id) {
+			return navigation.navigate(ROUTES.PROFILE)
+		}
+
+		return navigation.push(ROUTES.USER, { user_id: user.id })
+	}
+
 	switch (type) {
 		case 'firstToThirdPlace':
 			return (
@@ -72,20 +92,26 @@ export default function ScoreboardCard({ name, points, imageSource, placement, t
 					<View style={styles.pointBackground}>
 						<Text style={[typography.whiteText, typography.bodySemibold]}> {points} </Text>
 					</View>
-					<ProfileImage imageSource={imageSource} size={"small"}></ProfileImage>
-					<Text style={[typography.whiteText, typography.h3]}>{name}</Text>
+					<Pressable onPress={openUserProfile}>
+						<ProfileImage
+							imageSource={imageSource}
+							size={"small"}
+						/>
+						<Text style={[typography.whiteText, typography.h3]}>{user.fullName}</Text>
+					</Pressable>
 				</View>
 			)
 		case 'otherPlacements':
+		default:
 			return (
 				<View style={[containerStyles.container, styles.grid]}>
 					<View style={[styles.item, styles.item1]}>
 						<Text style={typography.bodySecondary}>{placement}</Text>
 					</View>
-					<View style={[styles.item, styles.item2]}>
+					<Pressable style={[styles.item, styles.item2]} onPress={openUserProfile}>
 						<ProfileImage imageSource={imageSource} size={"small"}></ProfileImage>
-						<Text style={[styles.marginRight, typography.h3]}> {name} </Text>
-					</View>
+						<Text style={[styles.marginRight, typography.h3]}> {user.fullName} </Text>
+					</Pressable>
 					<View style={[styles.item, styles.item3]}>
 						<View style={styles.pointBackground}>
 							<Text style={[typography.whiteText, typography.bodySemibold]}> {points} </Text>

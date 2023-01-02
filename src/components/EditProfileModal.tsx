@@ -6,7 +6,7 @@ import { Pressable, StyleSheet, TextInput, View, Text, Modal, Alert } from 'reac
 // import { Input } from 'react-native-elements';
 import Button from '@src/components/buttons/PrimaryButton';
 import Icon, { IconType } from '@src/components/Icon';
-import { useUserProfileQuery, useUserProfileMutation } from '@src/data/user-profile';
+import { useUserProfileMutation, useProfileQuery } from '@src/data/profile';
 import Colors from '@src/config/colors';
 import EditProfilePictureModal from '@src/components/EditProfilePictureModal';
 
@@ -79,7 +79,7 @@ type Props = {
 
 export default function EditProfileScreen({ open, setOpen }: Props) {
 	const { session } = useAppContext();
-	const { isLoading, data: profileData } = useUserProfileQuery(session?.user.id as string);
+	const { isLoading, data: profileData } = useProfileQuery(session.user.id);
 	const profileMutation = useUserProfileMutation();
 	const [fullName, setFullName] = useState('');
 	const [profilePicture, setProfilePicture] = useState('');

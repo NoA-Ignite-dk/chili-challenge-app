@@ -1,10 +1,10 @@
-import { useAppContext } from "@src/components/providers/appContext";
 import Colors from "@src/config/colors";
 import { StyleSheet, View, FlatList, Text } from 'react-native';
 import { containerStyles, typography } from '@src/styles/generalStyles'
-import { Plant, useUpdateUserPlantMutation, useUserPlantsQuery } from "@src/data/user-plants";
+import { Plant, usePlantsByUserIdQuery, useUpdatePlantMutation } from "@src/data/plants";
 import { ProfileImage } from "@src/components/ProfileImage";
 import SecondaryButton from '@src/components/buttons/SecondaryButton';
+import { useAppContext } from "@src/components/providers/appContext";
 
 const styles = StyleSheet.create({
 	greenBackground: {
@@ -38,10 +38,11 @@ const styles = StyleSheet.create({
 	},
 });
 
-export function allPlantsTab() {
+export function AllPlantsTab({ userId }: { userId: string }) {
 	const { session } = useAppContext();
-	const { data: plantState } = useUserPlantsQuery(session?.user.id);
-	const plantsMutation = useUpdateUserPlantMutation();
+	const { data: plantState } = usePlantsByUserIdQuery(userId);
+	const plantsMutation = useUpdatePlantMutation();
+	const isCurrentProfile = session?.user.id === userId;
 
 	const hasPrimaryPlant = (plantState || [])
 		.some((plant) => plant.primary);
@@ -58,7 +59,7 @@ export function allPlantsTab() {
 					<Text style={typography.h3}> {item.name} </Text>
 				</View>
 				<View style={[styles.item, styles.item3]}>
-					{!hasPrimaryPlant && (
+					{isCurrentProfile && !hasPrimaryPlant && (
 						<View>
 							<SecondaryButton onPress={() => setPrimary(item)} icon={"plus"}>Set as primary</SecondaryButton>
 						</View>

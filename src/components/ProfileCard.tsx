@@ -2,12 +2,11 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
 import Colors from '@src/config/colors';
-import { useUserProfileQuery } from '@src/data/user-profile';
-import { useUserPointsQuery } from '@src/data/user-points';
-import { useUserPostsQuery } from '@src/data/user-posts';
 import { typography } from '@src/styles/generalStyles';
+import { usePointsByUserIdQuery } from '@src/data/points';
+import { usePostsByUserIDQuery } from '@src/data/posts';
+import { useProfileQuery } from '@src/data/profile';
 import { ProfileImage } from './ProfileImage'
-import { useAppContext } from './providers/appContext';
 
 const styles = StyleSheet.create({
 	grid: {
@@ -40,15 +39,14 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default function ProfileCard() {
-	const { session } = useAppContext();
-	const { data: profileData } = useUserProfileQuery(session?.user.id);
-	const { data: pointsData } = useUserPointsQuery(session?.user.id);
-	const { data: postState } = useUserPostsQuery(session?.user.id);
+export default function ProfileCard({ userId }: { userId: string }) {
+	const { data: profileData } = useProfileQuery(userId);
+	const { data: pointsData } = usePointsByUserIdQuery(userId);
+	const { data: postState } = usePostsByUserIDQuery(userId);
 
 	const imageSource = profileData?.profilePicture
-		? { uri: profileData?.profilePicture}
-		: require('../../assets/images/chiliplant.jpg');
+		? { uri: profileData.profilePicture}
+		: undefined;
 
 	const totalPoints = (pointsData || [])
 		.reduce(
