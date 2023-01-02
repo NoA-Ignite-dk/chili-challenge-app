@@ -14,6 +14,7 @@ export enum ROUTES {
 	SIGN_UP_PASSWORD = 'sign-up-password',
 	SIGN_UP_PLANTS = 'sign-up-plants',
 	SIGN_UP_SUCCESS = 'sign-up-success',
+	SETTINGS = 'settings'
 }
 
 export default ROUTES;
