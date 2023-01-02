@@ -1,5 +1,6 @@
 export enum ROUTES {
 	AUTH_STACK = 'auth-stack',
+	MAIN_STACK = 'main-stack',
 	MAIN_TABS = 'main-tabs',
 	FEED = 'feed',
 	SCOREBOARD = 'scoreboard',
