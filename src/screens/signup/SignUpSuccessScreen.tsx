@@ -24,14 +24,10 @@ const styles = StyleSheet.create({
 export default function SignUpSuccessScreen() {
 	const navigation = useNavigation<AllRoutesNavigationProp>();
 	const { setEmail, setPassword, setFirstName, setLastName } = useAuthContext();
-
-	const handleContinue = () => {
-		setEmail('');
-		setPassword('');
-		setFirstName('');
-		setLastName('');
-		navigation.navigate(ROUTES.LOGIN);
-	};
+	setEmail('');
+	setPassword('');
+	setFirstName('');
+	setLastName('');
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
@@ -39,10 +35,10 @@ export default function SignUpSuccessScreen() {
 			<Text style={typography.signupText}>Please check your inbox and confirm your email before logging in.</Text>
 
 			<View style={[styles.verticallySpaced, styles.mt20]}>
-				<Button onPress={handleContinue}>Login</Button>
+				<Button onPress={() => navigation.navigate(ROUTES.LOGIN)}>Login</Button>
 			</View>
 			<View style={[styles.verticallySpaced, styles.mt10]}>
-				<Button onPress={() => navigation.navigate(ROUTES.AUTH_LANDING_PAGE)}>Go back</Button>
+				<Button onPress={() => navigation.navigate(ROUTES.AUTH_LANDING_PAGE)}>Home</Button>
 			</View>
 		</View>
 	);
