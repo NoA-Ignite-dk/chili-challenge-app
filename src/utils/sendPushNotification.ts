@@ -26,6 +26,7 @@ export const schedulePushNotification = async (expoPushToken: any) => {
 			data: {},
 		},
 		trigger: {
+			dayOfWeek: [1, 2, 3, 4, 5],
 			hour: 15,
 			minute: 30,
 			repeats: true,

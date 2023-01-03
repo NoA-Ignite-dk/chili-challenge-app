@@ -8,6 +8,7 @@ export type AllRoutesParamList = {
 	[ROUTES.MAIN_STACK]: undefined;
 	[ROUTES.FEED]: undefined;
 	[ROUTES.POST]: undefined;
+	[ROUTES.POST_MODAL]: undefined;
 	[ROUTES.SCOREBOARD]: undefined;
 	[ROUTES.INFO]: undefined;
 	[ROUTES.PROFILE]: undefined;
@@ -22,7 +23,6 @@ export type AllRoutesParamList = {
 	[ROUTES.SIGN_UP_PLANTS]: undefined;
 	[ROUTES.SIGN_UP_SUCCESS]: undefined;
 	[ROUTES.SETTINGS]: undefined;
-
 };
 
 export type MainStackParamList = {

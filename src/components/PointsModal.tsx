@@ -1,6 +1,7 @@
 import Colors from '@src/config/colors';
 import Variables from '@src/config/variables';
 import { POINT_TYPES } from '@src/constants/general';
+import { useClaimedPointsQuery } from '@src/data/points';
 import { typography } from '@src/styles/generalStyles';
 import { PointToClaim } from '@src/types/supabase';
 import React from 'react';
@@ -97,22 +98,39 @@ type RenderPointItemProps = {
 	item: PointToClaim;
 };
 
-const PointItem = ({ item, handleSelectPoint }: PointItemProps) => (
-	<Button onPress={() => handleSelectPoint(item.id)} fullWidth style={styles.pointItem}>
-		<View style={styles.pointItemContainer}>
-			<Text style={[styles.pointItemText, typography.primaryButtonText]}>
-				{POINT_TYPES[item.type as keyof typeof POINT_TYPES]}
-				{': '}
-				{item.title}
-			</Text>
-			<View style={styles.pointAmount}>
-				<Text style={{ color: Colors.TEXT_60 }}>{item.amount}</Text>
+const PointItem = ({ item, handleSelectPoint }: PointItemProps) => {
+	const { data: allClaimedPointsData } = useClaimedPointsQuery();
+
+	return (
+		<Button
+			disabled={allClaimedPointsData?.some((claimedPoint) => claimedPoint.claimed_point_id === item.id)}
+			onPress={() => handleSelectPoint(item.id)}
+			fullWidth
+			style={styles.pointItem}
+		>
+			<View style={styles.pointItemContainer}>
+				<Text style={[styles.pointItemText, typography.primaryButtonText]}>
+					{POINT_TYPES[item.type as keyof typeof POINT_TYPES]}
+					{': '}
+					{item.title}
+				</Text>
+				<View style={styles.pointAmount}>
+					<Text style={{ color: Colors.TEXT_60 }}>{item.amount}</Text>
+				</View>
 			</View>
-		</View>
-	</Button>
-);
+		</Button>
+	);
+};
 
 export default function PointsModal({ data, open, setOpen, setSelectedPoint, loading }: Props) {
+	// const { data: allClaimedPointsData } = useClaimedPointsQuery();
+
+	// const filteredPoints = data?.filter((pointToClaim: PointToClaim) => {
+	// 	return !allClaimedPointsData?.find((claimedPoint) => {
+	// 		return claimedPoint.claimed_point_id === pointToClaim.id;
+	// 	});
+	// });
+
 	const handleSelectPoint = (pointId: number) => {
 		setSelectedPoint(pointId);
 		setOpen(!open);
