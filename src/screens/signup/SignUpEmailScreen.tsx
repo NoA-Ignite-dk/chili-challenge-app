@@ -24,11 +24,16 @@ export default function SignUpEmailScreen() {
 	const { email, setEmail } = useAuthContext();
 	const [emailValid, setEmailValid] = useState(false);
 	const [error, setError] = useState('');
+	const emailRegex = /[a-z0-9]+@noaignite.com/;
 
 	const handleContinue = () => {
 		if (emailValid) {
-			setError('');
-			navigation.navigate(ROUTES.SIGN_UP_PASSWORD);
+			if (emailRegex.test(email)) {
+				navigation.navigate(ROUTES.SIGN_UP_PASSWORD);
+				setError('');
+			} else {
+				setError('Please provide a NoA Ignite email address.');
+			}
 		} else {
 			setError('Please fill out all fields');
 		}

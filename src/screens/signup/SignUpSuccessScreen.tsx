@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
 	mt20: {
 		marginTop: 20,
 	},
+	mt10: {
+		marginTop: 10,
+	},
 });
 
 export default function SignUpSuccessScreen() {
@@ -37,6 +40,9 @@ export default function SignUpSuccessScreen() {
 
 			<View style={[styles.verticallySpaced, styles.mt20]}>
 				<Button onPress={handleContinue}>Login</Button>
+			</View>
+			<View style={[styles.verticallySpaced, styles.mt10]}>
+				<Button onPress={() => navigation.navigate(ROUTES.AUTH_LANDING_PAGE)}>Go back</Button>
 			</View>
 		</View>
 	);

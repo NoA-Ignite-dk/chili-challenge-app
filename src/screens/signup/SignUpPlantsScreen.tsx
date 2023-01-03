@@ -9,6 +9,7 @@ import Icon, { IconType } from '@src/components/Icon';
 import { supabase } from '@src/lib/supabase';
 import ROUTES from '@src/config/routes';
 import InputField from '@src/components/InputField';
+import { createPlant } from '@src/data/plants';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
 export default function SignUpPlantsScreen() {
 	const navigation = useNavigation<AllRoutesNavigationProp>();
 	const { allUserData } = useAuthContext();
-	const [error] = useState('');
+	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [plant1Valid, setPlant1Valid] = useState(false);
 	const [plant1, setPlant1] = useState('');
@@ -34,7 +35,11 @@ export default function SignUpPlantsScreen() {
 	const [plant3, setPlant3] = useState('');
 
 	const handleContinue = () => {
-		signUp();
+		if (plant1Valid && plant2Valid && plant3Valid) {
+			signUp();
+		} else {
+			setError('Please fill out all plant names');
+		}
 	};
 
 	async function signUp() {
@@ -52,11 +57,20 @@ export default function SignUpPlantsScreen() {
 
 		if (error) {
 			Alert.alert(error.message);
-		} else {
-			navigation.navigate(ROUTES.SIGN_UP_SUCCESS);
+		}
+
+		try {
+			await createPlant({ user_id: data.user?.id, name: plant1, image_url: '', primary: false });
+			await createPlant({ user_id: data.user?.id, name: plant2, image_url: '', primary: false });
+			await createPlant({ user_id: data.user?.id, name: plant3, image_url: '', primary: false });
+		} catch (error) {
+			setError('Something went wrong. Please try again.');
+			setLoading(false)
+			return;
 		}
 
 		setLoading(false);
+		navigation.navigate(ROUTES.SIGN_UP_SUCCESS);
 	}
 
 	return (

@@ -46,7 +46,7 @@ export function usePlantsByUserIdQuery(user_id: string) {
 }
 
 export interface CreatePlantDTO {
-	user_id: string;
+	user_id: string | undefined ;
 	name?: string;
 	image_url?: string;
 	primary?: boolean;

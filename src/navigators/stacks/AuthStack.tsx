@@ -40,7 +40,7 @@ const AuthStack = () => {
 				<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_PASSWORD} component={SignUpPasswordScreen} />
 				<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_NAME} component={SignUpNameScreen} />
 				<Stack.Screen options={{ title: 'Sign up' }} name={ROUTES.SIGN_UP_PLANTS} component={SignUpPlantsScreen} />
-				<Stack.Screen options={{ title: 'Account created' }} name={ROUTES.SIGN_UP_SUCCESS} component={SignUpSuccessScreen} />
+				<Stack.Screen options={{ title: 'Account created', gestureEnabled: false, headerBackVisible: false  }} name={ROUTES.SIGN_UP_SUCCESS} component={SignUpSuccessScreen} />
 			</Stack.Navigator>
 		</AuthProvider>
 	);
