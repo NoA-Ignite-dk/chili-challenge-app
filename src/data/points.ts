@@ -5,13 +5,18 @@ import { PointToClaim } from "./point-to-claim";
 import { QUERY_KEY as USERS_WITH_POINTS } from './users-with-points';
 
 export const QUERY_KEY = 'POINTS';
-
+export const CLAIMED_POINTS_QUERY_KEY = 'CLAIMED_POINTS';
 export interface Point {
 	id: number;
 	claimed_at: string;
 	user_id: string;
 	post_id: number;
 	point_to_claim: PointToClaim | null;
+}
+
+export interface ClaimedPoint {
+	id: number;
+	claimed_point_id: number;
 }
 
 export async function getPointsByUserId(user_id: string): Promise<Point[]> {
@@ -48,6 +53,35 @@ export async function getPointsByUserId(user_id: string): Promise<Point[]> {
 			return e;
 		}) as Point[];
 }
+
+export async function getClaimedPoints(): Promise<ClaimedPoint[]> {
+	const { data, error } = await supabase
+		.from('point')
+		.select(`
+			id,
+			claimed_point_id
+		`)
+		.order('id', { ascending: true });
+
+	if (error) {
+		throw error;
+	}
+
+	if (!data) {
+		throw new Error(`Unable to find points`);
+	}
+
+	return normalizeRows(data).filter((e) => !!e?.id) as ClaimedPoint[];
+}
+
+export function useClaimedPointsQuery() {
+	const hook = useQuery([CLAIMED_POINTS_QUERY_KEY], {
+		queryFn: () => getClaimedPoints(),
+	});
+
+	return hook;
+}
+
 
 export function usePointsByUserIdQuery(user_id: string) {
 	const hook = useQuery([QUERY_KEY, user_id], {

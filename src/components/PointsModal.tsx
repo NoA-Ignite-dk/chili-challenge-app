@@ -1,6 +1,7 @@
 import Colors from '@src/config/colors';
 import Variables from '@src/config/variables';
 import { POINT_TYPES } from '@src/constants/general';
+import { useClaimedPointsQuery } from '@src/data/points';
 import { typography } from '@src/styles/generalStyles';
 import { PointToClaim } from '@src/types/supabase';
 import React from 'react';
@@ -113,6 +114,14 @@ const PointItem = ({ item, handleSelectPoint }: PointItemProps) => (
 );
 
 export default function PointsModal({ data, open, setOpen, setSelectedPoint, loading }: Props) {
+	const {data: allClaimedPointsData} = useClaimedPointsQuery()
+
+	const filteredPoints = data?.filter((pointToClaim: PointToClaim) => {
+		return !allClaimedPointsData?.find((claimedPoint) => {
+			return claimedPoint.claimed_point_id === pointToClaim.id;
+		});
+	});
+
 	const handleSelectPoint = (pointId: number) => {
 		setSelectedPoint(pointId);
 		setOpen(!open);
@@ -141,7 +150,7 @@ export default function PointsModal({ data, open, setOpen, setSelectedPoint, loa
 						<Icon width={32} height={32} type={IconType.CLOSE} />
 					</Pressable> */}
 
-					<FlatList data={data} renderItem={renderPointItem} keyExtractor={(item: any) => item.id} />
+					<FlatList data={filteredPoints} renderItem={renderPointItem} keyExtractor={(item: any) => item.id} />
 
 					<Button textStyle={styles.deselectPointText} onPress={() => handleRemovePoint()} fullWidth style={styles.deselectPoint}>
 						<Text>Remove point</Text>
