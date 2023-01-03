@@ -16,15 +16,14 @@ import Variables from '@src/config/variables';
 import { getImageUrl } from '@src/utils/getImageUrl';
 import { uploadImage } from '@src/utils/uploadImage';
 import { useAppContext } from '@src/components/providers/appContext';
-
-// Types
 import { usePointToClaimQuery } from '@src/data/point-to-claim';
 import { useCreatePostsMutation } from '@src/data/posts';
 import { useCreatePointsMutation } from '@src/data/points';
 import { POINT_TYPES } from '@src/constants/general';
 import { useNavigation } from '@react-navigation/native';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
-import ROUTES from '@src/config/routes';
+import { ROUTES } from '@src/config/routes';
+import { usePlantsByUserIdQuery } from '@src/data/plants';
 
 const styles = StyleSheet.create({
 	container: {
@@ -129,16 +128,23 @@ export default function PostScreen() {
 	const createPostMutation = useCreatePostsMutation();
 	const createPointMutation = useCreatePointsMutation();
 	const navigation = useNavigation<AllRoutesNavigationProp>();
+	const { data: plantState } = usePlantsByUserIdQuery(session.user.id);
+	const hasPrimaryPlant = (plantState || []).some((plant) => plant.primary);
 
 	const createPost = async () => {
+		if (!hasPrimaryPlant) {
+			alert("You don't have a primary plant set. To claim points, go to your profile page and set a primary plant.");
+			return;
+		}
+
 		if (!selectedImage) {
 			alert('Please select an image or take a photo');
-			throw Error('No image selected');
+			return;
 		}
 
 		if (!postDescription) {
 			alert('Please add a description');
-			throw Error('No description added');
+			return;
 		}
 
 		setLoading(true);
