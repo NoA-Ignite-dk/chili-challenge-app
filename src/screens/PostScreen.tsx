@@ -22,12 +22,16 @@ import { usePointToClaimQuery } from '@src/data/point-to-claim';
 import { useCreatePostsMutation } from '@src/data/posts';
 import { useCreatePointsMutation } from '@src/data/points';
 import { POINT_TYPES } from '@src/constants/general';
+import { useNavigation } from '@react-navigation/native';
+import { AllRoutesNavigationProp } from '@src/types/navigation';
+import ROUTES from '@src/config/routes';
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: Colors.WHITE,
-		justifyContent: 'flex-start',
+		justifyContent: 'space-between',
+		paddingBottom: 60,
 	},
 	image: {
 		height: 250,
@@ -38,6 +42,10 @@ const styles = StyleSheet.create({
 	section: {
 		marginBottom: 24,
 		marginTop: 10,
+	},
+	title: {
+		fontSize: 24,
+		fontFamily: 'Manrope_600SemiBold',
 	},
 	button: {
 		marginTop: 16,
@@ -120,6 +128,7 @@ export default function PostScreen() {
 	const { session } = useAppContext();
 	const createPostMutation = useCreatePostsMutation();
 	const createPointMutation = useCreatePointsMutation();
+	const navigation = useNavigation<AllRoutesNavigationProp>();
 
 	const createPost = async () => {
 		if (!selectedImage) {
@@ -159,7 +168,7 @@ export default function PostScreen() {
 
 		setLoading(false);
 		// eslint-disable-next-line no-alert
-		alert('Post created!');
+		navigation.navigate(ROUTES.FEED);
 	};
 
 	const openImageLibrary = async () => {
@@ -204,56 +213,61 @@ export default function PostScreen() {
 
 	return (
 		<View style={[styles.container, containerStyles.padding]}>
-			<View style={styles.section}>
-				<TextInput
-					style={typography.bodyRegular14}
-					onChangeText={(text: string) => setPostDescription(text)}
-					multiline={true}
-					placeholder="Write something..."
-				/>
-			</View>
-			<View style={styles.section}>
-				<Text style={typography.uppercaseBig}>Claim points (optional)</Text>
-				{!selectedPoint && (
-					<SecondaryButton iconColor={Colors.GREEN_PRIMARY} onPress={() => setModalVisible(true)} style={styles.button} icon="plus">
-						<Text style={typography.buttonText}>Select points</Text>
-					</SecondaryButton>
-				)}
-				{selectedPoint && (
-					<SecondaryButton onPress={() => setModalVisible(true)} style={styles.selectedButton} textStyle={styles.selectedButtonText}>
-						<View style={styles.pointItemContainer}>
-							<Text style={[styles.pointItemText, typography.buttonText]}>
-								{POINT_TYPES[selectedPointData?.type as keyof typeof POINT_TYPES]}
-								{': '}
-								{selectedPointData?.title}
-							</Text>
-							<View style={styles.pointAmount}>
-								<Text style={{ color: Colors.TEXT_60 }}>{selectedPointData?.amount}</Text>
+			<View>
+				<View style={styles.section}>
+					<Text style={styles.title}>Create post</Text>
+				</View>
+				<View style={styles.section}>
+					<TextInput
+						style={typography.bodyRegular14}
+						onChangeText={(text: string) => setPostDescription(text)}
+						multiline={true}
+						placeholder="Write something..."
+					/>
+				</View>
+				<View style={styles.section}>
+					<Text style={typography.uppercaseBig}>Claim points (optional)</Text>
+					{!selectedPoint && (
+						<SecondaryButton iconColor={Colors.GREEN_PRIMARY} onPress={() => setModalVisible(true)} style={styles.button} icon="plus">
+							<Text style={typography.buttonText}>Select points</Text>
+						</SecondaryButton>
+					)}
+					{selectedPoint && (
+						<SecondaryButton onPress={() => setModalVisible(true)} style={styles.selectedButton} textStyle={styles.selectedButtonText}>
+							<View style={styles.pointItemContainer}>
+								<Text style={[styles.pointItemText, typography.buttonText]}>
+									{POINT_TYPES[selectedPointData?.type as keyof typeof POINT_TYPES]}
+									{': '}
+									{selectedPointData?.title}
+								</Text>
+								<View style={styles.pointAmount}>
+									<Text style={{ color: Colors.TEXT_60 }}>{selectedPointData?.amount}</Text>
+								</View>
 							</View>
+						</SecondaryButton>
+					)}
+				</View>
+				<View style={styles.section}>
+					<Text style={typography.uppercaseBig}>Image</Text>
+					{selectedImage && (
+						<View style={styles.imageContainer}>
+							<Pressable onPress={removeImage} style={styles.imageCloseButton}>
+								<Text style={{ fontSize: 18, color: Colors.WHITE }}>X</Text>
+							</Pressable>
+							<Image style={styles.image} source={{ uri: selectedImage }}></Image>
 						</View>
-					</SecondaryButton>
-				)}
-			</View>
-			<View style={styles.section}>
-				<Text style={typography.uppercaseBig}>Image</Text>
-				{selectedImage && (
-					<View style={styles.imageContainer}>
-						<Pressable onPress={removeImage} style={styles.imageCloseButton}>
-							<Text style={{ fontSize: 18, color: Colors.WHITE }}>X</Text>
-						</Pressable>
-						<Image style={styles.image} source={{ uri: selectedImage }}></Image>
-					</View>
-				)}
-				{!selectedImage && (
-					<View style={styles.imagePlaceholder}>
-						<Pressable style={styles.imagePlaceholderButton} onPress={openCamera}>
-							<Icon stroke={Colors.WHITE} type={IconType.CAMERA} />
-						</Pressable>
-						<Pressable style={styles.imagePlaceholderButton} onPress={openImageLibrary}>
-							<Icon stroke={Colors.WHITE} type={IconType.UPLOAD} />
-						</Pressable>
-					</View>
-				)}
+					)}
+					{!selectedImage && (
+						<View style={styles.imagePlaceholder}>
+							<Pressable style={styles.imagePlaceholderButton} onPress={openCamera}>
+								<Icon stroke={Colors.WHITE} type={IconType.CAMERA} />
+							</Pressable>
+							<Pressable style={styles.imagePlaceholderButton} onPress={openImageLibrary}>
+								<Icon stroke={Colors.WHITE} type={IconType.UPLOAD} />
+							</Pressable>
+						</View>
+					)}
+				</View>
 			</View>
 			<Button style={styles.createButton} onPress={createPost}>
 				{!loading && <Text>Create post</Text>}

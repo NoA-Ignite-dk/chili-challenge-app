@@ -5,6 +5,7 @@ export enum ROUTES {
 	FEED = 'feed',
 	SCOREBOARD = 'scoreboard',
 	POST = 'post',
+	POST_MODAL = 'post-stack',
 	INFO = 'info',
 	PROFILE = 'profile',
 	USER = 'user',
@@ -16,7 +17,7 @@ export enum ROUTES {
 	SIGN_UP_PASSWORD = 'sign-up-password',
 	SIGN_UP_PLANTS = 'sign-up-plants',
 	SIGN_UP_SUCCESS = 'sign-up-success',
-	SETTINGS = 'settings'
+	SETTINGS = 'settings',
 }
 
 export default ROUTES;

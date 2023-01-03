@@ -2,20 +2,20 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Icon, { IconType } from '@src/components/Icon';
 
 // Config
 import { ROUTES } from '@src/config/routes';
 import Colors from '@src/config/colors';
+import { useNavigation } from '@react-navigation/native';
+import { AllRoutesNavigationProp } from '@src/types/navigation';
 
 // Screens
 import HomeScreen from '@src/screens/HomeScreen';
 import ScoreboardScreen from '@src/screens/ScoreboardScreen';
 import PostScreen from '@src/screens/PostScreen';
 import InformationScreen from '@src/screens/InformationScreen';
-import Icon, { IconType } from '@src/components/Icon';
 import ProfileScreen from '@src/screens/profile/ProfileScreen';
-import { useNavigation } from '@react-navigation/native';
-import { AllRoutesNavigationProp } from '@src/types/navigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -80,16 +80,17 @@ function MainBottomTabs() {
 				}}
 			/>
 			<Tab.Screen
-				name={ROUTES.POST}
+				name={ROUTES.POST_MODAL}
 				component={PostScreen}
 				options={{
 					tabBarIcon: () => <Icon type={IconType.POST} />,
-					title: 'Create post',
-					headerTitleStyle: {
-						fontSize: 24,
-						fontFamily: 'Manrope_600SemiBold',
-					},
 				}}
+				listeners={({ navigation }) => ({
+					tabPress: (e) => {
+						e.preventDefault();
+						navigation.navigate(ROUTES.POST);
+					},
+				})}
 			/>
 			<Tab.Screen
 				name={ROUTES.INFO}
