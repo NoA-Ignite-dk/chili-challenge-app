@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Button from '@src/components/buttons/PrimaryButton';
 import { supabase } from '@src/lib/supabase';
-import Txt from '@src/components/Txt';
-import { containerStyles } from '@src/styles/generalStyles';
+import { containerStyles, typography } from '@src/styles/generalStyles';
 import InputField from '@src/components/InputField';
 
 const styles = StyleSheet.create({
@@ -23,6 +22,7 @@ export default function LoginScreen() {
 	const [password, setPassword] = useState('');
 	const [passwordValid, setPasswordValid] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
 
 	async function signInWithEmail() {
 		setLoading(true);
@@ -31,14 +31,14 @@ export default function LoginScreen() {
 			password,
 		});
 
-		if (error) Alert.alert(error.message);
+		if (error) setError(error.message);
 		setLoading(false);
 	}
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
-			<Txt>Let's sign you in</Txt>
-			<Txt>Enter your email and password to sign in</Txt>
+			<Text style={typography.signupTitle}>Let's sign you in</Text>
+			<Text style={typography.signupText}>Enter your email and password to sign in</Text>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
 				<InputField
 					isValid={emailValid}
@@ -48,6 +48,7 @@ export default function LoginScreen() {
 					label="Email"
 					placeholder="email@address.com"
 					errorMessage="Field required"
+					autoCapitalize="none"
 				/>
 			</View>
 			<View style={styles.verticallySpaced}>
@@ -57,8 +58,10 @@ export default function LoginScreen() {
 					label="Password"
 					text={password}
 					setText={setPassword}
-					placeholder="Password"
 					errorMessage="Field required"
+					password
+					placeholder="******"
+					autoCapitalize="none"
 				/>
 			</View>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
@@ -66,6 +69,7 @@ export default function LoginScreen() {
 					Sign in
 				</Button>
 			</View>
+			{error && <Text style={typography.errorMessage}>{error}</Text>}
 		</View>
 	);
 }

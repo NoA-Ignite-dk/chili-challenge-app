@@ -24,8 +24,8 @@ export const typography = StyleSheet.create({
 	},
 	largeTitle: {
 		fontFamily: 'Manrope_700Bold',
-		fontSize: 60,
-		fontWeight: '600',
+		fontSize: 50,
+		lineHeight: 60,
 	},
 	bodyRegular16: {
 		fontFamily: 'Manrope_400Regular',
@@ -50,6 +50,25 @@ export const typography = StyleSheet.create({
 	},
 	whiteText: {
 		color: Colors.WHITE,
+	},
+	signupTitle: {
+		fontFamily: 'Manrope_700Bold',
+		fontSize: 32,
+		lineHeight: 42,
+		maxWidth: '80%',
+		marginBottom: 10,
+		marginTop: 14,
+	},
+	signupText: {
+		fontFamily: 'Manrope_400Regular',
+		fontSize: 16,
+		marginBottom: 20,
+	},
+	errorMessage: {
+		fontFamily: 'Manrope_400Regular',
+		color: Colors.ERROR_RED,
+		paddingHorizontal: 20,
+		paddingTop: 10,
 	},
 	buttonText: {
 		fontFamily: 'Manrope_600SemiBold',

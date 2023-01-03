@@ -17,6 +17,7 @@ export enum IconType {
 	PROFILE_PLANTS = 'profile_plants',
 	PROFILE_CLAIMED_POINTS = 'profile_claimed_points',
 	EDIT = 'edit',
+	BACK_ICON = 'back-icon',
 	STAR = 'star',
 }
 
@@ -231,6 +232,14 @@ const IconConfig = {
 					stroke-linejoin="round"
 				/>
 				<Path d="M11.0208 6.00092L16.4731 10.188" stroke-linecap="round" stroke-linejoin="round" />
+			</>
+		),
+	},
+	[IconType.BACK_ICON]: {
+		viewBox: '24 24',
+		definition: (
+			<>
+				<Path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15.5 19l-7-7 7-7" />
 			</>
 		),
 	},

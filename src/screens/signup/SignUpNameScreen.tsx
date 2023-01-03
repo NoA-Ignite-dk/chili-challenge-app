@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text, Alert } from 'react-native';
 import Button from '@src/components/buttons/PrimaryButton';
-import Txt from '@src/components/Txt';
-import { containerStyles } from '@src/styles/generalStyles';
+import { containerStyles, typography } from '@src/styles/generalStyles';
 import InputField from '@src/components/InputField';
 import { useNavigation } from '@react-navigation/native';
 import { ROUTES } from '@src/config/routes';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
 import { useAuthContext } from '@src/components/providers/authContext';
+import { supabase } from '@src/lib/supabase';
+import Icon, { IconType } from '@src/components/Icon';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -22,23 +23,43 @@ const styles = StyleSheet.create({
 
 export default function SignUpNameScreen() {
 	const navigation = useNavigation<AllRoutesNavigationProp>();
-	const { firstName, setFirstName, lastName, setLastName } = useAuthContext();
+	const { firstName, setFirstName, lastName, setLastName, allUserData } = useAuthContext();
 	const [firstNameValid, setFirstNameValid] = useState(false);
 	const [lastNameValid, setLastNameValid] = useState(false);
 	const [error, setError] = useState('');
+	const [loading, setLoading] = useState(false);
 
-	const handleContinue = () => {
-		if (firstNameValid && lastNameValid) {
-			navigation.navigate(ROUTES.SIGN_UP_PLANTS);
-		} else {
+	async function signUp() {
+		setLoading(true);
+
+		if (!firstNameValid || !lastNameValid) {
 			setError('Please fill out all fields');
+			return;
 		}
-	};
+
+		// eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
+		const { data, error } = await supabase.auth.signUp({
+			email: allUserData.email,
+			password: allUserData.password,
+			options: {
+				data: {
+					full_name: `${allUserData.firstName} ${allUserData.lastName}`,
+				},
+			},
+		});
+
+		if (error) {
+			Alert.alert(error.message);
+		} else {
+			setLoading(false);
+			navigation.navigate(ROUTES.SIGN_UP_SUCCESS);
+		}
+	}
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>
-			<Txt>Whats your name?</Txt>
-			<Txt>Identify yourself</Txt>
+			<Text style={typography.signupTitle}>Whats your name?</Text>
+			<Text style={typography.signupText}>Identify yourself</Text>
 			<View style={[styles.verticallySpaced, styles.mt20]}>
 				<InputField
 					isValid={firstNameValid}
@@ -61,10 +82,10 @@ export default function SignUpNameScreen() {
 			</View>
 
 			<View style={[styles.verticallySpaced, styles.mt20]}>
-				<Button onPress={handleContinue}>Continue</Button>
+				<Button onPress={signUp}>{loading ? <Icon type={IconType.LOADING} /> : 'Create account'}</Button>
 			</View>
 
-			{error && <Txt>{error}</Txt>}
+			{error && <Text style={typography.errorMessage}>{error}</Text>}
 		</View>
 	);
 }
