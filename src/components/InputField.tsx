@@ -1,6 +1,7 @@
 import { Text, TextInput, View, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
 import Colors from '@src/config/colors';
+import Variables from '@src/config/variables';
 
 interface InputFieldProps {
 	label: string;
@@ -12,26 +13,42 @@ interface InputFieldProps {
 	setText: Function;
 	password?: boolean;
 	disabled?: boolean;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	[x: string]: any;
 }
 
 const styles = StyleSheet.create({
 	label: {
-		//   fontFamily: variables.fonts.openSans.bold,
-		//   fontSize: variables.fontSizes.xsmall,
 		color: Colors.BLACK,
-		textTransform: 'uppercase',
+		fontFamily: 'Manrope_400Regular',
+		position: 'relative',
+		top: 10,
+		left: 12,
+		backgroundColor: Colors.WHITE,
+		borderRadius: Variables.BORDER_RADIUS_LARGE,
+		width: 150,
+		padding: 2,
+		paddingLeft: 10,
+		zIndex: 10,
 	},
 	inputText: {
-		//   fontFamily: variables.fonts.openSans.regular,
-		//   fontSize: variables.fontSizes.normal,
 		color: Colors.BLACK,
+		fontFamily: 'Manrope_400Regular',
+		borderColor: Colors.LIGHT_GREY,
+		paddingVertical: 15,
+		paddingHorizontal: 20,
+		borderStyle: 'solid',
+		borderWidth: 1,
+		borderRadius: Variables.BORDER_RADIUS_LARGE,
 	},
 	inputField: {
-		borderColor: Colors.LIGHT_GREY,
-		padding: 10,
-		borderStyle: 'solid',
 		width: '100%',
-		borderWidth: 1,
+	},
+	errorMessage: {
+		fontFamily: 'Manrope_400Regular',
+		color: Colors.ERROR_RED,
+		paddingHorizontal: 20,
+		paddingTop: 10,
 	},
 });
 
@@ -86,7 +103,7 @@ export default function InputField({
 				selectTextOnFocus={!disabled}
 				{...props}
 			/>
-			{!isValid && entered && <Text>{errorMessage}</Text>}
+			{!isValid && entered && <Text style={styles.errorMessage}>{errorMessage}</Text>}
 		</View>
 	);
 }

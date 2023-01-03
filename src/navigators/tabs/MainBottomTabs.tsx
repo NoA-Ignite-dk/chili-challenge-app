@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-function MainBottomTabNavigator() {
+function MainBottomTabs() {
 	return (
 		<Tab.Navigator
 			screenOptions={{
@@ -33,7 +33,7 @@ function MainBottomTabNavigator() {
 				headerTitleAlign: 'left',
 				headerTitleStyle: {
 					fontSize: 24,
-					fontFamily: "Manrope_600SemiBold"
+					fontFamily: 'Manrope_600SemiBold',
 				},
 				headerRight: () => (
 					<View style={styles.iconContainer}>
@@ -70,7 +70,7 @@ function MainBottomTabNavigator() {
 					headerTitleStyle: {
 						color: Colors.WHITE,
 						fontSize: 24,
-						fontFamily: "Manrope_600SemiBold"
+						fontFamily: 'Manrope_600SemiBold',
 					},
 					headerRight: () => (
 						<View style={styles.iconContainer}>
@@ -87,7 +87,7 @@ function MainBottomTabNavigator() {
 					title: 'Create post',
 					headerTitleStyle: {
 						fontSize: 24,
-						fontFamily: "Manrope_600SemiBold"
+						fontFamily: 'Manrope_600SemiBold',
 					},
 				}}
 			/>
@@ -120,4 +120,4 @@ function MainBottomTabNavigator() {
 	);
 }
 
-export default MainBottomTabNavigator;
+export default MainBottomTabs;

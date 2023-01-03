@@ -12,7 +12,7 @@ import SettingsScreen from '@src/components/SettingsScreen';
 import { MainStackParamList } from '@src/types/navigation';
 import { useSession } from '@src/data/session';
 import { AppProvider } from '@src/components/providers/appContext';
-import MainBottomTabNavigator from '../tabs/MainBottomTabNavigator';
+import MainBottomTabs from '../tabs/MainBottomTabs';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -25,10 +25,21 @@ const AuthStack = () => {
 
 	return (
 		<AppProvider session={session}>
-			<Stack.Navigator initialRouteName={ROUTES.MAIN_TABS} screenOptions={{ headerShown: false}}>
-				<Stack.Screen name={ROUTES.MAIN_TABS} component={MainBottomTabNavigator} />
+			<Stack.Navigator
+				screenOptions={{
+					headerShown: false,
+					animation: 'none',
+					gestureEnabled: false,
+				}}
+				initialRouteName={ROUTES.MAIN_TABS}
+			>
+				<Stack.Screen name={ROUTES.MAIN_TABS} component={MainBottomTabs} />
 				<Stack.Screen name={ROUTES.USER} options={{ headerShown: true, headerTitle: '', headerBackVisible: true }} component={UserScreen} />
-				<Stack.Screen name={ROUTES.SETTINGS} options={{ title: 'Settings', presentation: 'transparentModal', animation: 'slide_from_bottom' }} component={SettingsScreen} />
+				<Stack.Screen
+					name={ROUTES.SETTINGS}
+					options={{ title: 'Settings', presentation: 'transparentModal', animation: 'slide_from_bottom' }}
+					component={SettingsScreen}
+				/>
 			</Stack.Navigator>
 		</AppProvider>
 	);
