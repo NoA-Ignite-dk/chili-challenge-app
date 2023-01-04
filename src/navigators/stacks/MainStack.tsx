@@ -19,7 +19,7 @@ import MainBottomTabs from '../tabs/MainBottomTabs';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
-const AuthStack = () => {
+const MainStack = () => {
 	const { session } = useSession();
 
 	if (!session) {
@@ -53,4 +53,4 @@ const AuthStack = () => {
 	);
 };
 
-export default AuthStack;
+export default MainStack;

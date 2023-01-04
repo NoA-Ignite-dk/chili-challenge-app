@@ -198,7 +198,6 @@ export default function PostScreen() {
 		const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
 		if (permissionResult.granted === false) {
-			// eslint-disable-next-line no-alert
 			alert("You've refused to allow this app to access your camera");
 			return;
 		}
@@ -277,7 +276,8 @@ export default function PostScreen() {
 			</View>
 			<Button style={styles.createButton} onPress={createPost}>
 				{!loading && <Text>Create post</Text>}
-				{loading && <Icon type={IconType.LOADING} />}
+				{/* {{loading && <Icon type={IconType.LOADING} />}} */}
+				{loading && <Text>Posting..</Text>}
 			</Button>
 			<PointsModal loading={isLoading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
 		</View>
