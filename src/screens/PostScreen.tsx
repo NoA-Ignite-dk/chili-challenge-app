@@ -8,6 +8,7 @@ import SecondaryButton from '@src/components/buttons/SecondaryButton';
 import PointsModal from '@src/components/PointsModal';
 import Icon, { IconType } from '@src/components/Icon';
 import Button from '@src/components/buttons/PrimaryButton';
+import { DismissKeyboard } from '@src/components/DismissKeyboard';
 
 // Config
 import Colors from '@src/config/colors';
@@ -217,69 +218,71 @@ export default function PostScreen() {
 	};
 
 	return (
-		<View style={[styles.container, containerStyles.padding]}>
-			<View>
-				<View style={styles.section}>
-					<Text style={styles.title}>Create post</Text>
-				</View>
-				<View style={styles.section}>
-					<TextInput
-						style={typography.bodyRegular14}
-						onChangeText={(text: string) => setPostDescription(text)}
-						multiline={true}
-						placeholder="Write something..."
-					/>
-				</View>
-				<View style={styles.section}>
-					<Text style={typography.uppercaseBig}>Claim points (optional)</Text>
-					{!selectedPoint && (
-						<SecondaryButton iconColor={Colors.GREEN_PRIMARY} onPress={() => setModalVisible(true)} style={styles.button} icon="plus">
-							<Text style={typography.buttonText}>Select points</Text>
-						</SecondaryButton>
-					)}
-					{selectedPoint && (
-						<SecondaryButton onPress={() => setModalVisible(true)} style={styles.selectedButton} textStyle={styles.selectedButtonText}>
-							<View style={styles.pointItemContainer}>
-								<Text style={[styles.pointItemText, typography.buttonText]}>
-									{POINT_TYPES[selectedPointData?.type as keyof typeof POINT_TYPES]}
-									{': '}
-									{selectedPointData?.title}
-								</Text>
-								<View style={styles.pointAmount}>
-									<Text style={{ color: Colors.TEXT_60 }}>{selectedPointData?.amount}</Text>
+		<DismissKeyboard>
+			<View style={[styles.container, containerStyles.padding]}>
+				<View>
+					<View style={styles.section}>
+						<Text style={styles.title}>Create post</Text>
+					</View>
+					<View style={styles.section}>
+						<TextInput
+							style={typography.bodyRegular14}
+							onChangeText={(text: string) => setPostDescription(text)}
+							multiline={true}
+							placeholder="Write something..."
+						/>
+					</View>
+					<View style={styles.section}>
+						<Text style={typography.uppercaseBig}>Claim points (optional)</Text>
+						{!selectedPoint && (
+							<SecondaryButton iconColor={Colors.GREEN_PRIMARY} onPress={() => setModalVisible(true)} style={styles.button} icon="plus">
+								<Text style={typography.buttonText}>Select points</Text>
+							</SecondaryButton>
+						)}
+						{selectedPoint && (
+							<SecondaryButton onPress={() => setModalVisible(true)} style={styles.selectedButton} textStyle={styles.selectedButtonText}>
+								<View style={styles.pointItemContainer}>
+									<Text style={[styles.pointItemText, typography.buttonText]}>
+										{POINT_TYPES[selectedPointData?.type as keyof typeof POINT_TYPES]}
+										{': '}
+										{selectedPointData?.title}
+									</Text>
+									<View style={styles.pointAmount}>
+										<Text style={{ color: Colors.TEXT_60 }}>{selectedPointData?.amount}</Text>
+									</View>
 								</View>
+							</SecondaryButton>
+						)}
+					</View>
+					<View style={styles.section}>
+						<Text style={typography.uppercaseBig}>Image</Text>
+						{selectedImage && (
+							<View style={styles.imageContainer}>
+								<Pressable onPress={removeImage} style={styles.imageCloseButton}>
+									<Text style={{ fontSize: 18, color: Colors.WHITE }}>X</Text>
+								</Pressable>
+								<Image style={styles.image} source={{ uri: selectedImage }}></Image>
 							</View>
-						</SecondaryButton>
-					)}
+						)}
+						{!selectedImage && (
+							<View style={styles.imagePlaceholder}>
+								<Pressable style={styles.imagePlaceholderButton} onPress={openCamera}>
+									<Icon stroke={Colors.WHITE} type={IconType.CAMERA} />
+								</Pressable>
+								<Pressable style={styles.imagePlaceholderButton} onPress={openImageLibrary}>
+									<Icon stroke={Colors.WHITE} type={IconType.UPLOAD} />
+								</Pressable>
+							</View>
+						)}
+					</View>
 				</View>
-				<View style={styles.section}>
-					<Text style={typography.uppercaseBig}>Image</Text>
-					{selectedImage && (
-						<View style={styles.imageContainer}>
-							<Pressable onPress={removeImage} style={styles.imageCloseButton}>
-								<Text style={{ fontSize: 18, color: Colors.WHITE }}>X</Text>
-							</Pressable>
-							<Image style={styles.image} source={{ uri: selectedImage }}></Image>
-						</View>
-					)}
-					{!selectedImage && (
-						<View style={styles.imagePlaceholder}>
-							<Pressable style={styles.imagePlaceholderButton} onPress={openCamera}>
-								<Icon stroke={Colors.WHITE} type={IconType.CAMERA} />
-							</Pressable>
-							<Pressable style={styles.imagePlaceholderButton} onPress={openImageLibrary}>
-								<Icon stroke={Colors.WHITE} type={IconType.UPLOAD} />
-							</Pressable>
-						</View>
-					)}
-				</View>
+				<Button style={styles.createButton} onPress={createPost}>
+					{!loading && <Text>Create post</Text>}
+					{/* {{loading && <Icon type={IconType.LOADING} />}} */}
+					{loading && <Text>Posting..</Text>}
+				</Button>
+				<PointsModal loading={isLoading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
 			</View>
-			<Button style={styles.createButton} onPress={createPost}>
-				{!loading && <Text>Create post</Text>}
-				{/* {{loading && <Icon type={IconType.LOADING} />}} */}
-				{loading && <Text>Posting..</Text>}
-			</Button>
-			<PointsModal loading={isLoading} setSelectedPoint={setSelectedPoint} open={modalVisible} setOpen={setModalVisible} data={pointsData} />
-		</View>
+		</DismissKeyboard>
 	);
 }
