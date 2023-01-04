@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
-import { useRoute } from '@react-navigation/native';
 import { TabView, SceneMap, TabBar, SceneRendererProps, NavigationState, Route } from 'react-native-tab-view';
 import { containerStyles } from '@src/styles/generalStyles'
 
@@ -31,18 +30,12 @@ export default function ProfileScreen() {
 	const [index, setIndex] = React.useState(0);
 	const [editProfileModalVisible, setEditProfileModalVisible] = useState(false);
 	const { session } = useAppContext();
-	const { params } = useRoute();
-
-	console.log('session', session?.user.id, params);
 
 	const [routes] = React.useState([
 		{ key: 'allPosts', title: 'Posts' },
 		{ key: 'allPlants', title: 'Plants' },
 		{ key: 'claimedPointsList', title: 'Claimed points list' },
 	]);
-
-
-
 
 	const getTabBarIcon = ({ route, color }: { route: Route, color: string }) => {
 		switch (route.key) {

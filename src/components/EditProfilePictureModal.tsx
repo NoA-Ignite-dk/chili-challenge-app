@@ -58,11 +58,11 @@ export default function EditProfilePictureModal({ open, setOpen, loading }: Prop
 	const { session } = useAppContext();
 	const profileMutation = useUserProfileMutation();
 
-	const updatePhoto =  ({ profilePicture }: { profilePicture: string; }) => {
-		profileMutation.mutate({
+	const updatePhoto = async ({ profilePicture }: { profilePicture: string; }) => {
+		await profileMutation.mutateAsync({
 			id: session?.user.id as string,
 			payload: { profilePicture }
-		})
+		});
 	}
 
 	const openImageLibrary = async () => {
@@ -75,7 +75,7 @@ export default function EditProfilePictureModal({ open, setOpen, loading }: Prop
 		if (!result.cancelled) {
 			const imageId = await uploadImage(result);
 			const imageUrl = await getImageUrl(imageId);
-			updatePhoto({ profilePicture: imageUrl });
+			await updatePhoto({ profilePicture: imageUrl });
 			setOpen(false);
 		} else {
 			// eslint-disable-next-line no-alert
@@ -99,7 +99,7 @@ export default function EditProfilePictureModal({ open, setOpen, loading }: Prop
 		if (!result.cancelled) {
 			const imageId = await uploadImage(result);
 			const imageUrl = await getImageUrl(imageId);
-			updatePhoto({ profilePicture: imageUrl });
+			await updatePhoto({ profilePicture: imageUrl });
 			setOpen(false);
 		}
 	};
