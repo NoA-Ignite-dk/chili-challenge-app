@@ -18,7 +18,7 @@ export const typography = StyleSheet.create({
 	},
 	uppercaseBig: {
 		fontFamily: 'Manrope_600SemiBold',
-		fontSize: 12,
+		fontSize: 13,
 		textTransform: 'uppercase',
 		color: Colors.TEXT_60,
 	},
