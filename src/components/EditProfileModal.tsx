@@ -114,7 +114,7 @@ export default function EditProfileScreen({ open, setOpen }: Props) {
 				<Pressable onPress={() => setModalVisible(true)}>
 					<View style={styles.imageContainer}>
 						<View style={styles.absolute}>
-							<Icon type={IconType.EDIT} />
+							<Icon type={IconType.EDIT} stroke={Colors.WHITE} />
 						</View>
 						<ProfileImage imageSource={{ uri: profilePicture }} size={"xlarge"}></ProfileImage>
 						<View style={styles.backgroundOpacity}></View>

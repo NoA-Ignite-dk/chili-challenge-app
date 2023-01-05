@@ -71,9 +71,14 @@ export default function App() {
 		prepare();
 	}, []);
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 	useEffect(() => {
-		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
+		registerForPushNotificationsAsync()
+			.then((token) => setExpoPushToken(token))
+			.catch(() => Notifications.getExpoPushTokenAsync({ experienceId: '@andreavalgeirs/chili-challenge-app' }));
+	}, []);
 
+	useEffect(() => {
 		// This listener is fired whenever a notification is received while the app is foregrounded
 		notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
 			setNotification(notification);
@@ -95,7 +100,7 @@ export default function App() {
 				Notifications.removeNotificationSubscription(responseListener.current);
 			}
 		};
-	}, []);
+	}, [expoPushToken]);
 
 	const onLayoutRootView = useCallback(async () => {
 		if (appIsReady && fontsLoaded) {

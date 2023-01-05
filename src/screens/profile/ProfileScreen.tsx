@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
 import { TabView, SceneMap, TabBar, SceneRendererProps, NavigationState, Route } from 'react-native-tab-view';
-import { containerStyles } from '@src/styles/generalStyles'
+import { containerStyles, typography } from '@src/styles/generalStyles'
 
 // Components
 import Button from '@src/components/buttons/PrimaryButton';
@@ -82,7 +82,7 @@ export default function ProfileScreen() {
 				{session && (
 					<ProfileCard userId={session.user.id} />
 				)}
-				<Button onPress={() => setEditProfileModalVisible(true)} icon={'edit'}>
+				<Button textStyle={{...typography.uppercaseBig, ...typography.whiteText}} onPress={() => setEditProfileModalVisible(true)} icon={'edit'}>
 					Edit profile
 				</Button>
 			</View>
