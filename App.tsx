@@ -20,7 +20,6 @@ import {
 } from '@expo-google-fonts/manrope';
 
 // Config
-import { loadFonts } from '@src/config/fonts';
 import { containerStyles } from '@src/styles/generalStyles';
 
 // Types
@@ -61,7 +60,6 @@ export default function App() {
 		async function prepare() {
 			try {
 				await SplashScreen.preventAutoHideAsync();
-				await loadFonts();
 			} catch (e) {
 				console.warn(e); // eslint-disable-line no-console
 			} finally {
@@ -110,7 +108,7 @@ export default function App() {
 		}
 	}, [appIsReady, fontsLoaded]);
 
-	if (!appIsReady) {
+	if (!appIsReady || !fontsLoaded) {
 		return null;
 	}
 

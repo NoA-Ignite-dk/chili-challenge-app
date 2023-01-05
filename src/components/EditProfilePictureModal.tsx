@@ -7,7 +7,6 @@ import { useUserProfileMutation } from '@src/data/profile';
 import { getImageUrl } from '@src/utils/getImageUrl';
 import Button from './buttons/PrimaryButton';
 import Icon, { IconType } from './Icon';
-import Txt from './Txt';
 import { useAppContext } from './providers/appContext';
 
 const styles = StyleSheet.create({
@@ -58,12 +57,12 @@ export default function EditProfilePictureModal({ open, setOpen, loading }: Prop
 	const { session } = useAppContext();
 	const profileMutation = useUserProfileMutation();
 
-	const updatePhoto = async ({ profilePicture }: { profilePicture: string; }) => {
+	const updatePhoto = async ({ profilePicture }: { profilePicture: string }) => {
 		await profileMutation.mutateAsync({
 			id: session?.user.id as string,
-			payload: { profilePicture }
+			payload: { profilePicture },
 		});
-	}
+	};
 
 	const openImageLibrary = async () => {
 		const result = await ImagePicker.launchImageLibraryAsync({
@@ -126,7 +125,7 @@ export default function EditProfilePictureModal({ open, setOpen, loading }: Prop
 					{loading && <Icon type={IconType.LOADING} />}
 
 					<Pressable style={styles.closeTextContainer} onPress={() => setOpen(!open)}>
-						<Txt style={styles.closeText}>Close</Txt>
+						<Text style={styles.closeText}>Close</Text>
 					</Pressable>
 				</View>
 			</View>
