@@ -133,7 +133,7 @@ export default function PostScreen() {
 	const hasPrimaryPlant = (plantState || []).some((plant) => plant.primary);
 
 	const createPost = async () => {
-		if (!hasPrimaryPlant) {
+		if (!hasPrimaryPlant && selectedPoint) {
 			alert("You don't have a primary plant set. To claim points, go to your profile page and set a primary plant.");
 			return;
 		}

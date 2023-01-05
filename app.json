@@ -1,37 +1,43 @@
 {
-	"expo": {
-		"name": "chili-challenge-app",
-		"slug": "chili-challenge-app",
-		"version": "1.1.0",
-		"orientation": "portrait",
-		"icon": "./assets/appIcon.png",
-		"splash": {
-			"image": "./assets/splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
-		},
-		"updates": {
-			"fallbackToCacheTimeout": 0
-		},
-		"assetBundlePatterns": ["**/*"],
-		"ios": {
-			"supportsTablet": true,
-			"bundleIdentifier": "com.noa-ignite-dk.chili-challenge-app"
-		},
-		"android": {
-			"adaptiveIcon": {
-				"foregroundImage": "./assets/adaptive-icon.png",
-				"backgroundColor": "#FFFFFF"
-			}
-		},
-		"web": {
-			"favicon": "./assets/favicon.png"
-		},
-		"extra": {
-			"eas": {
-				"projectId": "fd5b4ee7-7540-4cc7-98a5-adce404af918"
-			}
-		},
-		"owner": "andreavalgeirs"
-	}
+  "expo": {
+    "name": "chili-challenge-app",
+    "slug": "chili-challenge-app",
+    "version": "1.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/appIcon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/fd5b4ee7-7540-4cc7-98a5-adce404af918"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.noa-ignite-dk.chili-challenge-app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fd5b4ee7-7540-4cc7-98a5-adce404af918"
+      }
+    },
+    "owner": "andreavalgeirs",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    }
+  }
 }
