@@ -24,8 +24,8 @@ export const typography = StyleSheet.create({
 	},
 	largeTitle: {
 		fontFamily: 'Manrope_700Bold',
-		fontSize: 50,
-		lineHeight: 60,
+		fontSize: 60,
+		lineHeight: 70,
 	},
 	bodyRegular16: {
 		fontFamily: 'Manrope_400Regular',

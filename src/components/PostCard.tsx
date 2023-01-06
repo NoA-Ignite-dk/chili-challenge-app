@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
 	text: {
 		textAlign: 'left',
 		padding: 18,
+		fontFamily: 'Manrope_400Regular',
 	},
 	item: {
 		flexDirection: 'row',
@@ -58,9 +59,11 @@ const styles = StyleSheet.create({
 	},
 	profileName: {
 		marginLeft: 10,
+		fontFamily: 'Manrope_400Regular',
 	},
 	date: {
 		marginRight: 10,
+		fontFamily: 'Manrope_400Regular',
 	},
 	claimedPoint: {
 		paddingHorizontal: 18,
@@ -84,7 +87,7 @@ type Props = {
 };
 
 export default function PostCard({ item }: Props) {
-	const { session } = useAppContext()
+	const { session } = useAppContext();
 	const { data: profileData } = useProfileQuery(item.user_id);
 	const { width } = Dimensions.get('window');
 	const date = new Date(item.created_at);
@@ -94,10 +97,10 @@ export default function PostCard({ item }: Props) {
 
 	function openUserProfile() {
 		if (session?.user.id === item.user_id) {
-			return navigation.navigate(ROUTES.PROFILE)
+			return navigation.navigate(ROUTES.PROFILE);
 		}
 
-		return navigation.push(ROUTES.USER, { user_id: item.user_id })
+		return navigation.push(ROUTES.USER, { user_id: item.user_id });
 	}
 
 	const options = {

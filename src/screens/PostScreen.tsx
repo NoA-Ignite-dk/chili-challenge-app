@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 		paddingBottom: 60,
 	},
 	image: {
-		height: 250,
+		height: 350,
 		width: '100%',
 		resizeMode: 'cover',
 		borderRadius: Variables.BORDER_RADIUS,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
 	},
 	imagePlaceholder: {
 		width: '100%',
-		height: 250,
+		height: 350,
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: Colors.BACKGROUND_GREY,

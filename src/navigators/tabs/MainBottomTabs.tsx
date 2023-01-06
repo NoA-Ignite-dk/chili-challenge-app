@@ -35,11 +35,6 @@ function MainBottomTabs() {
 					fontSize: 24,
 					fontFamily: 'Manrope_600SemiBold',
 				},
-				headerRight: () => (
-					<View style={styles.iconContainer}>
-						<Ionicons name="settings-outline" size={24} color={Colors.BLACK} />
-					</View>
-				),
 				tabBarShowLabel: false,
 				tabBarStyle: { backgroundColor: Colors.BACKGROUND_GREY, height: 100, paddingLeft: 20, paddingRight: 20 },
 				tabBarIconStyle: {
@@ -53,11 +48,6 @@ function MainBottomTabs() {
 				options={{
 					tabBarIcon: () => <Icon type={IconType.FEED} />,
 					title: 'Feed',
-					headerRight: () => (
-						<View style={styles.iconContainer}>
-							<Ionicons name="notifications-outline" size={24} color={Colors.BLACK} />
-						</View>
-					),
 				}}
 			/>
 			<Tab.Screen
@@ -72,11 +62,6 @@ function MainBottomTabs() {
 						fontSize: 24,
 						fontFamily: 'Manrope_600SemiBold',
 					},
-					headerRight: () => (
-						<View style={styles.iconContainer}>
-							<Ionicons name="settings-outline" size={24} color={Colors.WHITE} />
-						</View>
-					),
 				}}
 			/>
 			<Tab.Screen
