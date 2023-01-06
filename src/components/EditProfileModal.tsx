@@ -8,6 +8,7 @@ import Icon, { IconType } from '@src/components/Icon';
 import { useUserProfileMutation, useProfileQuery } from '@src/data/profile';
 import Colors from '@src/config/colors';
 import EditPictureModal from './EditPictureModal';
+import SecondaryButton from './buttons/SecondaryButton';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -16,32 +17,31 @@ const styles = StyleSheet.create({
 		alignSelf: 'stretch',
 	},
 	editItem: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		backgroundColor: Colors.OFF_WHITE,
 		minHeight: 56,
 		maxHeight: 56,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	label: {
-		width: "20%",
+		width: '20%',
 	},
 	input: {
-		width: "80%"
+		width: '80%',
 	},
 	mt20: {
 		marginTop: 20,
 	},
 	imageContainer: {
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		paddingVertical: 40,
-		position: "relative"
-
+		position: 'relative',
 	},
 	absolute: {
 		zIndex: 1000,
-		position: "absolute",
+		position: 'absolute',
 	},
 	backgroundOpacity: {
 		backgroundColor: Colors.DARK_GREY,
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 		width: 104,
 		height: 104,
 		borderRadius: 50,
-		position: "absolute"
+		position: 'absolute',
 	},
 	modalView: {
 		width: '100%',
@@ -61,13 +61,9 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.WHITE,
 	},
 	closeTextContainer: {
-		alignSelf: "baseline",
+		alignSelf: 'baseline',
 		marginBottom: 36,
-		marginLeft: 'auto',
-		marginRight: 'auto',
-	},
-	closeText: {
-		fontSize: 18,
+		marginTop: 15,
 	},
 });
 
@@ -89,15 +85,15 @@ export default function EditProfileScreen({ open, setOpen }: Props) {
 			setFullName(profileData.fullName);
 			setProfilePicture(profileData.profilePicture);
 		}
-	}, [profileData])
+	}, [profileData]);
 
-	const updateProfile = async ({ fullName, profilePicture }: { fullName?: string; profilePicture?: string; }) => {
+	const updateProfile = async ({ fullName, profilePicture }: { fullName?: string; profilePicture?: string }) => {
 		await profileMutation.mutateAsync({
 			id: session.user.id,
-			payload: { fullName, profilePicture }
+			payload: { fullName, profilePicture },
 		});
 		setOpen(false);
-	}
+	};
 
 	function updateProfilePicture(profilePicture: string) {
 		profileMutation
@@ -124,25 +120,29 @@ export default function EditProfileScreen({ open, setOpen }: Props) {
 						<View style={styles.absolute}>
 							<Icon type={IconType.EDIT} stroke={Colors.WHITE} />
 						</View>
-						<ProfileImage imageSource={{ uri: profilePicture }} size={"xlarge"}></ProfileImage>
+						<ProfileImage imageSource={{ uri: profilePicture }} size={'xlarge'}></ProfileImage>
 						<View style={styles.backgroundOpacity}></View>
 					</View>
 				</Pressable>
 				<Text style={[containerStyles.padding, typography.uppercaseBig]}>General Information</Text>
 				<View style={[styles.verticallySpaced, styles.editItem, containerStyles.padding]}>
 					<Text style={[styles.label, typography.bodySecondary]}>Full Name</Text>
-					<TextInput style={[styles.input, typography.h3]} autoComplete={'name'} value={fullName || ''} onChangeText={(text) => setFullName(text)} />
+					<TextInput
+						style={[styles.input, typography.h3]}
+						autoComplete={'name'}
+						value={fullName || ''}
+						onChangeText={(text) => setFullName(text)}
+					/>
 				</View>
 
 				<View style={[styles.verticallySpaced, styles.mt20, containerStyles.padding]}>
 					<Button onPress={() => updateProfile({ fullName, profilePicture })}>
-						{(isLoading || profileMutation.isLoading)
-							? <Icon type={IconType.LOADING} />
-							: 'Update'
-						}
+						{isLoading || profileMutation.isLoading ? <Icon type={IconType.LOADING} /> : 'Update'}
 					</Button>
-					<Pressable style={styles.closeTextContainer} onPress={() => setOpen(!open)}>
-						<Text style={styles.closeText}>Close</Text>
+					<Pressable>
+						<SecondaryButton onPress={() => setOpen(!open)} fullWidth style={styles.closeTextContainer}>
+							Close
+						</SecondaryButton>
 					</Pressable>
 				</View>
 				<EditPictureModal

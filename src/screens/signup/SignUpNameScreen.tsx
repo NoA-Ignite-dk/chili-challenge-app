@@ -8,7 +8,6 @@ import { ROUTES } from '@src/config/routes';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
 import { useAuthContext } from '@src/components/providers/authContext';
 import { supabase } from '@src/lib/supabase';
-import Icon, { IconType } from '@src/components/Icon';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {

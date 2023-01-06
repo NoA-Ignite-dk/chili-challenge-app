@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import Button from '@src/components/buttons/PrimaryButton';
 import { containerStyles, typography } from '@src/styles/generalStyles';
@@ -24,10 +24,13 @@ const styles = StyleSheet.create({
 export default function SignUpSuccessScreen() {
 	const navigation = useNavigation<AllRoutesNavigationProp>();
 	const { setEmail, setPassword, setFirstName, setLastName } = useAuthContext();
-	setEmail('');
-	setPassword('');
-	setFirstName('');
-	setLastName('');
+
+	useEffect(() => {
+		setEmail('');
+		setPassword('');
+		setFirstName('');
+		setLastName('');
+	}, []);
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding]}>

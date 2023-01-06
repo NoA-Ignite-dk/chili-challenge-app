@@ -70,7 +70,6 @@ interface ScoreboardCardProps {
 export default function ScoreboardCard({ user, points, placement, type }: ScoreboardCardProps) {
 	const { session } = useAppContext();
 	const navigation = useNavigation<AllRoutesNavigationProp>();
-
 	const imageSource = user.profilePicture ? { uri: user.profilePicture } : placeholderImage;
 
 	function openUserProfile() {
@@ -88,7 +87,7 @@ export default function ScoreboardCard({ user, points, placement, type }: Scoreb
 					<View style={styles.pointBackground}>
 						<Text style={[typography.whiteText, typography.bodySemibold]}> {points} </Text>
 					</View>
-					<Pressable onPress={openUserProfile}>
+					<Pressable style={{ alignItems: 'center' }} onPress={openUserProfile}>
 						<ProfileImage imageSource={imageSource} size={'small'} />
 						<Text style={[typography.whiteText, typography.h3]}>{user.fullName}</Text>
 					</Pressable>
