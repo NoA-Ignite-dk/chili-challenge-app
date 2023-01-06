@@ -7,6 +7,7 @@ import Icon, { IconType } from '@src/components/Icon';
 import Colors from '@src/config/colors';
 import { useCreatePlantMutation } from '@src/data/plants';
 import AddPlantCard from './AddPlantCard';
+import SecondaryButton from './buttons/SecondaryButton';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -25,19 +26,19 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.WHITE,
 	},
 	closeTextContainer: {
-		alignSelf: "baseline",
+		alignSelf: 'baseline',
 		marginBottom: 36,
 		marginLeft: 'auto',
 		marginRight: 'auto',
 	},
 	closeText: {
-		fontSize: 18,
+		marginTop: 18,
 	},
 	validationError: {
 		...typography.errorMessage,
 		textAlign: 'center',
 		paddingBottom: 4,
-	}
+	},
 });
 
 type Props = {
@@ -67,27 +68,31 @@ export default function AddPlantModal({ open, setOpen }: Props) {
 
 		// TODO: Implement bulk create mutation
 		Promise.all(
-			plants.map((e) => createPlantMutation.mutateAsync({
-				payload: {
-					name: e.name,
-					image_url: e.picture,
-					user_id: session.user.id
-				}
-			}))
-		).then(() => setOpen(false))
+			plants.map((e) =>
+				createPlantMutation.mutateAsync({
+					payload: {
+						name: e.name,
+						image_url: e.picture,
+						user_id: session.user.id,
+					},
+				}),
+			),
+		).then(() => setOpen(false));
 	}
 
 	function onChange(index: number, payload: { name?: string; picture?: string }) {
-		setPlants((currentPlants) => currentPlants.map((plant, i) => {
-			if (i === index) {
-				return {
-					...plant,
-					...payload,
-				};
-			}
+		setPlants((currentPlants) =>
+			currentPlants.map((plant, i) => {
+				if (i === index) {
+					return {
+						...plant,
+						...payload,
+					};
+				}
 
-			return plant;
-		}))
+				return plant;
+			}),
+		);
 	}
 
 	return (
@@ -121,17 +126,12 @@ export default function AddPlantModal({ open, setOpen }: Props) {
 				/>
 
 				<View style={[styles.verticallySpaced, styles.mt20, containerStyles.padding]}>
-					{submitted && !isValid && (
-						<Text style={styles.validationError}>Please fill out all names & pictures!</Text>
-					)}
-					<Button onPress={submitModal}>
-						{(createPlantMutation.isLoading)
-							? <Icon type={IconType.LOADING} />
-							: 'Update'
-						}
-					</Button>
+					{submitted && !isValid && <Text style={styles.validationError}>Please fill out all names & pictures!</Text>}
+					<Button onPress={submitModal}>{createPlantMutation.isLoading ? <Icon type={IconType.LOADING} /> : 'Update'}</Button>
 					<Pressable style={styles.closeTextContainer} onPress={() => setOpen(!open)}>
-						<Text style={styles.closeText}>Close</Text>
+						<SecondaryButton fullWidth style={styles.closeText}>
+							Close
+						</SecondaryButton>
 					</Pressable>
 				</View>
 			</View>
