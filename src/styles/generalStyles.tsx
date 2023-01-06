@@ -91,6 +91,10 @@ export const containerStyles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: Colors.WHITE,
 	},
+	center: {
+		justifyContent: "space-between",
+		alignItems: "center"
+	},
 	padding: {
 		padding: 15,
 	},
