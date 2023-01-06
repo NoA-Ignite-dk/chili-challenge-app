@@ -1,13 +1,12 @@
 import Colors from '@src/config/colors';
-import React from 'react';
-import { Alert, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, Modal, StyleSheet, Text, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { uploadImage } from '@src/utils/uploadImage';
-import { useUserProfileMutation } from '@src/data/profile';
 import { getImageUrl } from '@src/utils/getImageUrl';
 import Button from './buttons/PrimaryButton';
 import Icon, { IconType } from './Icon';
-import { useAppContext } from './providers/appContext';
+import SecondaryButton from './buttons/SecondaryButton';
 
 const styles = StyleSheet.create({
 	marginBottom: {
@@ -35,34 +34,25 @@ const styles = StyleSheet.create({
 		elevation: 5,
 		backgroundColor: Colors.WHITE,
 	},
-	closeTextContainer: {
-		alignSelf: 'baseline',
-		marginBottom: 36,
-		marginLeft: 'auto',
-		marginRight: 'auto',
-	},
-	closeText: {
-		fontSize: 18,
-	},
 });
 
 type Props = {
 	open: boolean;
-	setOpen: (arg: boolean) => void;
-	// setSelectedPoint: (pointId: number | null) => void;
-	loading: boolean;
+	setOpenStatus: (arg: boolean) => void;
+	onSave: (newPicture: string) => void;
+	loading?: boolean;
 };
 
-export default function EditProfilePictureModal({ open, setOpen, loading }: Props) {
-	const { session } = useAppContext();
-	const profileMutation = useUserProfileMutation();
+export default function EditPictureModal({ open, setOpenStatus, loading, onSave }: Props) {
+	const [processing, setProcessing] = useState(false);
 
-	const updatePhoto = async ({ profilePicture }: { profilePicture: string }) => {
-		await profileMutation.mutateAsync({
-			id: session?.user.id as string,
-			payload: { profilePicture },
-		});
-	};
+	async function processImage(pickedImage: ImagePicker.ImageInfo) {
+		setProcessing(true);
+		const imageId = await uploadImage(pickedImage);
+		const imageUrl = await getImageUrl(imageId);
+		setProcessing(false);
+		onSave(imageUrl);
+	}
 
 	const openImageLibrary = async () => {
 		const result = await ImagePicker.launchImageLibraryAsync({
@@ -71,14 +61,11 @@ export default function EditProfilePictureModal({ open, setOpen, loading }: Prop
 			quality: 1,
 		});
 
-		if (!result.cancelled) {
-			const imageId = await uploadImage(result);
-			const imageUrl = await getImageUrl(imageId);
-			await updatePhoto({ profilePicture: imageUrl });
-			setOpen(false);
-		} else {
-			// eslint-disable-next-line no-alert
+		if (result.cancelled) {
+			return;
 		}
+
+		await processImage(result);
 	};
 
 	const openCamera = async () => {
@@ -95,12 +82,11 @@ export default function EditProfilePictureModal({ open, setOpen, loading }: Prop
 			base64: true,
 		});
 
-		if (!result.cancelled) {
-			const imageId = await uploadImage(result);
-			const imageUrl = await getImageUrl(imageId);
-			await updatePhoto({ profilePicture: imageUrl });
-			setOpen(false);
+		if (result.cancelled) {
+			return;
 		}
+
+		await processImage(result);
 	};
 
 	return (
@@ -110,7 +96,7 @@ export default function EditProfilePictureModal({ open, setOpen, loading }: Prop
 			visible={open}
 			onRequestClose={() => {
 				Alert.alert('Modal has been closed.');
-				setOpen(!open);
+				setOpenStatus(!open);
 			}}
 		>
 			<View style={styles.centeredView}>
@@ -122,11 +108,11 @@ export default function EditProfilePictureModal({ open, setOpen, loading }: Prop
 						<Text>Select from photo library</Text>
 					</Button>
 
-					{loading && <Icon type={IconType.LOADING} />}
+					{(loading || processing) && <Icon type={IconType.LOADING} />}
 
-					<Pressable style={styles.closeTextContainer} onPress={() => setOpen(!open)}>
-						<Text style={styles.closeText}>Close</Text>
-					</Pressable>
+					<SecondaryButton onPress={() => setOpenStatus(!open)} fullWidth style={styles.marginBottom}>
+						Cancel
+					</SecondaryButton>
 				</View>
 			</View>
 		</Modal>

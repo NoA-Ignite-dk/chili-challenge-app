@@ -8,7 +8,6 @@ import { ROUTES } from '@src/config/routes';
 import { AllRoutesNavigationProp } from '@src/types/navigation';
 import { useAuthContext } from '@src/components/providers/authContext';
 import { supabase } from '@src/lib/supabase';
-import Icon, { IconType } from '@src/components/Icon';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -82,7 +81,7 @@ export default function SignUpNameScreen() {
 			</View>
 
 			<View style={[styles.verticallySpaced, styles.mt20]}>
-				<Button onPress={signUp}>{loading ? <Icon type={IconType.LOADING} /> : 'Create account'}</Button>
+				<Button onPress={signUp}>{loading ? 'Loading..' : 'Create account'}</Button>
 			</View>
 
 			{error && <Text style={typography.errorMessage}>{error}</Text>}

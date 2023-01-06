@@ -20,7 +20,6 @@ import {
 } from '@expo-google-fonts/manrope';
 
 // Config
-import { loadFonts } from '@src/config/fonts';
 import { containerStyles } from '@src/styles/generalStyles';
 
 // Types
@@ -61,7 +60,6 @@ export default function App() {
 		async function prepare() {
 			try {
 				await SplashScreen.preventAutoHideAsync();
-				await loadFonts();
 			} catch (e) {
 				console.warn(e); // eslint-disable-line no-console
 			} finally {
@@ -73,9 +71,14 @@ export default function App() {
 		prepare();
 	}, []);
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 	useEffect(() => {
-		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
+		registerForPushNotificationsAsync()
+			.then((token) => setExpoPushToken(token))
+			.catch(() => Notifications.getExpoPushTokenAsync({ experienceId: '@andreavalgeirs/chili-challenge-app' }));
+	}, []);
 
+	useEffect(() => {
 		// This listener is fired whenever a notification is received while the app is foregrounded
 		notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
 			setNotification(notification);
@@ -97,7 +100,7 @@ export default function App() {
 				Notifications.removeNotificationSubscription(responseListener.current);
 			}
 		};
-	}, []);
+	}, [expoPushToken]);
 
 	const onLayoutRootView = useCallback(async () => {
 		if (appIsReady && fontsLoaded) {
@@ -105,7 +108,7 @@ export default function App() {
 		}
 	}, [appIsReady, fontsLoaded]);
 
-	if (!appIsReady) {
+	if (!appIsReady || !fontsLoaded) {
 		return null;
 	}
 

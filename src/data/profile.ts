@@ -72,7 +72,7 @@ export function useUserProfileMutation() {
 			payload: Partial<Profile>
 		}) => updateUserProfile(id, payload),
 		{
-			onSuccess: (id) => {
+			onSuccess: ({ id }) => {
 				queryClient.invalidateQueries(USERS_WITH_POINTS)
 				queryClient.invalidateQueries([QUERY_KEY, id])
 			},

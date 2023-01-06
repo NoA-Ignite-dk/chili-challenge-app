@@ -34,5 +34,5 @@ jobs:
       - name: 🎡 Typecheck files
         run: yarn run tsc
 
-      - name: 🚀 Build app
-        run: eas build --profile=production --platform=ios --non-interactive
+      - name: 🚀 Publish app
+        run: expo publish --non-interactive

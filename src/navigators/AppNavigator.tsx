@@ -1,10 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-// Components
-import Txt from '@src/components/Txt';
 
 // Config
 import { ROUTES } from '@src/config/routes';
@@ -18,7 +15,7 @@ const Stack = createNativeStackNavigator();
 
 const FallbackScreen = (
 	<View style={{ flex: 1 }}>
-		<Txt>Loading...</Txt>
+		<Text>Loading...</Text>
 	</View>
 );
 

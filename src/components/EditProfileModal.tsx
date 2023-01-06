@@ -3,12 +3,12 @@ import { useAppContext } from '@src/components/providers/appContext';
 import { containerStyles, typography } from '@src/styles/generalStyles';
 import { useState, useEffect } from 'react';
 import { Pressable, StyleSheet, TextInput, View, Text, Modal, Alert } from 'react-native';
-// import { Input } from 'react-native-elements';
 import Button from '@src/components/buttons/PrimaryButton';
 import Icon, { IconType } from '@src/components/Icon';
 import { useUserProfileMutation, useProfileQuery } from '@src/data/profile';
 import Colors from '@src/config/colors';
-import EditProfilePictureModal from '@src/components/EditProfilePictureModal';
+import EditPictureModal from './EditPictureModal';
+import SecondaryButton from './buttons/SecondaryButton';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -17,32 +17,31 @@ const styles = StyleSheet.create({
 		alignSelf: 'stretch',
 	},
 	editItem: {
-		flexDirection: "row",
-		backgroundColor:Colors.OFF_WHITE,
+		flexDirection: 'row',
+		backgroundColor: Colors.OFF_WHITE,
 		minHeight: 56,
 		maxHeight: 56,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	label: {
-		width: "20%",
+		width: '20%',
 	},
 	input: {
-		width: "80%"
+		width: '80%',
 	},
 	mt20: {
 		marginTop: 20,
 	},
 	imageContainer: {
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		paddingVertical: 40,
-		position: "relative"
-
+		position: 'relative',
 	},
 	absolute: {
 		zIndex: 1000,
-		position: "absolute",
+		position: 'absolute',
 	},
 	backgroundOpacity: {
 		backgroundColor: Colors.DARK_GREY,
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
 		width: 104,
 		height: 104,
 		borderRadius: 50,
-		position: "absolute"
+		position: 'absolute',
 	},
 	modalView: {
 		width: '100%',
@@ -62,13 +61,9 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.WHITE,
 	},
 	closeTextContainer: {
-		alignSelf: "baseline",
+		alignSelf: 'baseline',
 		marginBottom: 36,
-		marginLeft: 'auto',
-		marginRight: 'auto',
-	},
-	closeText: {
-		fontSize: 18,
+		marginTop: 15,
 	},
 });
 
@@ -90,14 +85,23 @@ export default function EditProfileScreen({ open, setOpen }: Props) {
 			setFullName(profileData.fullName);
 			setProfilePicture(profileData.profilePicture);
 		}
-	}, [profileData])
+	}, [profileData]);
 
-	const updateProfile = async ({ fullName, profilePicture }: { fullName: string; profilePicture: string; }) => {
-		profileMutation.mutate({
-			id: session?.user.id as string,
-			payload: { fullName, profilePicture }
-		})
+	const updateProfile = async ({ fullName, profilePicture }: { fullName?: string; profilePicture?: string }) => {
+		await profileMutation.mutateAsync({
+			id: session.user.id,
+			payload: { fullName, profilePicture },
+		});
 		setOpen(false);
+	};
+
+	function updateProfilePicture(profilePicture: string) {
+		profileMutation
+			.mutateAsync({
+				id: session.user.id,
+				payload: { profilePicture },
+			})
+			.then(() => setModalVisible(false));
 	}
 
 	return (
@@ -110,35 +114,44 @@ export default function EditProfileScreen({ open, setOpen }: Props) {
 				setOpen(!open);
 			}}
 		>
-		<View style={[containerStyles.container, styles.modalView]}>
+			<View style={[containerStyles.container, styles.modalView]}>
 				<Pressable onPress={() => setModalVisible(true)}>
 					<View style={styles.imageContainer}>
 						<View style={styles.absolute}>
-							<Icon type={IconType.EDIT} />
+							<Icon type={IconType.EDIT} stroke={Colors.WHITE} />
 						</View>
-						<ProfileImage imageSource={{ uri: profilePicture }} size={"xlarge"}></ProfileImage>
+						<ProfileImage imageSource={{ uri: profilePicture }} size={'xlarge'}></ProfileImage>
 						<View style={styles.backgroundOpacity}></View>
 					</View>
 				</Pressable>
 				<Text style={[containerStyles.padding, typography.uppercaseBig]}>General Information</Text>
 				<View style={[styles.verticallySpaced, styles.editItem, containerStyles.padding]}>
 					<Text style={[styles.label, typography.bodySecondary]}>Full Name</Text>
-					<TextInput style={[styles.input, typography.h3]} autoComplete={'name'} value={fullName || ''} onChangeText={(text) => setFullName(text)} />
+					<TextInput
+						style={[styles.input, typography.h3]}
+						autoComplete={'name'}
+						value={fullName || ''}
+						onChangeText={(text) => setFullName(text)}
+					/>
 				</View>
 
 				<View style={[styles.verticallySpaced, styles.mt20, containerStyles.padding]}>
 					<Button onPress={() => updateProfile({ fullName, profilePicture })}>
-						{(isLoading || profileMutation.isLoading)
-							? <Icon type={IconType.LOADING} />
-							: 'Update'
-						}
+						{isLoading || profileMutation.isLoading ? <Icon type={IconType.LOADING} /> : 'Update'}
 					</Button>
-					<Pressable style={styles.closeTextContainer} onPress={() => setOpen(!open)}>
-						<Text style={styles.closeText}>Close</Text>
+					<Pressable>
+						<SecondaryButton onPress={() => setOpen(!open)} fullWidth style={styles.closeTextContainer}>
+							Close
+						</SecondaryButton>
 					</Pressable>
 				</View>
-			<EditProfilePictureModal loading={isLoading} open={modalVisible} setOpen={setModalVisible} />
-		</View>
+				<EditPictureModal
+					onSave={updateProfilePicture}
+					loading={isLoading || profileMutation.isLoading}
+					open={modalVisible}
+					setOpenStatus={setModalVisible}
+				/>
+			</View>
 		</Modal>
 	);
 }

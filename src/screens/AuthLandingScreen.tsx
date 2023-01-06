@@ -15,6 +15,11 @@ const styles = StyleSheet.create({
 	buttonsContainer: {
 		flexDirection: 'row',
 	},
+	title: {
+		fontFamily: 'Manrope_600SemiBold',
+		fontSize: 20,
+		marginBottom: 10,
+	},
 	button: {
 		width: '49%',
 		padding: 16,
@@ -26,7 +31,10 @@ export default function AuthLandingScreen() {
 
 	return (
 		<View style={[containerStyles.container, containerStyles.padding, styles.container]}>
-			<Text style={typography.largeTitle}>Chili Challenge</Text>
+			<View>
+				<Text style={styles.title}>NoA Ignite</Text>
+				<Text style={typography.largeTitle}>Chili 🌶️ Challenge</Text>
+			</View>
 			<View style={styles.buttonsContainer}>
 				<Button style={styles.button} onPress={() => navigation.navigate(ROUTES.SIGN_UP_EMAIL)}>
 					Sign up

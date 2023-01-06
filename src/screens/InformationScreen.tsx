@@ -1,10 +1,6 @@
 import React from 'react';
 import { Text, useWindowDimensions, View } from 'react-native';
-
 import { TabView, SceneMap, TabBar, SceneRendererProps, NavigationState } from 'react-native-tab-view';
-
-
-// Components
 
 // Config
 import Colors from '@src/config/colors';
@@ -35,26 +31,27 @@ const GeneralInfoRoute = () => (
 	</View>
 );
 
-
-const renderTabBar = (props: SceneRendererProps & {
-	navigationState: NavigationState<{
-		key: string;
-		title: string;
-	}>;
-}) => (
+const renderTabBar = (
+	props: SceneRendererProps & {
+		navigationState: NavigationState<{
+			key: string;
+			title: string;
+		}>;
+	},
+) => (
 	<TabBar
 		{...props}
 		activeColor={Colors.GREEN_PRIMARY}
 		inactiveColor={Colors.WHITE}
 		style={{ backgroundColor: Colors.WHITE }}
-		tabStyle={{width: 'auto', marginTop: 10, marginBottom: 10 }}
+		tabStyle={{ width: 'auto', marginTop: 10, marginBottom: 10 }}
 		scrollEnabled={true}
-		renderIndicator={()=> null}
+		renderIndicator={() => null}
 		renderLabel={({ route, color }) => {
 			const isActive = color === Colors.GREEN_PRIMARY;
 
 			return (
-				<Button style={{ backgroundColor: color, padding: 15, borderRadius:12  }}>
+				<Button style={{ backgroundColor: color, padding: 15, borderRadius: 12 }}>
 					<Text style={[{ textTransform: 'none', color: isActive ? Colors.WHITE : Colors.BLACK }, typography.bodySecondary]}>{route.title}</Text>
 				</Button>
 			);
@@ -66,7 +63,7 @@ const renderScene = SceneMap({
 	rules: RulesRoute,
 	points: PointsRoute,
 	tipsAndTricks: TipsAndTrickRoute,
-	generalInfo: GeneralInfoRoute
+	generalInfo: GeneralInfoRoute,
 });
 
 export default function InformationScreen() {

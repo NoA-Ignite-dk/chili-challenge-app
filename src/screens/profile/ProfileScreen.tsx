@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
-import { useRoute } from '@react-navigation/native';
 import { TabView, SceneMap, TabBar, SceneRendererProps, NavigationState, Route } from 'react-native-tab-view';
-import { containerStyles } from '@src/styles/generalStyles'
+import { containerStyles, typography } from '@src/styles/generalStyles';
 
 // Components
 import Button from '@src/components/buttons/PrimaryButton';
@@ -22,7 +21,7 @@ const styles = StyleSheet.create({
 	container: {
 		minHeight: 170,
 		backgroundColor: Colors.WHITE,
-		paddingHorizontal: 15
+		paddingHorizontal: 15,
 	},
 });
 
@@ -31,9 +30,6 @@ export default function ProfileScreen() {
 	const [index, setIndex] = React.useState(0);
 	const [editProfileModalVisible, setEditProfileModalVisible] = useState(false);
 	const { session } = useAppContext();
-	const { params } = useRoute();
-
-	console.log('session', session?.user.id, params);
 
 	const [routes] = React.useState([
 		{ key: 'allPosts', title: 'Posts' },
@@ -41,28 +37,27 @@ export default function ProfileScreen() {
 		{ key: 'claimedPointsList', title: 'Claimed points list' },
 	]);
 
-
-
-
-	const getTabBarIcon = ({ route, color }: { route: Route, color: string }) => {
+	const getTabBarIcon = ({ route, color }: { route: Route; color: string }) => {
 		switch (route.key) {
 			case 'allPosts':
-				return <Icon type={IconType.PROFILE_POSTS} stroke={color} />
+				return <Icon type={IconType.PROFILE_POSTS} stroke={color} />;
 			case 'allPlants':
-				return <Icon type={IconType.PROFILE_PLANTS} stroke={color} />
+				return <Icon type={IconType.PROFILE_PLANTS} stroke={color} />;
 			case 'claimedPointsList':
-				return <Icon type={IconType.PROFILE_CLAIMED_POINTS} stroke={color} />
+				return <Icon type={IconType.PROFILE_CLAIMED_POINTS} stroke={color} />;
 			default:
 				return null;
 		}
-	}
+	};
 
-	const renderTabBar = (props: SceneRendererProps & {
-		navigationState: NavigationState<{
-			key: string;
-			title: string;
-		}>;
-	}) => (
+	const renderTabBar = (
+		props: SceneRendererProps & {
+			navigationState: NavigationState<{
+				key: string;
+				title: string;
+			}>;
+		},
+	) => (
 		<TabBar
 			{...props}
 			activeColor={Colors.GREEN_PRIMARY}
@@ -78,18 +73,20 @@ export default function ProfileScreen() {
 	);
 
 	const renderScene = SceneMap({
-		allPosts: () => session?.user.id ? (<AllPostsTab userId={session.user.id} />) : (<></>),
-		allPlants: () => session?.user.id ? (<AllPlantsTab userId={session.user.id} />) : (<></>),
-		claimedPointsList: () => session?.user.id ? (<ClaimedPointsListTab userId={session.user.id} />) : (<></>),
+		allPosts: () => (session?.user.id ? <AllPostsTab userId={session.user.id} /> : <></>),
+		allPlants: () => (session?.user.id ? <AllPlantsTab userId={session.user.id} /> : <></>),
+		claimedPointsList: () => (session?.user.id ? <ClaimedPointsListTab userId={session.user.id} /> : <></>),
 	});
 
 	return (
 		<>
 			<View style={styles.container}>
-				{session && (
-					<ProfileCard userId={session.user.id} />
-				)}
-				<Button onPress={() => setEditProfileModalVisible(true)} icon={'edit'}>
+				{session && <ProfileCard userId={session.user.id} />}
+				<Button
+					textStyle={{ ...typography.primaryButtonText, ...typography.whiteText }}
+					onPress={() => setEditProfileModalVisible(true)}
+					icon={'edit'}
+				>
 					Edit profile
 				</Button>
 			</View>

@@ -18,14 +18,14 @@ export const typography = StyleSheet.create({
 	},
 	uppercaseBig: {
 		fontFamily: 'Manrope_600SemiBold',
-		fontSize: 12,
+		fontSize: 13,
 		textTransform: 'uppercase',
 		color: Colors.TEXT_60,
 	},
 	largeTitle: {
 		fontFamily: 'Manrope_700Bold',
-		fontSize: 50,
-		lineHeight: 60,
+		fontSize: 60,
+		lineHeight: 70,
 	},
 	bodyRegular16: {
 		fontFamily: 'Manrope_400Regular',
@@ -84,12 +84,23 @@ export const typography = StyleSheet.create({
 		fontSize: 16,
 		color: Colors.TEXT_60,
 	},
+	placeholderText: {
+		fontFamily: 'Manrope_600SemiBold',
+		fontSize: 16,
+		color: Colors.TEXT_60,
+		textAlign: 'center',
+		marginVertical: 20,
+	},
 });
 
 export const containerStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: Colors.WHITE,
+	},
+	center: {
+		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 	padding: {
 		padding: 15,
