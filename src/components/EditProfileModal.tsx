@@ -3,12 +3,11 @@ import { useAppContext } from '@src/components/providers/appContext';
 import { containerStyles, typography } from '@src/styles/generalStyles';
 import { useState, useEffect } from 'react';
 import { Pressable, StyleSheet, TextInput, View, Text, Modal, Alert } from 'react-native';
-// import { Input } from 'react-native-elements';
 import Button from '@src/components/buttons/PrimaryButton';
 import Icon, { IconType } from '@src/components/Icon';
 import { useUserProfileMutation, useProfileQuery } from '@src/data/profile';
 import Colors from '@src/config/colors';
-import EditProfilePictureModal from '@src/components/EditProfilePictureModal';
+import EditPictureModal from './EditPictureModal';
 
 const styles = StyleSheet.create({
 	verticallySpaced: {
@@ -18,7 +17,7 @@ const styles = StyleSheet.create({
 	},
 	editItem: {
 		flexDirection: "row",
-		backgroundColor:Colors.OFF_WHITE,
+		backgroundColor: Colors.OFF_WHITE,
 		minHeight: 56,
 		maxHeight: 56,
 		alignItems: "center",
@@ -92,12 +91,21 @@ export default function EditProfileScreen({ open, setOpen }: Props) {
 		}
 	}, [profileData])
 
-	const updateProfile = async ({ fullName, profilePicture }: { fullName: string; profilePicture: string; }) => {
-		profileMutation.mutate({
-			id: session?.user.id as string,
+	const updateProfile = async ({ fullName, profilePicture }: { fullName?: string; profilePicture?: string; }) => {
+		await profileMutation.mutateAsync({
+			id: session.user.id,
 			payload: { fullName, profilePicture }
-		})
+		});
 		setOpen(false);
+	}
+
+	function updateProfilePicture(profilePicture: string) {
+		profileMutation
+			.mutateAsync({
+				id: session.user.id,
+				payload: { profilePicture },
+			})
+			.then(() => setModalVisible(false));
 	}
 
 	return (
@@ -110,7 +118,7 @@ export default function EditProfileScreen({ open, setOpen }: Props) {
 				setOpen(!open);
 			}}
 		>
-		<View style={[containerStyles.container, styles.modalView]}>
+			<View style={[containerStyles.container, styles.modalView]}>
 				<Pressable onPress={() => setModalVisible(true)}>
 					<View style={styles.imageContainer}>
 						<View style={styles.absolute}>
@@ -137,8 +145,13 @@ export default function EditProfileScreen({ open, setOpen }: Props) {
 						<Text style={styles.closeText}>Close</Text>
 					</Pressable>
 				</View>
-			<EditProfilePictureModal loading={isLoading} open={modalVisible} setOpen={setModalVisible} />
-		</View>
+				<EditPictureModal
+					onSave={updateProfilePicture}
+					loading={isLoading || profileMutation.isLoading}
+					open={modalVisible}
+					setOpenStatus={setModalVisible}
+				/>
+			</View>
 		</Modal>
 	);
 }
