@@ -5,6 +5,8 @@ import { Plant, usePlantsByUserIdQuery, useUpdatePlantMutation } from "@src/data
 import { ProfileImage } from "@src/components/ProfileImage";
 import SecondaryButton from '@src/components/buttons/SecondaryButton';
 import { useAppContext } from "@src/components/providers/appContext";
+import AddPlantModal from "@src/components/AddPlantsModal";
+import { useState } from "react";
 
 const styles = StyleSheet.create({
 	greenBackground: {
@@ -36,13 +38,20 @@ const styles = StyleSheet.create({
 	item3: {
 		justifyContent: "flex-end"
 	},
+	textCenter: {
+		textAlign: "center"
+	}
 });
 
 export function AllPlantsTab({ userId }: { userId: string }) {
 	const { session } = useAppContext();
 	const { data: plantState } = usePlantsByUserIdQuery(userId);
 	const plantsMutation = useUpdatePlantMutation();
+	const [addPlantsModalVisible, setAddPlantsModalVisible] = useState(false);
 	const isCurrentProfile = session?.user.id === userId;
+
+	const hasPlants = (plantState || [])
+	.some((plant) => plant);
 
 	const hasPrimaryPlant = (plantState || [])
 		.some((plant) => plant.primary);
@@ -79,8 +88,17 @@ export function AllPlantsTab({ userId }: { userId: string }) {
 	}
 
 	return (
+		<>
+		{!hasPlants &&
+		<View style={containerStyles.padding}>
+			<Text style={[typography.bodyRegular16, styles.textCenter]}>You have no registered plants yet! </Text>
+			<SecondaryButton icon="plus" iconColor={Colors.GREEN_PRIMARY} onPress={() => setAddPlantsModalVisible(true)}>Add plants</SecondaryButton>
+		</View>
+		}
 		<View style={{ flex: 1, backgroundColor: Colors.WHITE }}>
 			<FlatList data={plantState} renderItem={renderPlant} />
 		</View>
+		<AddPlantModal open={addPlantsModalVisible} setOpen={setAddPlantsModalVisible} />
+		</>
 	);
 }
