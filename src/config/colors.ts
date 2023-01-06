@@ -2,7 +2,7 @@ const Colors = {
 	WHITE: '#FFF',
 	OFF_WHITE: '#FAFAFA',
 	BLACK: '#000',
-	GREEN_PRIMARY: 'hotpink',
+	GREEN_PRIMARY: '#01CC8F',
 	DARK_BLUE: '#051930',
 	GREY: '#9b9b9b',
 	DARK_GREEN: '#17A077',
