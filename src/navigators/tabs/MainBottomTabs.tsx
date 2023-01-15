@@ -40,13 +40,15 @@ function MainBottomTabs() {
 				tabBarIconStyle: {
 					marginTop: 15,
 				},
+				tabBarActiveTintColor: Colors.GREEN_PRIMARY,
+				tabBarInactiveTintColor: Colors.DARK_GREY,
 			}}
 		>
 			<Tab.Screen
 				name={ROUTES.FEED}
 				component={HomeScreen}
 				options={{
-					tabBarIcon: () => <Icon type={IconType.FEED} />,
+					tabBarIcon: ({ color }) => <Icon stroke={color} type={IconType.FEED} />,
 					title: 'Feed',
 				}}
 			/>
@@ -54,7 +56,7 @@ function MainBottomTabs() {
 				name={ROUTES.SCOREBOARD}
 				component={ScoreboardScreen}
 				options={{
-					tabBarIcon: () => <Icon type={IconType.SCOREBOARD} />,
+					tabBarIcon: ({ color }) => <Icon stroke={color} type={IconType.SCOREBOARD} />,
 					title: 'Scoreboard',
 					headerStyle: { backgroundColor: Colors.GREEN_PRIMARY, height: 124 },
 					headerTitleStyle: {
@@ -68,7 +70,7 @@ function MainBottomTabs() {
 				name={ROUTES.POST_MODAL}
 				component={PostScreen}
 				options={{
-					tabBarIcon: () => <Icon type={IconType.POST} />,
+					tabBarIcon: ({ color }) => <Icon stroke={color} type={IconType.POST} />,
 				}}
 				listeners={({ navigation }) => ({
 					tabPress: (e) => {
@@ -81,7 +83,7 @@ function MainBottomTabs() {
 				name={ROUTES.INFO}
 				component={InformationScreen}
 				options={{
-					tabBarIcon: () => <Icon type={IconType.INFORMATION} />,
+					tabBarIcon: ({ color }) => <Icon stroke={color} type={IconType.INFORMATION} />,
 					title: 'Information',
 				}}
 			/>
@@ -90,7 +92,7 @@ function MainBottomTabs() {
 				component={ProfileScreen}
 				options={{
 					title: 'Profile',
-					tabBarIcon: () => <Icon type={IconType.PROFILE} />,
+					tabBarIcon: ({ color }) => <Icon stroke={color} type={IconType.PROFILE} />,
 					headerRight: () => {
 						const navigation = useNavigation<AllRoutesNavigationProp>();
 
