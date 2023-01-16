@@ -2,6 +2,9 @@ import Colors from '@src/config/colors';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { containerStyles, typography } from '@src/styles/generalStyles';
 import { Point, usePointsByUserIdQuery } from '@src/data/points';
+import SecondaryButton from '@src/components/buttons/SecondaryButton';
+import Variables from '@src/config/variables';
+import { POINT_TYPES } from '@src/constants/general';
 
 const styles = StyleSheet.create({
 	grid: {
@@ -13,26 +16,16 @@ const styles = StyleSheet.create({
 		maxHeight: 80,
 		alignItems: 'center',
 	},
-	labelContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		maxHeight: 40,
-	},
 	item: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		height: 80,
+		height: 60,
 	},
-
-	item1: {
-		minWidth: '10%',
-		maxWidth: '10%',
+	itemLeft: {
+		minWidth: '75%',
+		maxWidth: '75%',
 	},
-	item2: {
-		minWidth: '60%',
-		maxWidth: '60%',
-	},
-	item3: {
+	itemRight: {
 		minWidth: '25%',
 		maxWidth: '25%',
 		justifyContent: 'flex-end',
@@ -45,8 +38,15 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	marginRight: {
-		marginLeft: 5,
+	claimedPointButton: {
+		backgroundColor: Colors.YELLOW_GOLD,
+		paddingHorizontal: 14,
+		paddingVertical: 6,
+		borderRadius: Variables.BORDER_RADIUS_LARGE,
+		borderColor: Colors.YELLOW_GOLD,
+	},
+	claimedPointButtonText: {
+		color: Colors.WHITE,
 	},
 });
 
@@ -56,13 +56,14 @@ export function ClaimedPointsListTab({ userId }: { userId: string }) {
 	function renderClaimedPoints({ item }: { item: Point }) {
 		return (
 			<View style={[containerStyles.container, styles.grid]}>
-				<View style={[styles.item, styles.item1]}>
-					<Text style={typography.bodySecondary}>{item.point_to_claim?.type}</Text>
+				<View style={[styles.item, styles.itemLeft]}>
+					<SecondaryButton icon="star" style={styles.claimedPointButton} textStyle={styles.claimedPointButtonText}>
+						{POINT_TYPES[item.point_to_claim?.type as keyof typeof POINT_TYPES]}
+						{': '}
+						{item.point_to_claim?.title}
+					</SecondaryButton>
 				</View>
-				<View style={[styles.item, styles.item2]}>
-					<Text style={[styles.marginRight, typography.h3]}> {item.point_to_claim?.title} </Text>
-				</View>
-				<View style={[styles.item, styles.item3]}>
+				<View style={[styles.item, styles.itemRight]}>
 					<View style={styles.pointBackground}>
 						<Text style={[typography.whiteText, typography.bodySemibold]}> {item.point_to_claim?.amount} </Text>
 					</View>
@@ -75,15 +76,7 @@ export function ClaimedPointsListTab({ userId }: { userId: string }) {
 		<>
 			{!pointsData?.length && <Text style={typography.placeholderText}>No claimed points yet!</Text>}
 			<View style={[containerStyles.container, containerStyles.padding]}>
-				<View style={[containerStyles.container, styles.labelContainer]}>
-					<View style={[styles.item, styles.item1]}>
-						<Text style={typography.uppercaseBig}>Type</Text>
-					</View>
-					<View style={[styles.item, styles.item2]}>
-						<Text style={[styles.marginRight, typography.uppercaseBig]}>Title</Text>
-					</View>
-					<View style={[styles.item, styles.item3]}></View>
-				</View>
+				<Text style={typography.uppercaseBig}>Claimed points</Text>
 				<FlatList data={pointsData} renderItem={renderClaimedPoints}></FlatList>
 			</View>
 		</>
